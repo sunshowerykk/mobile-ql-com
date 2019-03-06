@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/xiangxue/!svn/ver/18/test/unit
+END
+.eslintrc
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/xiangxue/!svn/ver/18/test/unit/.eslintrc
+END
+jest.conf.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/xiangxue/!svn/ver/18/test/unit/jest.conf.js
+END
+setup.js
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/xiangxue/!svn/ver/18/test/unit/setup.js
+END

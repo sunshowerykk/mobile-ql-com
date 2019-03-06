@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/xiangxue/!svn/ver/14/build
+END
+vue-loader.conf.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/xiangxue/!svn/ver/14/build/vue-loader.conf.js
+END
+logo.png
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/xiangxue/!svn/ver/14/build/logo.png
+END
+webpack.base.conf.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/xiangxue/!svn/ver/14/build/webpack.base.conf.js
+END
+webpack.dev.conf.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/xiangxue/!svn/ver/14/build/webpack.dev.conf.js
+END
+build.js
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/xiangxue/!svn/ver/14/build/build.js
+END
+utils.js
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/xiangxue/!svn/ver/14/build/utils.js
+END
+check-versions.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/xiangxue/!svn/ver/14/build/check-versions.js
+END
+webpack.prod.conf.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/xiangxue/!svn/ver/14/build/webpack.prod.conf.js
+END
