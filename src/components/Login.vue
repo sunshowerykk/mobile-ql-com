@@ -17,7 +17,7 @@
               </li>
             </ul>
             <div class="btnmod">
-              <button class="btn">登录</button>
+              <button class="btn" @click="handleLogin">登录</button>
             </div>
             <div class="otherLogin clearfix">
               <span class="pwdLogin on">密码登录</span>
@@ -30,8 +30,32 @@
 </template>
 
 <script>
+    import service from '@/http/services/index.js'
     export default {
-        name: "login"
+      name: "login",
+      data() {
+        return {
+          loginForm: {
+            phone: '18811717528',
+            password: '12345678'
+          }
+        }
+      },
+
+      methods: {
+
+        handleLogin: function () {
+          service.userService.signIn(this.loginForm).then(res => {
+            if (res.status === 200) {
+              alert(res.data.access_token);
+              this.$cookies.set('access_token', res.data.access_token);
+              console.log(this.$cookies.get('access_token'))
+            }
+          })
+        },
+
+
+      }
     }
 </script>
 
