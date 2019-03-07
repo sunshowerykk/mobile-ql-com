@@ -6,6 +6,7 @@ import router from './router'
 import Navigation from './components/navigation';  //引用公共组件默认情况下找的是index文件
 import TopBack from './components/top_back'
 import Share from './components/share'
+import store from './store'
 
 //swiper引用
 //import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -28,6 +29,7 @@ Vue.use(Share);  //分享公共组件
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

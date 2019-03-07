@@ -17,6 +17,7 @@
         </div>
         <div class="list">
           <ul>
+
             <li>
               <router-link to="/ClassShare">
                 <div class="item clearfix">
@@ -41,6 +42,7 @@
                 </div>
               </router-link>
             </li>
+
             <li>
               <router-link to="/ClassShare">
                 <div class="item clearfix">
@@ -65,6 +67,7 @@
                 </div>
               </router-link>
             </li>
+
             <li>
               <router-link to="/ClassShare">
                 <div class="item clearfix">
@@ -89,6 +92,7 @@
                 </div>
               </router-link>
             </li>
+
           </ul>
         </div>
       </div>
@@ -98,7 +102,20 @@
 
 <script>
     export default {
-        name: "ClassQuality"
+      name: "ClassQuality",
+      data() {
+          return {
+            courseList: ''
+          }
+        },
+
+      methods: {
+
+      },
+
+      mounted: function () {
+
+      }
     }
 </script>
 

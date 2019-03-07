@@ -17,7 +17,7 @@
               </li>
             </ul>
             <div class="btnmod">
-              <button class="btn">登录</button>
+              <button class="btn" @click="handleLogin">登录</button>
             </div>
             <div class="otherLogin clearfix">
               <span class="pwdLogin on">密码登录</span>
@@ -30,8 +30,30 @@
 </template>
 
 <script>
+  import {login} from '../api/login'
     export default {
-        name: "login"
+      name: "login",
+      data() {
+        return {
+          loginForm: {
+            phone: '18811717528',
+            password: '12345678',
+          },
+        }
+      },
+
+      methods: {
+
+        handleLogin: function () {
+          this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          }).catch(() => {
+            this.loading = false
+          })
+        }
+
+      }
     }
 </script>
 
