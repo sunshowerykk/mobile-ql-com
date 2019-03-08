@@ -97,8 +97,22 @@
 </template>
 
 <script>
+    import service from '@/http/services/user.js'
     export default {
-        name: "ClassQuality"
+      name: "ClassQuality",
+      data() {
+        return {
+          courseList: ''
+        }
+      },
+
+      methods: {
+
+      },
+
+      mounted: function () {
+
+      }
     }
 </script>
 
