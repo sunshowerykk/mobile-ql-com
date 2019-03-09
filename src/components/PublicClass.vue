@@ -14,34 +14,22 @@
           <h3>升本公开课</h3>
         </div>
         <div class="list">
+          <div class="viedoCont" v-if="showVideo">
+            <div class="cont">
+              <video class="video" id="video" :src="course_url" :poster="pic" controls="controls" autoplay>
+              </video>
+            </div>
+          </div>
           <ul>
-            <li>
-              <router-link :to="{name: 'PublicClassDetail', params:{id: '1'}}">
-                <div class="item">
-                  <video class="video" poster="../assets/img/img13.png" id="video1">
-                    <source src="" type="video/mp4">抱歉，你的浏览器不能查看该视频
-                  </video>
-                  <div class="txt">
-                    <span class="classtype">天文漫谈</span>
-                    <strong class="tip">北极星与小熊座</strong>
-                    <span class="time"><i></i>11'12</span>
+            <li v-for="cass in classes">
+                <div class="item" @click="check(cass.id,cass.list_pic)">
+                  <img :src="cass.list_pic">
+                  <div class="txt" >
+                    <span class="classtype">{{cass.course_name}}</span>
+                    <strong class="tip">{{cass.intro}}</strong>
+                    <span class="time"><i></i>{{cass.duration}}</span>
                   </div>
                 </div>
-              </router-link>
-            </li>
-            <li>
-              <router-link :to="{name: 'PublicClassDetail', id: '1'}">
-                <div class="item">
-                  <video class="video" poster="../assets/img/img14.png" id="video2">
-                    <source src="" type="video/mp4">抱歉，你的浏览器不能查看该视频
-                  </video>
-                  <div class="txt">
-                    <span class="classtype">天文漫谈</span>
-                    <strong class="tip">北极星与小熊座</strong>
-                    <span class="time"><i></i>11'12</span>
-                  </div>
-                </div>
-              </router-link>
             </li>
           </ul>
         </div>
@@ -50,24 +38,90 @@
 </template>
 
 <script>
+  import service from '@/http/services/publicClass.js'
     export default {
-        name: "PublicClass"
+        name: "PublicClass",
+      data() {
+        return {
+          access_token:'',
+          pic: '',
+          course_url: '',
+          showVideo: false,
+          classes: [{}],
+        }
+      },
+      methods: {
+        hideModal(){
+          this.showVideo = false;
+        },
+        show(){
+          this.showVideo = true;
+        },
+        initclasslist: function () {
+          service.publicClassService.list().then(res => {
+            if (res.status === 200) {
+              // alert(res.data);
+              console.log(res.data);
+              this.classes=res.data;
+            }
+          })
+        },
+        check (course_id,list_pic) {
+          service.publicClassService.check({'course_id': course_id, 'access-token': this.access_token}).then(res => {
+            if (res.status === 200) {
+              if(res.data.status != 4) {
+                alert("未购买该课程或尚未登陆");
+              } else {
+                  this.course_url = res.data.url;
+                  this.pic = list_pic;
+                  alert(res.message);
+                  this.show();
+              }
+            }
+          })
+        }
+      },
+      mounted() {
+        this.access_token = this.$cookies.get('access_token');
+        this.initclasslist();
+      }
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+  .viedoCont{
+    z-index:999;
+    position: fixed;
+    height: calc(~"100%" - 0.88rem);
+    width: 100%;
+    .cont{
+      width: 100%;
+      height: 100%;
+      .video {
+        width: 100%;
+        height: 50%;
+      }
+    }
+  }
   .publicClass .list li {
     box-shadow: none;
     position: relative;
     width: 100%;
-    height: 3.6rem;
+    height: 180px;
     overflow: hidden;
   }
 
   .publicClass .list li .item {
     background: none;
-    height: 3.6rem;
     overflow: hidden;
+    height: 100%;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
   }
 
   /*.publicClass .list li img{display:block;width:100%;height:3.6rem;}*/

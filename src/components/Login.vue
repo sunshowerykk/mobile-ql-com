@@ -49,7 +49,8 @@
             if (res.status === 200) {
               alert(res.data.access_token);
               this.$cookies.set('access_token', res.data.access_token, 3600*24*7);
-              console.log(this.$cookies.get('access_token'))
+              console.log(this.$cookies.get('access_token'));
+              console.log(res);
             }
           })
         },
