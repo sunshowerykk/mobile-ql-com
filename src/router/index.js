@@ -156,7 +156,7 @@ const router = new Router({
       component: Address
     },
     {
-      path: '/ClassShare',
+      path: '/ClassShare/:id',
       name: 'ClassShare',
       component: ClassShare
     },

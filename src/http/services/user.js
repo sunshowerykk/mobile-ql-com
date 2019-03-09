@@ -4,9 +4,9 @@ const service = {
   userService: {
     signIn: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('http://api.ql.com/user/login', data, resolve)
+        TEMPLATE_Form_POST('/api/user/login', data, resolve)
       })
-    }
+    },
   }
 }
 
