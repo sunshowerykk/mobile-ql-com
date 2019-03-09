@@ -5,15 +5,15 @@
       </TopBack>
       <div class="loginform">
         <div class="form">
-          <form>
+          <form v-model="loginForm">
             <ul>
               <li>
                 <span class="lecon numBtn">+86<i class="icon"></i></span>
-                <input type="text" placeholder="请输入手机号码" class="text" />
+                <input type="text" placeholder="请输入手机号码" class="text" v-model="loginForm.phone" />
               </li>
               <li>
                 <label for="" class="lecon">密码</label>
-                <input type="password" placeholder="请输入密码" class="text" />
+                <input type="password" placeholder="请输入密码" class="text" v-model="loginForm.password" />
               </li>
             </ul>
             <div class="btnmod">
@@ -36,10 +36,10 @@
       data() {
         return {
           loginForm: {
-            phone: '18811717528',
-            password: '12345678'
-          }
-        }
+            phone: '',
+            password: ''
+          },
+      }
       },
 
       methods: {
@@ -48,12 +48,12 @@
           service.userService.signIn(this.loginForm).then(res => {
             if (res.status === 200) {
               alert(res.data.access_token);
-              this.$cookies.set('access_token', res.data.access_token, 3600*24*7);
-              console.log(this.$cookies.get('access_token'))
+              this.$cookies.set('access_token', res.data.access_token, 3600*24*7);  // 保存cookie
+              console.log(this.$cookies.get('access_token'))    // 获取cookie
+              this.book = res.data;
             }
           })
         },
-
 
       }
     }

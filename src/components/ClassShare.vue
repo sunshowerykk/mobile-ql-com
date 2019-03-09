@@ -1,14 +1,14 @@
 <template>
   <div class="font-box bg">
-    <div class="detailImg">
+    <div class="detailImg" v-if="courseInfo.course.home_pic != ''">
       <a class="goback" @click="goBack"></a>
       <a class="share" @click="shareFn"></a>
-      <img src="../assets/img/img12.png" class="img"  />
+      <img :src="courseInfo.course.home_pic" class="img"  />
       <div class="classname">
-        <strong>计算机应用基础</strong>
-        <div class="school">
-          <span>中南财经政法大学</span>
-          <span>金大卫等</span>
+        <strong>{{ courseInfo.course.course_name }}</strong>
+        <div class="school" >
+          <span>{{ courseInfo.teacher[0].unit }}</span>
+          <span>{{ courseInfo.teacher[0].teacher_name }} 等</span>
         </div>
       </div>
     </div>
@@ -27,12 +27,7 @@
             <div class="tab-pal">
               <div class="courseLst">
                 <h3>简介</h3>
-                <div class="main">
-                  <p>
-                    大学计算机是计算机的入门课程，在AI热度非凡和互联网+的形势下，利用计算机解决问题提成为当今社会的人人都具备的能力
-                    大学计算机是计算机的入门课程，在AI热度非凡和互联网+的形势下，利用计算机解决问题提成为当今社会的人人都具备的能力
-                  </p>
-                </div>
+                <div class="main" v-html="courseInfo.course.intro"></div>
               </div>
             </div>
 
@@ -114,7 +109,7 @@
             </li>
             <li class="money">
               <a href="javascript:;">
-                <strong>￥200</strong>
+                <strong>￥{{ courseInfo.course.price }}</strong>
                 <span>8门课</span>
               </a>
             </li>
@@ -130,20 +125,29 @@
 
 <script>
   import { Tab, TabItem } from 'vux'
+  import  service from '@/http/services/course.js'
     export default {
         name: "ClassShare",
       data(){
         return{
-          id: 0,
+          id: '',
           activeIndex: 0,
           share: 0,
           pay: false,
-          collect: false
+          collect: false,
+          courseInfo: '',
+          courseid: ''
         }
       },
       components: {
         Tab,
         TabItem
+      },
+      created() {
+        this.id = this.$route.params.id;
+        console.log("id",this.id);
+        this.courseid = this.$route.params.id;
+        this.getInfo();
       },
       methods:{
         shareFn(){
@@ -157,8 +161,17 @@
         },
         goBack(){
           this.$router.go(-1);
+        },
+
+        getInfo: function () {
+          service.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
+            if (res.status === 200) {
+              this.courseInfo = res.data;
+              console.log(this.courseInfo);
+            }
+          })
         }
-      }
+      },
     }
 </script>
 

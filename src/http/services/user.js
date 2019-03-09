@@ -6,7 +6,7 @@ const service = {
       return new Promise((resolve, reject) => {
         TEMPLATE_Form_POST('http://api.ql.com/user/login', data, resolve)
       })
-    }
+    },
   }
 }
 

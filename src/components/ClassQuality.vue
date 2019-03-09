@@ -17,78 +17,32 @@
         </div>
         <div class="list">
           <ul>
-            <li>
-              <router-link to="/ClassShare">
+
+            <li v-for="course in courseList">
+              <router-link :to="{'name': 'ClassShare', params:{id: course.id}}">
                 <div class="item clearfix">
                   <div class="img_txt">
                     <div class="txt">
-                      <strong>数学</strong>
+                      <strong>{{ course.course_name }}</strong>
                       <strong>小白课堂</strong>
                       <i class="line"></i>
                       <span>20考研数学</span>
                     </div>
-                    <img src="../assets/img/img9.png"  />
+                    <img :src="course.list_pic"  />
                   </div>
                   <div class="info">
-                    <h5>20考研 数学 小白课堂</h5>
-                    <span class="by">李永乐</span>
-                    <span class="alreay">已更新至120课时</span>
+                    <h5>{{ course.course_name }}</h5>
+                    <span class="by">{{ course.teacher }}</span>
+                    <span class="alreay">已更新至{{ course.classrooms }}课时</span>
                     <div class="prise">
-                      <span>366</span>
-                      <span class="bought"><i></i>11</span>
+                      <span>{{ course.discount }}</span>
+                      <span class="bought">{{ course.online }}</span>
                     </div>
                   </div>
                 </div>
               </router-link>
             </li>
-            <li>
-              <router-link to="/ClassShare">
-                <div class="item clearfix">
-                  <div class="img_txt bg2">
-                    <div class="txt">
-                      <strong>数学</strong>
-                      <strong>小白课堂</strong>
-                      <i class="line"></i>
-                      <span>20考研数学</span>
-                    </div>
-                    <img src="../assets/img/img10.png"  />
-                  </div>
-                  <div class="info">
-                    <h5>20考研 数学 小白课堂</h5>
-                    <span class="by">李永乐</span>
-                    <span class="alreay">已更新至120课时</span>
-                    <div class="prise">
-                      <span>366</span>
-                      <span class="bought"><i></i>11</span>
-                    </div>
-                  </div>
-                </div>
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/ClassShare">
-                <div class="item clearfix">
-                  <div class="img_txt bg3">
-                    <div class="txt">
-                      <strong>数学</strong>
-                      <strong>小白课堂</strong>
-                      <i class="line"></i>
-                      <span>20考研数学</span>
-                    </div>
-                    <img src="../assets/img/img11.png"  />
-                  </div>
-                  <div class="info">
-                    <h5>20考研 数学 小白课堂</h5>
-                    <span class="by">李永乐</span>
-                    <span class="alreay">已更新至120课时</span>
-                    <div class="prise">
-                      <span>366</span>
-                      <span class="bought"><i></i>11</span>
-                    </div>
-                  </div>
-                </div>
-              </router-link>
-            </li>
+
           </ul>
         </div>
       </div>
@@ -97,7 +51,7 @@
 </template>
 
 <script>
-    import service from '@/http/services/user.js'
+    import service from '@/http/services/course.js'
     export default {
       name: "ClassQuality",
       data() {
@@ -107,11 +61,17 @@
       },
 
       methods: {
-
+        getCourseList: function () {
+          service.courseService.courseList({}).then(res => {
+            if (res.status === 200) {
+              this.courseList = res.data;
+            }
+          })
+        }
       },
 
       mounted: function () {
-
+        this.getCourseList();
       }
     }
 </script>
