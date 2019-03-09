@@ -17,6 +17,11 @@ const service = {
         TEMPLATE_Form_POST('http://api.ql.com/user/logincode', data, resolve)
       }) 
     },
+    changePassword:(data) =>{
+      return new Promise((resolve, reject) => {
+        TEMPLATE_Form_POST('http://api.ql.com/user/changepassword', data, resolve)
+      }) 
+    },
     changeSet:(data) =>{
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('http://api.ql.com/user/', data, resolve);

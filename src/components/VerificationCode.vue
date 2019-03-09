@@ -15,16 +15,16 @@
               </li>
               <li>
                 <label for="" class="lecon">验证码</label>
-                <input type="password" placeholder="请输入验证码" class="text" />
+                <input type="password" placeholder="请输入验证码" v-model="changeForm.change_password_code" class="text" />
                 <button class="getbtn" @click="handleSms">获取验证码</button>
               </li>
               <li>
                 <label for="" class="lecon">密码</label>
-                <input type="password" placeholder="请输入新密码" class="text" />
+                <input type="password" v-model="changeForm.password" placeholder="请输入新密码" class="text" />
               </li>
             </ul>
             <div class="btnmod">
-              <button class="btn">确认修改</button>
+              <button class="btn" @click="handlePassword">确认修改</button>
             </div>
             <div class="otherLogin clearfix">
               <router-link to="/Login"  class="pwdLogin" replace >密码登录</router-link>
@@ -40,12 +40,12 @@
     import service from '@/http/services/user.js'
     export default {
         name: "VerificationCode",
-        data(){
+        data() {
           return{
             changeForm: {
               phone: '',
               password: '',
-              smscode: ''
+              change_password_code: ''
             }
           }
         },
@@ -58,6 +58,17 @@
               }
             })
           },
+          //修改密码
+          handlePassword: function(){
+            service.userService.changePassword(this.changeForm).then(res => {
+              if(res.status === 200 && res.data.status === 0){
+                console.log(res.data);
+              }
+              else{
+                alert("修改失败")
+              }
+            })
+          }
         },
     }
 </script>
