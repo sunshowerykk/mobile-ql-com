@@ -5,15 +5,15 @@
       </TopBack>
       <div class="loginform">
         <div class="form">
-          <form>
+          <form v-model="loginForm">
             <ul>
               <li>
                 <span class="lecon numBtn">+86<i class="icon"></i></span>
-                <input type="text" placeholder="请输入手机号码" class="text" />
+                <input type="text" placeholder="请输入手机号码" v-model="loginForm.phone" class="text" />
               </li>
               <li>
                 <label for="" class="lecon">密码</label>
-                <input type="password" placeholder="请输入密码" class="text" />
+                <input type="password" placeholder="请输入密码" v-model="loginForm.password" class="text" />
               </li>
             </ul>
             <div class="btnmod">
@@ -21,6 +21,7 @@
             </div>
             <div class="otherLogin clearfix">
               <span class="pwdLogin on">密码登录</span>
+              <a><router-link to="/Register">注册</router-link></a>
               <router-link to="/VerificationCode" class="ymaLogin" replace  >验证码登录</router-link>
             </div>
           </form>
@@ -36,8 +37,8 @@
       data() {
         return {
           loginForm: {
-            phone: '18811717528',
-            password: '12345678'
+            phone: '',
+            password: ''
           }
         }
       },

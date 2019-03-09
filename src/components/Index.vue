@@ -39,42 +39,20 @@
       <!--公告 notice end-->
 
       <!--资讯 start-->
-      <div class="indexNews">
+      <div class="indexNews" v-for = "info in information">
         <div class="tit">
           <h3>资讯</h3>
         </div>
         <div>
-          <router-link :to="{ name: 'InformationDetail',params: { id: '1'} }">
+          <router-link :to="{ name: 'InformationDetail',params: { id: info.id }}">
             <div>
-              <h5>19:30名师指导2019年中级会计职称怎么学</h5>
+              <h5>{{ info.title }}</h5>
               <small>
-                <span>中华会计网校</span>
+                <span>{{ info.author }}</span>
               </small>
             </div>
             <div>
-              <img src="../assets/img/img3.png" alt="">
-            </div>
-          </router-link>
-          <router-link :to="{ name: 'InformationDetail',params: { id: '1'} }">
-            <div>
-              <h5>19:30名师指导2019年中级会计职称怎么学</h5>
-              <small>
-                <span>中华会计网校</span>
-              </small>
-            </div>
-            <div>
-              <img src="../assets/img/img3.png" alt="">
-            </div>
-          </router-link>
-          <router-link to="">
-            <div>
-              <h5>19:30名师指导2019年中级会计职称怎么学</h5>
-              <small>
-                <span>中华会计网校</span>
-              </small>
-            </div>
-            <div>
-              <img src="../assets/img/img3.png" alt="">
+              <img :src="info.pic" alt=""/>
             </div>
           </router-link>
         </div>
@@ -108,7 +86,7 @@
 <script>
   // require styles
   import 'swiper/dist/css/swiper.css'
-
+  import service from '@/http/services/information.js'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
@@ -152,6 +130,7 @@
                 date: '2012.12.12'
               }
             ],
+            information:'',
             recenLearningShow: true,
           }
       },
@@ -165,6 +144,17 @@
         }
       },
       methods:{
+        initinformation: function () {
+          service.informationService.list().then(res => {
+            if (res.status === 200) {
+              console.log(res.data);
+              this.information = res.data;
+            }
+          })
+        },
+      },
+      mounted:function(){
+        this.initinformation();
       }
     }
 </script>

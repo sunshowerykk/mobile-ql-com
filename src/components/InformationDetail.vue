@@ -4,40 +4,46 @@
         <span slot="headerTxt">资讯详情</span>
       </TopBack>
 
-      <div class="newsDetail">
+      <div class="newsDetail" v-model="information">
         <div class="tit">
-          <h3>广东专插本考试信息网</h3>
-          <span class="time">2019-01-15</span>
-          <span>广东专插本</span>
+          <h3>{{ information.title }}</h3>
+          <span class="time">{{ information.release_time }}</span>
+          <span>{{ information.author }}</span>
         </div>
-        <div class="main">
-          <p>
-            <b>广东专插本</b>考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目
-          </p>
-          <p>
-            一.考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目
-          </p>
-          <img src="../assets/img/img5.png"  />
-          <p>
-            二.考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目考生在备考期间，不仅要复习各种专业考试科目
-          </p>
-          <img src="../assets/img/img6.png"  />
+        <div class="main" v-html="information.content">
+          {{ information.content }}
         </div>
       </div>
     </div>
 </template>
 
 <script>
+    import service from '@/http/services/information.js'
     export default {
         name: "InformationDetail",
       data(){
           return{
-            id: 0
+            information:'',
+            info: {
+              id: ''
+            }
           }
       },
+      methods:{
+        initinformation: function () {
+          service.informationService.detail(this.info).then(res => {
+            if (res.status === 200) {
+              
+              this.information = res.data;
+              console.log(this.information);
+            }
+          })
+        },
+      },
       created() {
-          this.id = this.$route.params.id;
+          this.info.id = this.$route.params.id;
           console.log("id",this.id);
+          this.initinformation();
       }
     }
 </script>
