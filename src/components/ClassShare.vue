@@ -1,6 +1,6 @@
 <template>
   <div class="font-box bg">
-    <div class="detailImg" v-if="courseInfo.course.home_pic != ''">
+    <div class="detailImg" v-if="courseInfo">
       <a class="goback" @click="goBack"></a>
       <a class="share" @click="shareFn"></a>
       <img :src="courseInfo.course.home_pic" class="img"  />
@@ -33,6 +33,7 @@
 
           </div>
         </div>
+
         <div v-if="activeIndex == 1" key="1">
           <div class="tab-pal">
             <div class="courseLst">
@@ -135,7 +136,10 @@
           share: 0,
           pay: false,
           collect: false,
-          courseInfo: '',
+          courseInfo: {
+            course: {},
+            teacher: [{}]
+          },
           courseid: ''
         }
       },
@@ -147,8 +151,11 @@
         this.id = this.$route.params.id;
         console.log("id",this.id);
         this.courseid = this.$route.params.id;
+      },
+      mounted() {
         this.getInfo();
       },
+
       methods:{
         shareFn(){
           this.share = 1;
@@ -163,11 +170,16 @@
           this.$router.go(-1);
         },
 
-        getInfo: function () {
+        getInfo () {
           service.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
             if (res.status === 200) {
-              this.courseInfo = res.data;
-              console.log(this.courseInfo);
+              this.courseInfo.course = res.data.course;
+              this.courseInfo.teacher = res.data.teacher;
+              console.log({
+                info: this.courseInfo,
+                course: this.courseInfo.course,
+                teacher: this.courseInfo.teacher
+              });
             }
           })
         }

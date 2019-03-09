@@ -16,8 +16,11 @@ module.exports = {
         // target: 'http://101.236.57.220:16800/',
         // target: 'http://localhost:8080',
         // target:'http://43.241.237.154:8080',
-        target: '',
-        changeOrigin: true
+        target: 'http://api.ql.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/'   //重写接口
+        }
       }
     },
 

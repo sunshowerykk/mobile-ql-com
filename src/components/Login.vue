@@ -47,10 +47,8 @@
         handleLogin: function () {
           service.userService.signIn(this.loginForm).then(res => {
             if (res.status === 200) {
-              alert(res.data.access_token);
               this.$cookies.set('access_token', res.data.access_token, 3600*24*7);  // 保存cookie
               console.log(this.$cookies.get('access_token'))    // 获取cookie
-              this.book = res.data;
             }
           })
         },
