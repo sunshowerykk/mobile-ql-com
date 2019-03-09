@@ -117,6 +117,12 @@
           this.bgVal = false;
         },
         showReserve(){
+          service.bookService.info({'access-token':'c35g5yevU7HTOaeE4SW9mDvzJSe8BVVa'}).then(res => {
+            if (res.status === 200) {
+              console.log(res.data);
+              this.hideModal();
+            }
+          })
           this.reserve = true;
           this.bgVal = true;
         },
