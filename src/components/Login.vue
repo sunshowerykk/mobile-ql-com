@@ -22,7 +22,7 @@
             <div class="otherLogin clearfix">
               <span class="pwdLogin on">密码登录</span>
               <a><router-link to="/Register">注册</router-link></a>
-              <router-link to="/VerificationCode" class="ymaLogin" replace  >验证码登录</router-link>
+              <router-link to="/VerificationCode" class="ymaLogin" replace  >忘记密码</router-link>
             </div>
           </form>
         </div>
@@ -38,7 +38,7 @@
         return {
           loginForm: {
             phone: '',
-            password: ''
+            password: '',
           }
         }
       },
@@ -47,10 +47,14 @@
 
         handleLogin: function () {
           service.userService.signIn(this.loginForm).then(res => {
-            if (res.status === 200) {
+            if (res.status === 200 && res.data.status === 0) {
               alert(res.data.access_token);
               this.$cookies.set('access_token', res.data.access_token, 3600*24*7);
-              console.log(this.$cookies.get('access_token'))
+              console.log(this.loginForm);
+              this.$router.push({path: '/'})
+            }
+            else{
+              alert(res.data.msg);
             }
           })
         },

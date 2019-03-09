@@ -9,9 +9,27 @@ const service = {
     },
     register:(data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('http://api.ql.com/user/login', data, resolve)
+        TEMPLATE_Form_POST('http://api.ql.com/user/signup', data, resolve)
       }) 
     },
+    smsCode:(data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_Form_POST('http://api.ql.com/user/logincode', data, resolve)
+      }) 
+    },
+    changeSet:(data) =>{
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('http://api.ql.com/user/', data, resolve);
+        TEMPLATE_GET('http://api.ql.com/user/', data, resolve);
+        TEMPLATE_GET('http://api.ql.com/user/', data, resolve);
+        TEMPLATE_GET('http://api.ql.com/user/', data, resolve);
+      }) 
+    },
+    getSet:(data) =>{
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('http://api.ql.com/personal/user-profile/', data, resolve);
+      }) 
+    }
   }
 }
 

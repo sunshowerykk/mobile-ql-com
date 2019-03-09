@@ -143,7 +143,7 @@
           return this.$refs.mySwiper.swiper
         }
       },
-      methods:{
+      methods: {
         initinformation: function () {
           service.informationService.list().then(res => {
             if (res.status === 200) {

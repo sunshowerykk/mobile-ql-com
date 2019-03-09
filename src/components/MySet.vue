@@ -4,20 +4,20 @@
         <span slot="headerTxt">设置</span>
       </TopBack>
 
-      <div class="adresform setUpForm">
+      <div class="adresform setUpForm" >
         <div class="form">
           <ul>
             <li>
               <label>真实姓名</label>
-              <input type="text" value="张飞" readonly="readonly" class="text" />
+              <input type="text" :value= "settings.username" readonly="readonly" class="text" />
             </li>
             <li>
               <label>手机号</label>
-              <input type="text" value="13126815518" readonly="readonly" class="text"  />
+              <input type="text" :value="settings.phone" readonly="readonly" class="text"  />
             </li>
             <li>
               <label>所在学校</label>
-              <input type="text" value="济南职业技术学校" readonly="readonly" class="text" />
+              <input type="text" :value="settings.school" readonly="readonly" class="text" />
             </li>
 
             <li>
@@ -33,21 +33,56 @@
               <input type="text" placeholder="支付宝(需与真实姓名一致"  class="text text1" />
             </li>
             <li>
-              <textarea placeholder="收件地址设置" class="text text1 tera"></textarea>
+              <textarea placeholder="收件地址设置" :placeholder="settings.address" class="text text1 tera"></textarea>
             </li>
           </ul>
         </div>
       </div>
-
       <div class="botFixbtn">
+        <button class="btn">修改个人信息</button>
         <button class="btn">退出登录</button>
       </div>
     </div>
 </template>
 
 <script>
+    import service from '@/http/services/user.js'
     export default {
-        name: "MySet"
+        name: "MySet",
+        data(){
+          return {
+            settings: '',
+            updatesettings: {
+              headimg: '',
+              alipay: ''
+              
+            },
+            token: {
+              'access-token': ''
+            }
+          }
+        },
+        methods:{
+          getCookie: function(){
+            this.token['access-token'] = this.$cookies.get('access_token');
+            console.log(this.token);
+          },
+          initSettings: function(){
+            service.userService.getSet(this.token).then(res => {
+            if (res.status === 200) {
+              this.settings = res.data;
+              console.log(this.settings);
+            }
+          })
+          },
+          update: function(){
+            
+          },
+        },
+        mounted: function(){
+          this.getCookie();
+          this.initSettings();
+        }
     }
 </script>
 
