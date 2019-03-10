@@ -29,12 +29,18 @@ import ClassShare from '@/components/ClassShare'  //课程分享
 import MyEarnings from '@/components/MyEarnings'  //我的收益
 import EditInfo from '@/components/EditInfo' //绑定账号
 import Register from '@/components/Register'  //注册
+import OpenCoursePayCenter from '@/components/OpenCoursePayCenter'  //公开课购买
 
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
+    {
+      path: '/OpenCoursePayCenter/:id',
+      name: 'OpenCoursePayCenter',
+      component: OpenCoursePayCenter
+    },
     {
       path: '/',
       name: 'Index',

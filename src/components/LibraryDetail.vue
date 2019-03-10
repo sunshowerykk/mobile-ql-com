@@ -57,7 +57,7 @@
                 <ul>
                   <li>
                     <label><i>*</i>收货人姓名</label>
-                    <input type="text" placeholder="请使用真实姓名" class="text"  v-model="orderform.username"/>
+                    <input type="text" placeholder="请使用真实姓名" class="text"  v-model="orderform.username" />
                   </li>
                   <li>
                     <label><i>*</i>手机号码</label>
@@ -117,10 +117,12 @@
           this.bgVal = false;
         },
         showReserve(){
-          service.bookService.info({'access-token':'c35g5yevU7HTOaeE4SW9mDvzJSe8BVVa'}).then(res => {
+          service.bookService.info({'access-token': this.orderform.access_token}).then(res => {
             if (res.status === 200) {
               console.log(res.data);
-              this.hideModal();
+              this.orderform.username=res.data.username;
+              this.orderform.phone=res.data.phone;
+              this.orderform.address=res.data.address;
             }
           })
           this.reserve = true;
@@ -135,9 +137,10 @@
           service.bookService.detail(this.bookidform).then(res => {
             if (res.status === 200) {
               console.log(res.data);
-              this.book=res.data;
-              this.orderform.book_name=res.data.name;
-              this.orderform.access_token=this.$cookies.get('access_token');
+              this.book = res.data;
+              this.orderform.book_name = res.data.name;
+              this.orderform.access_token = this.$cookies.get('access_token');
+              // this.orderform.access_token = '5T_p-UZqPSkPKIcMepsniiFRfPZeShiN';
             }
           })
         },
@@ -158,6 +161,7 @@
         },
       },
       mounted:function(){
+        this.access_token = this.$cookies.get('access_token');
         this.initbookdetail();
       }
     }
