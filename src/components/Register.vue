@@ -13,7 +13,7 @@
                 <input type="text" placeholder="请输入验证码" v-model="registerForm.smscode" class="text" />
                 <button class="getbtn" @click="handleSms">获取验证码</button>
               </li>
-              <li>
+              <!--<li>
                 <select class="text selt">
                   <option>选择目前学校学习所在地</option>
                   <option>选择目前学校学习所在地</option>
@@ -28,7 +28,7 @@
                   <option>所在学校</option>
                   <option>所在学校</option>
                 </select>
-              </li>
+              </li>-->
               <li>
                 <input type="text" placeholder="真实姓名" class="text nametxt" />
                 <span class="tip">务必填写真实姓名,财务结算实用</span>

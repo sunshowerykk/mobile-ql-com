@@ -20,9 +20,8 @@
               <button class="btn" @click="handleLogin">登录</button>
             </div>
             <div class="otherLogin clearfix">
-              <span class="pwdLogin on">密码登录</span>
               <a><router-link to="/Register">注册</router-link></a>
-              <router-link to="/VerificationCode" class="ymaLogin" replace  >忘记密码</router-link>
+              <router-link to="/VerificationCode" class="ymaLogin" replace  >忘记密码?</router-link>
             </div>
           </form>
         </div>

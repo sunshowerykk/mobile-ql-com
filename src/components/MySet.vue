@@ -8,38 +8,53 @@
         <div class="form">
           <ul>
             <li>
-              <label>真实姓名</label>
-              <input type="text" :value= "settings.username" readonly="readonly" class="text" />
+              <label>用户名</label>
+              <input type="text" v-model= "settings.username" class="text" />
             </li>
             <li>
               <label>手机号</label>
-              <input type="text" :value="settings.phone" readonly="readonly" class="text"  />
+              <input type="text" v-model="settings.phone" readonly="readonly" class="text"  />
             </li>
-            <li>
+            <!--<li>
               <label>所在学校</label>
               <input type="text" :value="settings.school" readonly="readonly" class="text" />
-            </li>
+            </li>-->
 
-            <li>
+            <!--<li>
               <input type="text" placeholder="登录密码设置"  class="text text1" />
-            </li>
+            </li>-->
             <li>
               <div class="upload">
+                <!--
                 <span>头像设置设置</span>
-                <input type="file" class="upload_btn" id="file1" accept="image/*" name="filename"  />
+                  <input type="file" class="upload_btn" id="file1" accept="image/*" name="filename">
+                -->
+                <Upload
+                  name="headimg"
+                  :on-success="uploadSuccess"
+                  :on-error="uploadError"
+                  :format="['jpg']" 
+                  :max-size='7024' 
+                  :on-format-error="formatError"
+                  :action="fileUploadUrl"
+                  style="display: inline-block;width:58px;">
+                  <Button icon="ios-cloud-upload-outline">上传头像</Button>
+                </Upload>
               </div>
             </li>
             <li>
-              <input type="text" placeholder="支付宝(需与真实姓名一致"  class="text text1" />
+              <label>支付宝设置</label>
+              <input type="text" v-model="settings.alipay_account"  class="text" />
             </li>
             <li>
-              <textarea placeholder="收件地址设置" :placeholder="settings.address" class="text text1 tera"></textarea>
+              <label>收货地址</label>
+              <textarea v-model="settings.address" class="text tera"></textarea>
             </li>
           </ul>
         </div>
       </div>
       <div class="botFixbtn">
-        <button class="btn">修改个人信息</button>
+        <button class="btn" @click="update">修改个人信息</button>
         <button class="btn">退出登录</button>
       </div>
     </div>
@@ -47,27 +62,27 @@
 
 <script>
     import service from '@/http/services/user.js'
+
     export default {
         name: "MySet",
-        data(){
+        data() {
           return {
-            settings: '',
-            updatesettings: {
+            settings: {
               headimg: '',
-              alipay: ''
-              
+              alipay_account: '',
+              username: '',
+              address: ''
             },
-            token: {
-              'access-token': ''
-            }
+            token: '',
+            fileUploadUrl:'http://api.ql.com/personal/update-headimg?access-token='
           }
         },
         methods:{
-          getCookie: function(){
-            this.token['access-token'] = this.$cookies.get('access_token');
-            console.log(this.token);
+          getCookie: function () {
+            this.token = this.$cookies.get('access_token');
+            this.fileUploadUrl += this.token;
           },
-          initSettings: function(){
+          initSettings: function() {
             service.userService.getSet(this.token).then(res => {
             if (res.status === 200) {
               this.settings = res.data;
@@ -75,11 +90,26 @@
             }
           })
           },
-          update: function(){
-            
+          update: function () {
+            service.userService.changeSet(this.settings, this.token).then(res => {
+            if (res.status === 200) {
+              console.log('成功修改')
+            }
+          })
           },
+          uploadSuccess: function (res, file) {
+            if(res.status == 0) {
+              console.log('成功上传头像')
+            }
+          },
+          uploadError: function (error,file) {
+            console.log('上传头像失败')
+          },
+          formatError: function () {
+            console.log('请选择正确格式')
+          }
         },
-        mounted: function(){
+        mounted: function () {
           this.getCookie();
           this.initSettings();
         }
@@ -144,6 +174,8 @@
     line-height: 0.88rem;
     text-align: center;
     margin-bottom: 0;
+    min-width: 80px;
+    text-align: right;
   }
 
   .setUpForm .form li .text {
@@ -204,6 +236,10 @@
 
   .setUpForm .form li .tera {
     height: 2rem;
+    width: 70%;
+    float: left;
+    border: 1px solid #eee;
+    margin: 10px 0 0 10px;
   }
 
   .botFixbtn {

@@ -22,17 +22,14 @@ const service = {
         TEMPLATE_Form_POST('http://api.ql.com/user/changepassword', data, resolve)
       }) 
     },
-    changeSet:(data) =>{
+    changeSet:(data, token) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('http://api.ql.com/user/', data, resolve);
-        TEMPLATE_GET('http://api.ql.com/user/', data, resolve);
-        TEMPLATE_GET('http://api.ql.com/user/', data, resolve);
-        TEMPLATE_GET('http://api.ql.com/user/', data, resolve);
+        TEMPLATE_Form_POST('http://api.ql.com/personal/change-set?access-token=' + token, data, resolve)
       }) 
     },
     getSet:(data) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('http://api.ql.com/personal/user-profile/', data, resolve);
+        TEMPLATE_GET('http://api.ql.com/personal/user-profile?access-token=' + data, '', resolve);
       }) 
     }
   }
