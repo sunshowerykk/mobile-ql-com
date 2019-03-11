@@ -31,7 +31,17 @@ const service = {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('http://api.ql.com/personal/user-profile?access-token=' + data, '', resolve);
       }) 
-    }
+    },
+    getMessage:(data) =>{
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('http://api.ql.com/personal/message-list?access-token=' + data, '', resolve);
+      }) 
+    },
+    getCollections:(data) =>{
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('http://api.ql.com/personal/collection-list?access-token=' + data, '', resolve);
+      }) 
+    },
   }
 }
 

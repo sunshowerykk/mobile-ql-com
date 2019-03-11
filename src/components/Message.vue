@@ -4,36 +4,14 @@
         <span slot="headerTxt">消息中心</span>
       </TopBack>
 
-      <div class="newsList">
+      <div class="newsList" v-for = "msg in messages">
         <ul>
           <li>
             <a href="#">
-              <h5>2019年，看透日常背后的经济逻辑，范更少的错，走更远的录</h5>
-              <span class="time">2019年1月16日14:14</span>
+              <h5 v-html="msg.content">{{ msg.content }}</h5>
+              <span class="time">{{ msg.get_time }}</span>
             </a>
           </li>
-          <li>
-            <a href="#">
-              <h5>2019年，看透日常背后的经济逻辑，范更少的错，走更远的录</h5>
-              <span class="time">2019年1月16日14:14</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <h5>2019年，看透日常背后的经济逻辑，范更少的错，走更远的录</h5>
-              <span class="time">2019年1月16日14:14</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <h5>2019年，看透日常背后的经济逻辑，范更少的错，走更远的录</h5>
-              <span class="time">2019年1月16日14:14</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <h5>2019年，看透日常背后的经济逻辑，范更少的错，走更远的录</h5>
-              <span class="time">2019年1月16日14:14</span>
             </a>
           </li>
         </ul>
@@ -43,8 +21,32 @@
 </template>
 
 <script>
+    import service from '@/http/services/user.js'
     export default {
-        name: "Message"
+        name: "Message",
+        data() {
+          return {
+            messages: '',
+            token : ''
+          }
+        },
+        methods: {
+          getCookie :function () {
+            this.token = this.$cookies.get('access_token');
+          },
+          getMessage :function () {
+            service.userService.getMessage(this.token).then(res => {
+            if (res.status === 200) {
+              this.messages = res.data;
+              console.log(this.messages);
+            }
+          })
+          }
+        },
+        mounted:function () {
+          this.getCookie();
+          this.getMessage();
+      }
     }
 </script>
 

@@ -39,6 +39,7 @@
                   :action="fileUploadUrl"
                   style="display: inline-block;width:58px;">
                   <Button icon="ios-cloud-upload-outline">上传头像</Button>
+                  <img :src="this.settings.picture"></img>
                 </Upload>
               </div>
             </li>
@@ -55,37 +56,41 @@
       </div>
       <div class="botFixbtn">
         <button class="btn" @click="update">修改个人信息</button>
-        <button class="btn">退出登录</button>
+        <button class="btn" @click="exit">退出登录</button>
       </div>
     </div>
 </template>
 
 <script>
     import service from '@/http/services/user.js'
-
     export default {
         name: "MySet",
         data() {
           return {
             settings: {
-              headimg: '',
               alipay_account: '',
               username: '',
-              address: ''
+              address: '',
+              picture: ''
             },
             token: '',
             fileUploadUrl:'http://api.ql.com/personal/update-headimg?access-token='
           }
         },
-        methods:{
+        methods: {
           getCookie: function () {
             this.token = this.$cookies.get('access_token');
             this.fileUploadUrl += this.token;
           },
-          initSettings: function() {
+          exit: function () {
+            this.$cookies.set('access_token', "", -1);
+            this.$router.push({path: '/'});
+          },
+          initSettings: function () {
             service.userService.getSet(this.token).then(res => {
             if (res.status === 200) {
               this.settings = res.data;
+              this.settings.picture = res.data.picture;
               console.log(this.settings);
             }
           })
@@ -99,6 +104,8 @@
           },
           uploadSuccess: function (res, file) {
             if(res.status == 0) {
+              this.settings.picture = res.url;
+              console.log('shangchuan ' + this.settings.picture);
               console.log('成功上传头像')
             }
           },

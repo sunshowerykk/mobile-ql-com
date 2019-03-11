@@ -4,7 +4,7 @@
         <div class="logo">
           <img src="../assets/img/logo.png" />
         </div>
-        <router-link to="/Login" class="toLogin">登录</router-link>
+        <router-link :to="this.head.link" class="toLogin" >{{ head.text }}</router-link>
       </div>
 
       <!--导航-->
@@ -30,7 +30,7 @@
           <swiper :options="swiperNotice" class="swiper-notice">
             <swiper-slide v-for="(slide, index) in noticeDatas" :key="index">
               <router-link :to="{name: 'Notice',params:{id: 1}}">
-                <div>{{ slide.title }} <span>活动时间：{{ slide.date}}</span></div>
+                <div>{{ slide.title }} <span>活动时间：{{ slide.date }}</span></div>
               </router-link>
             </swiper-slide>
           </swiper>
@@ -87,12 +87,19 @@
   // require styles
   import 'swiper/dist/css/swiper.css'
   import service from '@/http/services/information.js'
+  import service1 from '@/http/services/user.js'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
       name: "Index",
       data(){
           return{
+            //头部显示登录，或者欢迎
+            head: {
+              text: '',
+              link: '',
+            },
+            token: '',
             swiperOption: {
               // some swiper options/callbacks
               // 所有的参数同 swiper 官方 api 参数
@@ -152,9 +159,31 @@
             }
           })
         },
+        //获取accesstoken
+        getCookie: function () {
+          this.token = this.$cookies.get('access_token');
+          console.log(this.token);
+        },
+        //判断是否登录
+        getLogInfo: function () {
+          if(this.token == null){
+            this.head.text = "登录";
+            this.head.link = '/Login';
+          }
+          else{
+            service1.userService.getSet(this.token).then(res => {
+            if (res.status === 200) {
+              this.head.text = "你好, " + res.data.username;
+              this.head.link = '/UserCenter';
+            }
+          })
+          }
+        }
       },
-      mounted:function(){
+      mounted:function () {
         this.initinformation();
+        this.getCookie();
+        this.getLogInfo();
       }
     }
 </script>
