@@ -2,7 +2,7 @@
 <template>
     <div class="font-box">
       <TopBack>
-        <span slot="headerTxt">2019年河南专升本</span>
+        <span slot="headerTxt">{{ packageDetail.package.name }}</span>
       </TopBack>
 
       <!--nav start-->
@@ -11,11 +11,11 @@
         <div  class="indexBanner top_0124" >
           <div class="top">
             <span>2019年</span>
-            <strong><i></i>河南<i></i></strong>
+            <strong><i></i>山东<i></i></strong>
             <span>专升本</span>
           </div>
           <div class="type">
-            <strong>《英语+管理学 》</strong>
+            <strong>《 {{ packageDetail.package.name }} 》</strong>
             <strong>VIP套餐班</strong>
           </div>
           <ul class="clearfix">
@@ -54,81 +54,101 @@
 
       <!--tabs-->
       <tab active-color="#DB2C1B" :line-width="2" class="custom-tab">
-        <tab-item selected @on-item-click="onItemClick">详情</tab-item>
-        <tab-item @on-item-click="onItemClick">内容</tab-item>
+        <tab-item selected @on-item-click="onItemClick">介绍</tab-item>
+        <tab-item @on-item-click="onItemClick">课程</tab-item>
       </tab>
 
       <!--tab content-->
       <transition-group name="fade" mode="out-in" tag="div">
-        <div class="courseLst" v-for="(item,index) in datas" :key="item" v-if="activeIndex == index">
+
+        <div v-if="activeIndex == 0" key="0">
+          <div class="tab-bd">
+            <div class="tab-pal">
+              <div class="courseLst">
+                <h3>简介</h3>
+                <div class="main" v-html="packageDetail.package.intro"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="courseLst" key="1" v-if="activeIndex == 1">
           <h3>课程</h3>
           <div class="list">
             <ul>
-              <li>
-                <a href="javascript:;">
+              <li v-for="course in packageDetail.course">
+                <router-link :to="{'name': 'ClassShare', params:{id: course.id}}">
                   <div class="item">
-                    <h5>2019湖南专升本英语基础知识精讲课{{index}}</h5>
-                    <span class="prise">单价￥199</span>
-                    <span class="classHours">课时127</span>
+                    <h5>{{ course.name }}</h5>
+                    <span class="prise">单价￥{{ course.discount }}</span>
+                    <span class="classHours">课时{{ course.classrooms }}</span>
                     <i class="turn"></i>
                   </div>
-                </a>
-              </li>
-              <li>
-                <a href="javascript:;">
-                  <div class="item">
-                    <h5>2019湖南专升本英语基础知识精讲课</h5>
-                    <span class="prise">单价￥199</span>
-                    <span class="classHours">课时127</span>
-                    <i class="turn"></i>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="javascript:;">
-                  <div class="item">
-                    <h5>2019湖南专升本英语基础知识精讲课</h5>
-                    <span class="prise">单价￥199</span>
-                    <span class="classHours">课时127</span>
-                    <i class="turn"></i>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="javascript:;">
-                  <div class="item">
-                    <h5>2019湖南专升本英语基础知识精讲课</h5>
-                    <span class="prise">单价￥199</span>
-                    <span class="classHours">课时127</span>
-                    <i class="turn"></i>
-                  </div>
-                </a>
+                </router-link>
               </li>
             </ul>
           </div>
         </div>
+
       </transition-group>
 
       <Share v-if="share" :share="share" @changeShare="changeShare($event)"></Share>
+
+      <div class="botFixed" v-show="!pay">
+        <div class="cont clearfix">
+          <div class="left">
+            <ul class="clearfix">
+              <li>
+                <a href="javascript:;">
+                  <i class="consult"></i>
+                  <span>咨询</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:;">
+                  <i class="collect" :class="{ on: collect}" @click="collect = !collect"></i>
+                  <span>收藏</span>
+                </a>
+              </li>
+              <li class="money">
+                <a href="javascript:;">
+                  <strong>￥{{ packageDetail.package.discount }}</strong>
+                  <span><s>￥{{ packageDetail.package.price }}</s></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <router-link :to="{'name': 'PayCenter', params:{info: packageDetail.package}}" class="btn">立即购买</router-link>
+          </div>
+        </div>
+      </div>
+
     </div>
 </template>
 
 <script>
   import { Tab, TabItem } from 'vux'
-
+  import  service from '@/http/services/package.js'
     export default {
       name: "SetMealDetail",
       data(){
         return{
-          id: 0,
+          pid: 0,
           datas:['1','2'],
           activeIndex: 0,
-          share: false
+          share: false,
+          packageDetail: {
+            package: '',
+            course: ''
+          },
+          pay: false,
+          collect: false,
         }
       },
       created() {
-        this.id = this.$route.params.id;
-        console.log("id",this.$route.params.id);
+        this.pid = this.$route.params.pid;
+        console.log("pid",this.$route.params.pid);
       },
       components: {
         Tab,
@@ -143,7 +163,23 @@
         },
         showShare(){
           this.share = true;
+        },
+
+        getPackageDetail() {
+          service.packageService.packageDetail({pid: this.pid}).then(res => {
+            if (res.status === 200 && res.data.status === 0) {
+              this.packageDetail.package = res.data.package;
+              this.packageDetail.course = res.data.course;
+              console.log(this.packageDetail);
+            } else {
+              alert('wrong!');
+            }
+          })
         }
+      },
+
+      mounted: function () {
+        this.getPackageDetail();
       }
     }
 </script>
@@ -420,5 +456,85 @@
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+  }
+
+  .botFixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .botFixed .left {
+    float: left;
+    width: 75%;
+    height: 0.88rem;
+    overflow: hidden;
+  }
+
+  .botFixed .left ul li {
+    float: left;
+    width: 33.3333%;
+    text-align: center;
+    padding-top: 0.1rem;
+  }
+
+  .botFixed .left ul li i {
+    display: block;
+    width: 0.32rem;
+    height: 0.32rem;
+    margin: auto;
+  }
+
+  .botFixed .left ul li i.consult {
+    background: url(../assets/img/icon13.png) no-repeat center;
+    background-size: 0.32rem 0.32rem;
+  }
+
+  .botFixed .left ul li i.collect {
+    background: url(../assets/img/icon14.png) no-repeat center;
+    background-size: 0.32rem 0.32rem;
+  }
+
+  .botFixed .left ul li i.collect.on {
+    background: url(../assets/img/icon14on.png) no-repeat center;
+    background-size: 0.32rem 0.32rem;
+  }
+
+  .botFixed .left ul li span {
+    font-size: 0.22rem;
+    color: #333;
+  }
+
+  .botFixed .left ul li.money {
+    background: #f3f2f7;
+    height: 0.88rem;
+  }
+
+  .botFixed .left ul li.money strong {
+    display: block;
+    font-size: 0.28rem;
+    color: #DB2C1B;
+    line-height: 0.33rem;
+  }
+
+  .botFixed .right {
+    float: right;
+    width: 25%;
+  }
+
+  .botFixed .right .btn {
+    width: 100%;
+    height: 0.88rem;
+    font-size: 0.3rem;
+    color: #fff;
+    background: #DB2C1B;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    line-height: 0.88rem;
   }
 </style>

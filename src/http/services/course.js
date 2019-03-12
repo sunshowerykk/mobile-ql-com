@@ -12,6 +12,12 @@ const service = {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/api/course/detail', data, resolve)
       })
+    },
+
+    courseVideo: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/api/course/course-video', data, resolve)
+      })
     }
   }
 }

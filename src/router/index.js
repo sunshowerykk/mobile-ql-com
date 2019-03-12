@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index' //首页-资讯
 import SetMeal from '@/components/SetMeal' //套餐
 import ClassQuality from '@/components/ClassQuality' //精品课
+import QualityCourseVideo from '@/components/QualityCourseVideo'
 import PublicClass from '@/components/PublicClass' //公开课
 import Library from '@/components/Library'  //图书
 import Notice from '@/components/Notice' //公告
@@ -51,6 +52,11 @@ const router = new Router({
       component: ClassQuality
     },
     {
+      path: '/QualityCourseVideo/:video_url/:title',
+      name: 'QualityCourseVideo',
+      component: QualityCourseVideo
+    },
+    {
       path: '/PublicClass',
       name: 'PublicClass',
       component: PublicClass
@@ -66,7 +72,7 @@ const router = new Router({
       component: Notice
     },
     {
-      path: '/SetMealDetail/:id',
+      path: '/SetMealDetail/:pid',
       name: 'SetMealDetail',
       component: SetMealDetail
     },
@@ -146,7 +152,7 @@ const router = new Router({
       component: MySet
     },
     {
-      path: '/PayCenter',
+      path: '/PayCenter/:info',
       name: 'PayCenter',
       component: PayCenter
     },

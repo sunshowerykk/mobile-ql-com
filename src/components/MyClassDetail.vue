@@ -1,16 +1,16 @@
 <template>
     <div class="font-box">
       <TopBack>
-        <span slot="headerTxt">计算机应用基础</span>
+        <span slot="headerTxt">{{ courseVideo.course.course_name }}</span>
       </TopBack>
       <div class="detailImg">
         <div class="img-box">
           <div class="classname">
-            <h5>计算机应用基础<span>2018</span></h5>
-            <strong>计算机应用基础</strong>
+            <h5>{{ courseVideo.course.course_name }}</h5>
+            <strong>{{ courseVideo.course.course_name }}</strong>
             <div class="school">
-              <span>中南财经政法大学</span>
-              <span>金大卫等</span>
+              <span>{{ courseVideo.teacher.unit}}</span>
+              <span>{{ courseVideo.teacher.username}} 等</span>
             </div>
           </div>
         </div>
@@ -33,9 +33,7 @@
 
       <transition name="fade" mode="out-in">
         <div v-if="indexActive == 0" key="0">
-          <!--<group title="aaaa">
-            <cell title="title" value="value"></cell>
-          </group>-->
+
           <group title="" class="class-group">
             <cell
               class="cell-class"
@@ -567,15 +565,23 @@
 
 <script>
   import { Tab, TabItem, Sticky, Cell, Group } from 'vux'
+  import service from "../http/services/personal";
     export default {
         name: "MyClassDetail",
       data(){
           return{
-            id: 0,
+            id: '',
             indexActive: 0,
+            course_id: '',
             showContent001: false,
             showContent002: false,
             showContent003: false,
+            courseVideo: {
+              course: '',
+              teacher: ''
+            },
+            flagArray: [],
+            flag: false
           }
       },
       created() {
@@ -592,7 +598,21 @@
       methods:{
         onItemClick(index){
           this.indexActive = index;
+        },
+
+        getCourseVideo() {
+          service.personalService.courseVideo({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}).then(res => {
+            if (res.status === 200) {
+              this.courseVideo.course = res.data.course;
+              this.courseVideo.teacher = res.data.course.teacher;
+              console.log(this.courseVideo);
+            }
+          })
         }
+      },
+
+      mounted: function () {
+        this.getCourseVideo();
       }
     }
 </script>

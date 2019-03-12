@@ -11,13 +11,13 @@
         <div class="tab-pal" v-show="!tabIndex">
           <div class="duration">
             <strong>学习时长</strong>
-            <span>0小时0分</span>
+            <span>{{ parseInt(courseList.study_time / 60) }}小时{{ courseList.study_time % 60 }}分</span>
             <img src="../assets/img/img18.png"  />
           </div>
           <div class="mycourseList">
             <div class="tit clearfix">
               <a>
-                我的课程<span class="num">(0)</span>
+                我的课程<span class="num">({{ courseList.course_count }})</span>
                 <span class="all">全部<i></i></span>
               </a>
             </div>
@@ -32,44 +32,16 @@
             <!--选课后 start-->
             <div class="lst" v-show="datas.length != 0">
               <ul>
-                <li>
-                  <router-link :to="{name: 'MyClassDetail',params:{id: 1}}">
+                <li v-for="course in courseList.course_list">
+                  <router-link :to="{name: 'MyClassDetail',params:{id: course.course_id}}">
                     <div class="item clearfix">
                       <div class="pic">
-                        <img src="../assets/img/img4.png"  />
+                        <img :src="course.list_pic"  />
                       </div>
                       <div class="txt">
-                        <h5>语言程序设计</h5>
-                        <span>张飞</span>
-                        <strong>已更新66集</strong>
-                      </div>
-                    </div>
-                  </router-link>
-                </li>
-                <li>
-                  <router-link to="#">
-                    <div class="item clearfix">
-                      <div class="pic">
-                        <img src="../assets/img/img20.png"  />
-                      </div>
-                      <div class="txt">
-                        <h5>语言程序设计</h5>
-                        <span>张飞</span>
-                        <strong>已更新66集</strong>
-                      </div>
-                    </div>
-                  </router-link>
-                </li>
-                <li>
-                  <router-link to="#">
-                    <div class="item clearfix">
-                      <div class="pic">
-                        <img src="../assets/img/img21.png"  />
-                      </div>
-                      <div class="txt">
-                        <h5>语言程序设计</h5>
-                        <span>张飞</span>
-                        <strong>已更新66集</strong>
+                        <h5>{{ course.course_name }}</h5>
+                        <span>{{ course.teachers[0] }} 等</span>
+                        <strong>已更新{{ course.chapters }}集</strong>
                       </div>
                     </div>
                   </router-link>
@@ -111,18 +83,40 @@
 </template>
 
 <script>
+  import  service from '@/http/services/personal.js'
     export default {
         name: "MyClass",
       data(){
           return{
             tabIndex: 0,
-            datas:['0']
+            datas:[],
+            courseList: {
+              course_list: '',
+              course_count: 0,
+              study_time: 0
+            }
           }
       },
       methods:{
           changeTab(index){
             this.tabIndex = index;
-          }
+          },
+
+        getCourseList() {
+            service.personalService.courseList({'access-token': this.$cookies.get('access_token')}).then(res => {
+              if (res.status === 200) {
+                this.courseList.course_list = res.data.course_list;
+                this.courseList.course_count = res.data.course_count;
+                this.courseList.study_time = res.data.study_time;
+                this.datas = this.courseList.course_count;
+                console.log(this.courseList);
+              }
+            })
+        }
+      },
+
+      mounted: function () {
+        this.getCourseList();
       }
     }
 </script>

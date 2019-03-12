@@ -7,6 +7,7 @@ import Navigation from './components/navigation';  //引用公共组件默认情
 import TopBack from './components/top_back'
 import Share from './components/share'
 import VueCookies from 'vue-cookies'
+import "./assets/css/course.css"
 
 //swiper引用
 //import VueAwesomeSwiper from 'vue-awesome-swiper'

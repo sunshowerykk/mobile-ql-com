@@ -1,5 +1,6 @@
 <template>
   <div class="font-box bg">
+
     <div class="detailImg" v-if="courseInfo">
       <a class="goback" @click="goBack"></a>
       <a class="share" @click="shareFn"></a>
@@ -14,15 +15,26 @@
     </div>
 
     <div class="course">
+      <!--&lt;!&ndash;tabs&ndash;&gt;-->
+      <!--<tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box" v-if="!pay">-->
+        <!--<tab-item selected @on-item-click="onItemClick">课程介绍</tab-item>-->
+        <!--<tab-item @on-item-click="onItemClick">视频</tab-item>-->
+      <!--</tab>-->
 
-      <!--tabs-->
-      <tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box">
-        <tab-item selected @on-item-click="onItemClick">课程介绍</tab-item>
-        <tab-item @on-item-click="onItemClick">视频</tab-item>
-      </tab>
 
-      <transition name="fade" mode="out-in">
-        <div v-if="activeIndex == 0" key="0">
+      <sticky>
+        <tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box">
+          <tab-item selected @on-item-click="onItemClick">简介</tab-item>
+          <tab-item @on-item-click="onItemClick">视频</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay">作业</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay">测验</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay">答疑</tab-item>
+        </tab>
+      </sticky>
+
+      <transition-group name="fade" mode="out-in">
+
+        <div v-if="indexActive == 0 && !pay" key="0">
           <div class="tab-bd">
             <div class="tab-pal">
               <div class="courseLst">
@@ -30,63 +42,54 @@
                 <div class="main" v-html="courseInfo.course.intro"></div>
               </div>
             </div>
-
           </div>
         </div>
 
-        <div v-if="activeIndex == 1" key="1">
-          <div class="tab-pal">
-            <div class="courseLst">
-              <h3>课程</h3>
-              <div class="list">
-                <ul>
-                  <li>
-                    <a href="#">
-                      <div class="item">
-                        <h5>2019湖南专升本英语基础知识精讲课</h5>
-                        <span class="prise">单价￥199</span>
-                        <span class="classHours">课时127</span>
-                        <i></i>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="item">
-                        <h5>2019湖南专升本英语基础知识精讲课</h5>
-                        <span class="prise">单价￥199</span>
-                        <span class="classHours">课时127</span>
-                        <i></i>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="item">
-                        <h5>2019湖南专升本英语基础知识精讲课</h5>
-                        <span class="prise">单价￥199</span>
-                        <span class="classHours">课时127</span>
-                        <i></i>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="item">
-                        <h5>2019湖南专升本英语基础知识精讲课</h5>
-                        <span class="prise">单价￥199</span>
-                        <span class="classHours">课时127</span>
-                        <i></i>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
+        <div v-if="indexActive == 1" key="1">
+
+          <group title="" class="class-group">
+
+            <div v-for="Chapter, index_1 in courseVideo.courseChapters">
+              <div v-for="Section, index_2 in Chapter.courseSections">
+                <cell
+                  class="cell-class"
+                  :title="Chapter.name + ':' + Section.name"
+                  :key="index_1 + index_2"
+                  is-link
+                  :border-intent="false"
+                  :arrow-direction="flag ? 'up' : 'down'"
+                  @click.native="flag = upDownControl(index_1, index_2)"
+                ></cell>
+
+                <template v-if="flagArray['show' + index_1 + index_2]">
+                  <dl class="class-item">
+
+                    <dd v-for="coursePoint in Section.courseSectionPoints">
+                      <router-link :to="{name: 'QualityCourseVideo', params:{video_url: coursePoint.video_url, title: coursePoint.name}}">
+                            <a href="#">
+                              <div class="item clearfix">
+                                <div class="left">
+                                  <span class="type">视频</span>
+                                  <span class="name">{{coursePoint.name}}</span>
+                                </div>
+                                <div class="right">
+                                  <span class="already" v-if="pay">已学0%</span>
+                                  <span class="time"><i></i>{{ coursePoint.duration }}</span>
+                                </div>
+                              </div>
+                            </a>
+                      </router-link>
+                    </dd>
+
+                  </dl>
+                </template>
               </div>
             </div>
-          </div>
-        </div>
-      </transition>
 
+          </group>
+        </div>
+
+      </transition-group>
 
     </div>
 
@@ -110,14 +113,14 @@
             </li>
             <li class="money">
               <a href="javascript:;">
-                <strong>￥{{ courseInfo.course.price }}</strong>
-                <span>8门课</span>
+                <strong>￥{{ courseInfo.course.discount }}</strong>
+                <span><s>￥{{ courseInfo.course.price }}</s></span>
               </a>
             </li>
           </ul>
         </div>
         <div class="right">
-          <router-link to="/PayCenter" class="btn">立即购买</router-link>
+          <router-link :to="{'name': 'PayCenter', params:{info: courseInfo.course}}" class="btn">立即购买</router-link>
         </div>
       </div>
     </div>
@@ -125,14 +128,14 @@
 </template>
 
 <script>
-  import { Tab, TabItem } from 'vux'
+  import { Tab, TabItem, Sticky, Cell, Group } from 'vux'
   import  service from '@/http/services/course.js'
     export default {
         name: "ClassShare",
       data(){
         return{
           id: '',
-          activeIndex: 0,
+          indexActive: 0,
           share: 0,
           pay: false,
           collect: false,
@@ -140,7 +143,13 @@
             course: {},
             teacher: [{}]
           },
-          courseid: ''
+          courseVideo: '',
+          courseid: '',
+          showContent001: false,
+          showContent002: false,
+          showContent003: false,
+          flagArray: [],
+          flag: false
         }
       },
       components: {
@@ -152,6 +161,15 @@
         console.log("id",this.id);
         this.courseid = this.$route.params.id;
       },
+
+      components: {
+        Tab,
+        TabItem,
+        Cell,
+        Group,
+        Sticky
+      },
+
       mounted() {
         this.getInfo();
       },
@@ -163,9 +181,7 @@
         changeShare(msg){
           this.share = msg;
         },
-        onItemClick(index){
-          this.activeIndex = index;
-        },
+
         goBack(){
           this.$router.go(-1);
         },
@@ -175,19 +191,49 @@
             if (res.status === 200) {
               this.courseInfo.course = res.data.course;
               this.courseInfo.teacher = res.data.teacher;
-              console.log({
-                info: this.courseInfo,
-                course: this.courseInfo.course,
-                teacher: this.courseInfo.teacher
-              });
+              this.pay = (this.courseInfo.course.ispay != 0);
             }
           })
+        },
+
+        getCourseVideo() {
+          service.courseService.courseVideo({'course_id': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
+            if (res.status === 200 && res.data.status === 0) {
+              this.courseVideo = res.data.course;
+              for (var i = 0; i < this.courseVideo.courseChapters.length; i++) {
+                for (var j = 0; j < this.courseVideo.courseChapters[i].courseSections.length; j++) {
+                  this.flagArray['show' + i + j] = false;
+                }
+              }
+              console.log(this.flagArray);
+              this.pay = (res.data.ispay != 0);
+              console.log(this.courseVideo.courseChapters);
+            } else {
+              alert('something wrong!');
+            }
+          })
+        },
+
+        onItemClick(index){
+          if (index == 1) {
+            this.getCourseVideo();
+          }
+          this.indexActive = index;
+        },
+
+        upDownControl(index1, index2) {
+          this.flagArray['show' + index1 + index2] = !this.flagArray['show' + index1 + index2]
+          this.flag = this.flagArray['show' + index1 + index2];
+          console.log(this.flagArray);
+          return this.flag;
         }
+
       },
     }
 </script>
 
 <style>
+
   .detailImg {
     position: relative;
   }
