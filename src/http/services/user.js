@@ -42,6 +42,11 @@ const service = {
         TEMPLATE_GET('http://api.ql.com/personal/collection-list?access-token=' + data, '', resolve);
       }) 
     },
+    getDuration:(data) =>{
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('http://api.ql.com/personal/duration?access-token=' + data, '', resolve);
+      }) 
+    },
   }
 }
 

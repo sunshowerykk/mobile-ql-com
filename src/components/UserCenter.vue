@@ -11,7 +11,7 @@
           </div>
           <div class="txt">
             <strong>{{ userinfo.username }}</strong>
-            <span>正在学习</span>
+            <span>已学习 {{ duration.hour }} 小时 {{ duration.minute }} 分钟</span>
           </div>
         </div>
         <div class="menuLst">
@@ -41,7 +41,8 @@
               picture: '',
               username: ''
             },
-            token: ''
+            token: '',
+            duration: ''
           }
         },
         methods: {
@@ -56,10 +57,19 @@
             }
           })
           },
+          getDuration: function () {
+            service.userService.getDuration(this.token).then(res => {
+            if (res.status === 200) {
+              this.duration = res.data;
+              console.log(this.duration);
+            }
+          })
+          }
         },
           mounted: function () {
             this.getCookie();
             this.getUserInfo();
+            this.getDuration();
         }
     }
 </script>
