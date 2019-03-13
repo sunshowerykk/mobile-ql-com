@@ -2,13 +2,13 @@
     <div class="font-box bg">
       <div class="tab-hd">
         <ul class="tab-nav clearfix">
-          <li :class="[tabIndex === 0 ? 'on' : '']"><a href="javascript:;" @click="changeTab(0)">我的学习</a></li>
-          <li :class="[tabIndex === 1 ? 'on' : '']"><a href="javascript:;" @click="changeTab(1)">学习计划</a></li>
+          <li :class="[myindex === 0 ? 'on' : '']"><a href="javascript:;" @click="changeTab(0)">我的学习</a></li>
+          <li :class="[myindex === 1 ? 'on' : '']"><a href="javascript:;" @click="changeTab(1)">学习计划</a></li>
         </ul>
       </div>
 
       <div class="tab-bd">
-        <div class="tab-pal" v-show="!tabIndex">
+        <div class="tab-pal" v-show="!myindex">
           <div class="duration">
             <strong>学习时长</strong>
             <span>{{ parseInt(study_time / 60) }}小时{{ study_time % 60 }}分</span>
@@ -51,7 +51,7 @@
             <!--选课后 end-->
           </div>
         </div>
-        <div class="tab-pal" v-show="tabIndex">
+        <div class="tab-pal" v-show="myindex">
           <div class="studyPlan">
             <div class="plan">
               <div class="tit">
@@ -89,6 +89,7 @@
       data(){
           return{
             tabIndex: 0,
+            myindex: 0,
             datas:[],
             isLogin: flase,
             // courseList: {
@@ -101,9 +102,9 @@
             study_time: 0
           }
       },
-      methods:{
+      methods: {
           changeTab(index){
-            this.tabIndex = index;
+            this.myindex = index;
           },
 
         getCourseList() {

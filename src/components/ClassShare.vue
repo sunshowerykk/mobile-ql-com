@@ -176,7 +176,7 @@
             </li>
           </ul>
         </div>
-        <div class="right">
+        <div class="right" v-if="courseInfo.course">
           <router-link :to="{'name': 'PayCenter', params:{info: courseInfo.course}}" class="btn">立即购买</router-link>
         </div>
       </div>
@@ -256,8 +256,8 @@
             if (res.status === 200) {
               this.courseInfo.course = res.data.course;
               this.courseInfo.teacher = res.data.teacher;
-              // this.pay = (this.courseInfo.course.ispay != 0);
-              this.pay = true;
+              this.pay = (this.courseInfo.course.ispay != 0);
+              // this.pay = true;
             }
           })
         },

@@ -18,11 +18,11 @@
         <a href="#">
           <div class="cont clearfix">
             <div class="pic">
-              <img :src="course_info.home_pic"  />
+              <img :src="info.home_pic"  />
             </div>
             <div class="txt">
-              <h5>{{ course_info.course_name || course_info.name }}</h5>
-              <span>￥{{ course_info.discount }}</span><s>￥{{ course_info.price }}</s>
+              <h5>{{ info.course_name || info.name }}</h5>
+              <span>￥{{ info.discount }}</span><s>￥{{ info.price }}</s>
             </div>
           </div>
         </a>
@@ -72,13 +72,13 @@
 
       <div class="orderMoney">
         <span>订单金额</span>
-        <strong class="fr">￥{{ course_info.discount }}</strong>
+        <strong class="fr">￥{{ info.discount }}</strong>
       </div>
 
       <div class="orderbotFix">
         <div class="cont clearfix">
           <div class="left fl">
-            <a href="#" class="btn">实付:<strong>￥{{ course_info.discount }}</strong></a>
+            <a href="#" class="btn">实付:<strong>￥{{ info.discount }}</strong></a>
           </div>
           <div class="right fr">
             <div class="btn" @click="goPay">去付款</div>
@@ -122,13 +122,13 @@
         name: "PayCenter",
       created(){
         this.countDown(1024);
-        this.course_info = this.$route.params.info;
+        this.info = this.$route.params.info;
       },
       data(){
           return{
             countStr: "00:00:00",
             payModal: false,
-            course_info: ''
+            info: ''
           }
       },
       methods:{

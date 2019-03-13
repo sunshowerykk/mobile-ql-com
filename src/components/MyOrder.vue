@@ -14,36 +14,23 @@
       <div v-if="indexActive == 0" key="0">
         <div class="orderList">
           <ul>
-            <li>
+
+            <li v-for="order in finishedOrders">
               <a href="#">
                 <div class="item clearfix">
                   <div class="pic">
-                    <img src="../assets/img/img22.png"  />
+                    <img :src="order.goods_pic.list_pic"  />
                   </div>
                   <div class="txt">
-                    <h5>VIp套餐班VIp套餐班VIp套餐班VIp套餐班</h5>
-                    <span><b>￥118.00</b></span>
-                    <strike>￥198.0</strike>
-                    <span class="time">2019-01-16 12:00:00</span>
+                    <h5>{{ order.goods_name }}</h5>
+                    <span><b>￥{{ order.goods_amount }}</b></span>
+                    <strike>￥{{ order.market_price }}</strike>
+                    <span class="time">{{order.add_time}}</span>
                   </div>
                 </div>
               </a>
             </li>
-            <li>
-              <a href="#">
-                <div class="item clearfix">
-                  <div class="pic">
-                    <img src="../assets/img/img22.png"  />
-                  </div>
-                  <div class="txt">
-                    <h5>VIp套餐班VIp套餐班VIp套餐班VIp套餐班</h5>
-                    <span><b>￥118.00</b></span>
-                    <strike>￥198.0</strike>
-                    <span class="time">2019-01-16 12:00:00</span>
-                  </div>
-                </div>
-              </a>
-            </li>
+
           </ul>
         </div>
       </div>
@@ -51,17 +38,17 @@
       <div v-if="indexActive == 1" key="1">
         <div class="orderList">
           <ul>
-            <li>
+            <li v-for="order in unfinishedOrders">
               <a href="#">
                 <div class="item clearfix">
                   <div class="pic">
-                    <img src="../assets/img/img22.png"  />
+                    <img :src="order.goods_pic.list_pic"  />
                   </div>
                   <div class="txt">
-                    <h5>VIp套餐班VIp套餐班VIp套餐班VIp套餐班</h5>
-                    <span><b>￥118.00</b></span>
-                    <strike>￥198.0</strike>
-                    <span class="time">2019-01-16 12:00:00</span>
+                    <h5>{{ order.goods_name }}</h5>
+                    <span><b>￥{{ order.goods_amount }}</b></span>
+                    <strike>￥{{ order.market_price }}</strike>
+                    <span class="time">{{ order.add_time }}</span>
                   </div>
                 </div>
               </a>
@@ -81,9 +68,8 @@
       data(){
           return{
             indexActive: 0,
-            orderList: {
-              order_info: ''
-            }
+            finishedOrders: [],
+            unfinishedOrders: []
           }
       },
       components: {
@@ -98,8 +84,19 @@
         getOrderInfo() {
           service.personalService.orderList({'access-token': this.$cookies.get('access_token')}).then(res => {
             if (res.status === 200) {
-              this.orderList.order_info = res.data.order_info;
-              console.log(this.orderList);
+              let index1 = 0;
+              let index2 = 0
+              for (let i = 0; i < res.data.order_info.length; i++) {
+                if (res.data.order_info[i].pay_status === 2) {
+                  this.finishedOrders[index1] = res.data.order_info[i];
+                  index1++;
+                } else if (res.data.order_info[i].pay_status === 0) {
+                  this.unfinishedOrders[index2] = res.data.order_info[i];
+                  index2++;
+                }
+              }
+              console.log(this.finishedOrders);
+              console.log(this.unfinishedOrders);
             }
           })
         }

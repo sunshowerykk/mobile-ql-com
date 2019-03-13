@@ -118,7 +118,7 @@
               </li>
             </ul>
           </div>
-          <div class="right">
+          <div class="right" v-if="packageDetail.package">
             <router-link :to="{'name': 'PayCenter', params:{info: packageDetail.package}}" class="btn">立即购买</router-link>
           </div>
         </div>
