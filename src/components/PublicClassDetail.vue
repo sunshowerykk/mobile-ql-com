@@ -44,7 +44,7 @@
           this.share = true;
         },
         check () {
-          service.publicClassService.check({'course_id': this.courseid, 'access-token': '6WSLp2YK-uXTeEXQitREj5S0xFRXnVnZ'}).then(res => {
+          service.publicClassService.check({'course_id': this.courseid, 'access-token': this.access_token}).then(res => {
             if (res.status === 200) {
               this.course_url=res.data.url;
             }
@@ -52,6 +52,7 @@
         }
       },
       mounted: function(){
+        this.access_token = this.$cookies.get('access_token');
         this.check();
       }
     }
