@@ -2,8 +2,8 @@
     <div class="font-box bg">
       <div class="tab-hd">
         <ul class="tab-nav clearfix">
-          <li :class="[tabIndex == 0 ? 'on' : '']"><a href="javascript:;" @click="changeTab(0)">我的学习</a></li>
-          <li :class="[tabIndex == 1 ? 'on' : '']"><a href="javascript:;" @click="changeTab(1)">学习计划</a></li>
+          <li :class="[tabIndex === 0 ? 'on' : '']"><a href="javascript:;" @click="changeTab(0)">我的学习</a></li>
+          <li :class="[tabIndex === 1 ? 'on' : '']"><a href="javascript:;" @click="changeTab(1)">学习计划</a></li>
         </ul>
       </div>
 
@@ -11,28 +11,28 @@
         <div class="tab-pal" v-show="!tabIndex">
           <div class="duration">
             <strong>学习时长</strong>
-            <span>{{ parseInt(courseList.study_time / 60) }}小时{{ courseList.study_time % 60 }}分</span>
+            <span>{{ parseInt(study_time / 60) }}小时{{ study_time % 60 }}分</span>
             <img src="../assets/img/img18.png"  />
           </div>
           <div class="mycourseList">
             <div class="tit clearfix">
               <a>
-                我的课程<span class="num">({{ courseList.course_count }})</span>
+                我的课程<span class="num">({{ course_count }})</span>
                 <span class="all">全部<i></i></span>
               </a>
             </div>
 
             <!--选课前 start-->
-            <div class="noCourse" v-show="datas.length == 0">
+            <div class="noCourse" v-show="course_count == 0">
               <h5>您暂时还没有课程</h5>
               <a href="#" class="go">发现课程</a>
             </div>
             <!--选课前 end-->
 
             <!--选课后 start-->
-            <div class="lst" v-show="datas.length != 0">
+            <div class="lst" v-show="course_count != 0 ">
               <ul>
-                <li v-for="course in courseList.course_list">
+                <li v-for="course in course_list">
                   <router-link :to="{name: 'MyClassDetail',params:{id: course.course_id}}">
                     <div class="item clearfix">
                       <div class="pic">
@@ -85,16 +85,20 @@
 <script>
   import  service from '@/http/services/personal.js'
     export default {
-        name: "MyClass",
+      name: "MyClass",
       data(){
           return{
             tabIndex: 0,
             datas:[],
-            courseList: {
-              course_list: '',
-              course_count: 0,
-              study_time: 0
-            }
+            isLogin: flase,
+            // courseList: {
+            //   course_list: '',
+            //   course_count: 0,
+            //   study_time: 0
+            // },
+            course_list: '',
+            course_count: 0,
+            study_time: 0
           }
       },
       methods:{
@@ -103,15 +107,15 @@
           },
 
         getCourseList() {
-            service.personalService.courseList({'access-token': this.$cookies.get('access_token')}).then(res => {
-              if (res.status === 200) {
-                this.courseList.course_list = res.data.course_list;
-                this.courseList.course_count = res.data.course_count;
-                this.courseList.study_time = res.data.study_time;
-                this.datas = this.courseList.course_count;
-                console.log(this.courseList);
-              }
-            })
+          service.personalService.courseList({'access-token': this.$cookies.get('access_token')}).then(res => {
+            if (res.status === 200) {
+              console.log(res.data);
+              this.course_list = res.data.course_list;
+              this.course_count = res.data.course_count;
+              this.study_time = res.data.study_time;
+              this.datas = this.course_count;
+            }
+          })
         }
       },
 

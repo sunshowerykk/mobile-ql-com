@@ -35,470 +35,94 @@
         <div v-if="indexActive == 0" key="0">
 
           <group title="" class="class-group">
-            <cell
-              class="cell-class"
-              title="计算机基础知识"
-              is-link
-              :border-intent="false"
-              :arrow-direction="showContent001 ? 'up' : 'down'"
-              @click.native="showContent001 = !showContent001"
-            ></cell>
+            <div v-for="Chapter, index_1 in courseVideo.course.courseChapters">
+              <div v-for="Section, index_2 in Chapter.courseSections">
+                <cell
+                  class="cell-class"
+                  :title="Chapter.name + ':' + Section.name"
+                  :key="index_1 + index_2"
+                  is-link
+                  :border-intent="false"
+                  :arrow-direction="flag ? 'up' : 'down'"
+                  @click.native="flag = upDownControl(index_1, index_2)"
+                ></cell>
+                <template v-if="flagArray['show' + index_1 + index_2]">
+                  <dl class="class-item">
 
-            <template v-if="showContent001">
-              <dl class="class-item">
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-              </dl>
-            </template>
+                    <dd v-for="coursePoint in Section.courseSectionPoints">
+                      <router-link :to="{name: 'QualityCourseVideo', params:{video_url: coursePoint.video_url, title: coursePoint.name}}">
+                        <a href="#">
+                          <div class="item clearfix">
+                            <div class="left">
+                              <span class="type">视频</span>
+                              <span class="name">{{coursePoint.name}}</span>
+                            </div>
+                            <div class="right">
+                              <span class="already">已学0%</span>
+                              <span class="time"><i></i>{{ coursePoint.duration }}</span>
+                            </div>
+                          </div>
+                        </a>
+                      </router-link>
+                    </dd>
 
-            <cell
-              class="cell-class"
-              title="计算机基础知识"
-              is-link
-              :border-intent="false"
-              :arrow-direction="showContent002 ? 'up' : 'down'"
-              @click.native="showContent002 = !showContent002"></cell>
-
-            <template v-if="showContent002">
-              <dl class="class-item">
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-              </dl>
-            </template>
-
-            <cell
-              class="cell-class"
-              title="计算机基础知识"
-              is-link
-              :border-intent="false"
-              :arrow-direction="showContent003 ? 'up' : 'down'"
-              @click.native="showContent003 = !showContent003"></cell>
-
-            <template v-if="showContent003">
-              <dl class="class-item">
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-                <dd>
-                  <a href="#">
-                    <div class="item clearfix">
-                      <div class="left">
-                        <span class="type">视频</span>
-                        <span class="name">计算机基础知识</span>
-                      </div>
-                      <div class="right">
-                        <span class="already">已学0%</span>
-                        <span class="time"><i></i>1:20</span>
-                      </div>
-                    </div>
-                  </a>
-                </dd>
-              </dl>
-            </template>
+                  </dl>
+                </template>
+              </div>
+            </div>
 
           </group>
         </div>
+
         <div v-else-if="indexActive == 1" key="1">
           <div class="tab-pal">
             <div class="workDetail">
-              <span>应交作业<strong class="must">18</strong>次，实交作业<strong class="real">12</strong>次</span>
+              <span>应交作业<strong class="must">{{ courseHomework.homeworks }}</strong>次，实交作业<strong class="real">{{ courseHomework.submit_num }}</strong>次</span>
             </div>
             <div class="submitDltList">
               <ul>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic">
-                          <img src="../assets/img/img24.png"  />
+                <div v-for="chapter in courseHomework.course.courseChapters">
+                  <div v-for="section in chapter.courseSections">
+                    <li v-if="section.homework != '' && section.homework != null">
+                      <div class="item">
+                        <h5>{{ chapter.name + ':  ' + section.name }}</h5>
+                        <div class="workName clearfix">
+                          <span class="fl">作业</span>
+                          <strong class="fr" v-html="section.homework"></strong>
                         </div>
-                        <span class="tip">已通过</span>
-                        <a href="#" class="viedo">视频讲解</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic">
-                          <img src="../assets/img/img24.png"  />
+                        <div class="submitDlt clearfix">
+                          <span class="fl">提交</span>
+                          <div class="dlt fr">
+                            <div class="pic">
+                              <img :src="section.userHomework.length == 0 ? require('../assets/img/img26.png') : section.userHomework[0].pic_url" alt="上传作业" />
+                            </div>
+                            <span class="tip">{{ section.userHomework.length == 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
+                            <a href="#" class="viedo">视频讲解</a>
+                          </div>
                         </div>
-                        <span class="tip">待检查</span>
-                        <a href="#" class="viedo">视频讲解</a>
                       </div>
-                    </div>
+                    </li>
                   </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic upload">
-                          <img src="../assets/img/img26.png"  />
-                        </div>
-                        <span class="tip">未通过</span>
-                        <a href="#" class="viedo">视频讲解</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic">
-                          <img src="../assets/img/img24.png"  />
-                        </div>
-                        <span class="tip">已通过</span>
-                        <a href="#" class="viedo">视频讲解</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic">
-                          <img src="../assets/img/img24.png"  />
-                        </div>
-                        <span class="tip">待检查</span>
-                        <a href="#" class="viedo">视频讲解</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic upload">
-                          <img src="../assets/img/img26.png"  />
-                        </div>
-                        <span class="tip">未通过</span>
-                        <a href="#" class="viedo">视频讲解</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic">
-                          <img src="../assets/img/img24.png"  />
-                        </div>
-                        <span class="tip">已通过</span>
-                        <a href="#" class="viedo">视频讲解</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic">
-                          <img src="../assets/img/img24.png"  />
-                        </div>
-                        <span class="tip">待检查</span>
-                        <a href="#" class="viedo">视频讲解</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>计算机应用</h5>
-                    <div class="workName clearfix">
-                      <span class="fl">作业</span>
-                      <strong class="fr">一本通38第五题</strong>
-                    </div>
-                    <div class="submitDlt clearfix">
-                      <span class="fl">提交</span>
-                      <div class="dlt fr">
-                        <div class="pic upload">
-                          <img src="../assets/img/img26.png"  />
-                        </div>
-                        <span class="tip">未通过</span>
-                        <a href="#" class="viedo">视频讲解</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                </div>
               </ul>
             </div>
           </div>
         </div>
+
         <div v-else-if="indexActive == 2" key="2">
           <div class="tab-pal">
             <div class="workDetail">
-              <span>应考<strong class="must">18</strong>次，已通关<strong class="real">12</strong>次</span>
+              <span>应考<strong class="must">{{ courseTest.examnum }}</strong>次，已通关<strong class="real">{{ courseTest.examuser }}</strong>次</span>
             </div>
             <div class="submitDltList">
               <ul>
-                <li>
+                <li v-for="test, index in courseTest.list">
                   <div class="item">
-                    <h5>第一单元<span>计算机应用</span></h5>
+                    <h5>第{{ index+1 }}单元<span>{{ test.chapterName }}</span></h5>
                     <div class="test">
-                      <strong>计算机网络及应用基础</strong>
-                      <a href="#" class="look">查看答卷</a>
+                      <strong>{{ test.examName }}</strong>
+                      <a href="https://exam.kaoben.top" class="look">查看答卷</a>
                       <span class="tip">已通关</span>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>第一单元<span>计算机应用</span></h5>
-                    <div class="test">
-                      <strong>计算机网络及应用基础</strong>
-                      <a href="#" class="look">查看答卷</a>
-                      <span class="tip">已通关</span>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>第一单元<span>计算机应用</span></h5>
-                    <div class="test">
-                      <strong>计算机网络及应用基础</strong>
-                      <a href="#" class="look">进入测试</a>
-                      <span class="tip un">未通关</span>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <h5>第一单元<span>计算机应用</span></h5>
-                    <div class="test">
-                      <strong>计算机网络及应用基础</strong>
-                      <a href="#" class="look">查看答卷</a>
-                      <span class="tip un">未通关</span>
                     </div>
                   </div>
                 </li>
@@ -580,6 +204,16 @@
               course: '',
               teacher: ''
             },
+            courseHomework: {
+              course: '',
+              homeworks: '',
+              submit_num: ''
+            },
+            courseTest: {
+              examnum: 0,
+              examuser: 0,
+              list: ''
+            },
             flagArray: [],
             flag: false
           }
@@ -598,6 +232,25 @@
       methods:{
         onItemClick(index){
           this.indexActive = index;
+          if (index == 1) {
+            service.personalService.courseHomework({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}).then(res => {
+              if (res.status === 200) {
+                this.courseHomework.course = res.data.course;
+                this.courseHomework.homeworks = res.data.homeworks;
+                this.courseHomework.submit_num = res.data.submit_num;
+                console.log(this.courseHomework);
+              }
+            })
+          } else if (index == 2) {
+            service.personalService.courseTestList({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}).then(res => {
+              if (res.status === 200) {
+                this.courseTest.examnum = res.data.examnum;
+                this.courseTest.examuser = res.data.examuser;
+                this.courseTest.list = res.data.list;
+                console.log(this.courseTest);
+              }
+            })
+          }
         },
 
         getCourseVideo() {
@@ -605,9 +258,21 @@
             if (res.status === 200) {
               this.courseVideo.course = res.data.course;
               this.courseVideo.teacher = res.data.course.teacher;
+              for (var i = 0; i < this.courseVideo.course.courseChapters.length; i++) {
+                for (var j = 0; j < this.courseVideo.course.courseChapters[i].courseSections.length; j++) {
+                  this.flagArray['show' + i + j] = false;
+                }
+              }
               console.log(this.courseVideo);
             }
           })
+        },
+
+        upDownControl(index1, index2) {
+          this.flagArray['show' + index1 + index2] = !this.flagArray['show' + index1 + index2]
+          this.flag = this.flagArray['show' + index1 + index2];
+          console.log(this.flagArray);
+          return this.flag;
         }
       },
 

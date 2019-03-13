@@ -10,6 +10,7 @@
     </tab>
 
     <transition name="fade" mode="out-in">
+
       <div v-if="indexActive == 0" key="0">
         <div class="orderList">
           <ul>
@@ -46,6 +47,7 @@
           </ul>
         </div>
       </div>
+
       <div v-if="indexActive == 1" key="1">
         <div class="orderList">
           <ul>
@@ -73,11 +75,15 @@
 
 <script>
   import { Tab, TabItem} from 'vux'
+  import service from "../http/services/personal";
     export default {
         name: "MyOrder",
       data(){
           return{
             indexActive: 0,
+            orderList: {
+              order_info: ''
+            }
           }
       },
       components: {
@@ -87,7 +93,20 @@
       methods:{
         onItemClick(index){
           this.indexActive = index;
+        },
+
+        getOrderInfo() {
+          service.personalService.orderList({'access-token': this.$cookies.get('access_token')}).then(res => {
+            if (res.status === 200) {
+              this.orderList.order_info = res.data.order_info;
+              console.log(this.orderList);
+            }
+          })
         }
+      },
+
+      mounted: function () {
+        this.getOrderInfo();
       }
     }
 </script>

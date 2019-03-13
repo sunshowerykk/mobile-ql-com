@@ -34,7 +34,7 @@
 
       <transition-group name="fade" mode="out-in">
 
-        <div v-if="indexActive == 0 && !pay" key="0">
+        <div v-if="indexActive == 0" key="0">
           <div class="tab-bd">
             <div class="tab-pal">
               <div class="courseLst">
@@ -89,6 +89,63 @@
           </group>
         </div>
 
+        <div v-else-if="indexActive == 2" key="2">
+          <div class="tab-pal">
+            <div class="workDetail">
+              <span>应交作业<strong class="must">{{ courseHomework.homeworks }}</strong>次，实交作业<strong class="real">{{ courseHomework.submit_num }}</strong>次</span>
+            </div>
+            <div class="submitDltList">
+              <ul>
+                <div v-for="chapter in courseHomework.course.courseChapters">
+                  <div v-for="section in chapter.courseSections">
+                    <li v-if="section.homework != '' && section.homework != null">
+                      <div class="item">
+                        <h5>{{ chapter.name + ':  ' + section.name }}</h5>
+                        <div class="workName clearfix">
+                          <span class="fl">作业</span>
+                          <strong class="fr" v-html="section.homework"></strong>
+                        </div>
+                        <div class="submitDlt clearfix">
+                          <span class="fl">提交</span>
+                          <div class="dlt fr">
+                            <div class="pic">
+                              <img :src="section.userHomework.length == 0 ? require('../assets/img/img26.png') : section.userHomework[0].pic_url" alt="上传作业" />
+                            </div>
+                            <span class="tip">{{ section.userHomework.length == 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
+                            <a href="#" class="viedo">视频讲解</a>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </div>
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div v-else-if="indexActive == 3" key="3">
+          <div class="tab-pal">
+            <div class="workDetail">
+              <span>应考<strong class="must">{{ courseTest.examnum }}</strong>次，已通关<strong class="real">{{ courseTest.examuser }}</strong>次</span>
+            </div>
+            <div class="submitDltList">
+              <ul>
+                <li v-for="test, index in courseTest.list">
+                  <div class="item">
+                    <h5>第{{ index+1 }}单元<span>{{ test.chapterName }}</span></h5>
+                    <div class="test">
+                      <strong>{{ test.examName }}</strong>
+                      <a href="https://exam.kaoben.top" class="look">查看答卷</a>
+                      <span class="tip">已通关</span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
       </transition-group>
 
     </div>
@@ -129,7 +186,8 @@
 
 <script>
   import { Tab, TabItem, Sticky, Cell, Group } from 'vux'
-  import  service from '@/http/services/course.js'
+  import  service_course from '@/http/services/course.js'
+  import service from '@/http/services/personal.js'
     export default {
         name: "ClassShare",
       data(){
@@ -144,10 +202,17 @@
             teacher: [{}]
           },
           courseVideo: '',
+          courseHomework: {
+            course: '',
+            homeworks: '',
+            submit_num: ''
+          },
+          courseTest: {
+            examnum: 0,
+            examuser: 0,
+            list: ''
+          },
           courseid: '',
-          showContent001: false,
-          showContent002: false,
-          showContent003: false,
           flagArray: [],
           flag: false
         }
@@ -187,17 +252,18 @@
         },
 
         getInfo () {
-          service.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
+          service_course.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
             if (res.status === 200) {
               this.courseInfo.course = res.data.course;
               this.courseInfo.teacher = res.data.teacher;
-              this.pay = (this.courseInfo.course.ispay != 0);
+              // this.pay = (this.courseInfo.course.ispay != 0);
+              this.pay = true;
             }
           })
         },
 
         getCourseVideo() {
-          service.courseService.courseVideo({'course_id': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
+          service_course.courseService.courseVideo({'course_id': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
             if (res.status === 200 && res.data.status === 0) {
               this.courseVideo = res.data.course;
               for (var i = 0; i < this.courseVideo.courseChapters.length; i++) {
@@ -206,7 +272,8 @@
                 }
               }
               console.log(this.flagArray);
-              this.pay = (res.data.ispay != 0);
+              // this.pay = (res.data.ispay != 0);
+              this.pay = true;
               console.log(this.courseVideo.courseChapters);
             } else {
               alert('something wrong!');
@@ -217,6 +284,24 @@
         onItemClick(index){
           if (index == 1) {
             this.getCourseVideo();
+          }else if (index == 2) {
+            service.personalService.courseHomework({'access-token': this.$cookies.get('access_token'), 'course_id': this.courseid}).then(res => {
+              if (res.status === 200) {
+                this.courseHomework.course = res.data.course;
+                this.courseHomework.homeworks = res.data.homeworks;
+                this.courseHomework.submit_num = res.data.submit_num;
+                console.log(this.courseHomework);
+              }
+            })
+          }else if (index == 3) {
+            service.personalService.courseTestList({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}).then(res => {
+              if (res.status === 200) {
+                this.courseTest.examnum = res.data.examnum;
+                this.courseTest.examuser = res.data.examuser;
+                this.courseTest.list = res.data.list;
+                console.log(this.courseTest);
+              }
+            })
           }
           this.indexActive = index;
         },

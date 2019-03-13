@@ -1,6 +1,6 @@
 import {TEMPLATE_Form_POST, TEMPLATE_GET} from './index'
 
-const service = {
+const service_course = {
   courseService: {
     courseList: ({}) => {
       return new Promise((resolve, data, reject) => {
@@ -22,4 +22,4 @@ const service = {
   }
 }
 
-export default service
+export default service_course

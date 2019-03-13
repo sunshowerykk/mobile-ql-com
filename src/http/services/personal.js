@@ -14,6 +14,30 @@ const service = {
         })
       },
 
+    courseHomework: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/api/personal/course-homework', data, resolve)
+      })
+    },
+
+    courseTestList: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/api/personal/test-list', data, resolve)
+      })
+    },
+
+    goldInfo: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/api/personal/gold-info', data, resolve)
+      })
+    },
+
+    orderList: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/api/personal/order-list', data, resolve)
+      })
+    },
+
   }
 }
 
