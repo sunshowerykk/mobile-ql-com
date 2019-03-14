@@ -38,6 +38,12 @@ const service = {
       })
     },
 
+    collectionCourse: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/api/personal/collection-course', data, resolve)
+      })
+    },
+
   }
 }
 

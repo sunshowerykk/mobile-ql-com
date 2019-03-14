@@ -11,7 +11,7 @@
 
     <transition name="fade" mode="out-in">
 
-      <div v-if="indexActive == 0" key="0">
+      <div v-if="indexActive === 0" key="0">
         <div class="orderList">
           <ul>
 
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <div v-if="indexActive == 1" key="1">
+      <div v-if="indexActive === 1" key="1">
         <div class="orderList">
           <ul>
             <li v-for="order in unfinishedOrders">

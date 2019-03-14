@@ -152,7 +152,7 @@
 
     <Share v-if="share" :share="share" @changeShare="changeShare($event)"></Share>
 
-    <div class="botFixed" v-show="!pay">
+    <div class="botFixed">
       <div class="cont clearfix">
         <div class="left">
           <ul class="clearfix">
@@ -164,7 +164,7 @@
             </li>
             <li>
               <a href="javascript:;">
-                <i class="collect" :class="{ on: collect}" @click="collect = !collect"></i>
+                <i class="collect" :class="{ on: collect}" @click="collectionCourse"></i>
                 <span>收藏</span>
               </a>
             </li>
@@ -254,10 +254,10 @@
         getInfo () {
           service_course.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
             if (res.status === 200) {
+              this.pay = (this.courseInfo.course.ispay != 0);
               this.courseInfo.course = res.data.course;
               this.courseInfo.teacher = res.data.teacher;
-              this.pay = (this.courseInfo.course.ispay != 0);
-              // this.pay = true;
+              console.log(res.data.course.iscollect);
             }
           })
         },
@@ -311,6 +311,17 @@
           this.flag = this.flagArray['show' + index1 + index2];
           console.log(this.flagArray);
           return this.flag;
+        },
+
+        collectionCourse() {
+          this.collect = !this.collect;
+         service.personalService.collectionCourse({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}) .then(res => {
+           if (res.status === 200 && res.data.status === 0) {
+             console.log('操作成功' + this.collect);
+           } else {
+             console.log(res.data.message + this.collect);
+           }
+         })
         }
 
       },

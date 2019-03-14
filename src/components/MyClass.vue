@@ -2,8 +2,8 @@
     <div class="font-box bg">
       <div class="tab-hd">
         <ul class="tab-nav clearfix">
-          <li :class="[myindex === 0 ? 'on' : '']"><a href="javascript:;" @click="changeTab(0)">我的学习</a></li>
-          <li :class="[myindex === 1 ? 'on' : '']"><a href="javascript:;" @click="changeTab(1)">学习计划</a></li>
+          <li :class="[myindex == 0 ? 'on' : '']"><a href="javascript:;" @click="changeTab(0)">我的学习</a></li>
+          <li :class="[myindex == 1 ? 'on' : '']"><a href="javascript:;" @click="changeTab(1)">学习计划</a></li>
         </ul>
       </div>
 
