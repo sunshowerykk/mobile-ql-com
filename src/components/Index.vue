@@ -166,7 +166,7 @@
         },
         //判断是否登录
         getLogInfo: function () {
-          if(this.token == null){
+          if(this.token == null || this.token == ''){
             this.head.text = "登录";
             this.head.link = '/Login';
           }

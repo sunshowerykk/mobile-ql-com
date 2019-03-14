@@ -47,6 +47,16 @@ const service = {
         TEMPLATE_GET('http://api.ql.com/personal/duration?access-token=' + data, '', resolve);
       }) 
     },
+    getQrcode:(data) =>{
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('http://api.ql.com/personal/qrcode?access-token=' + data, '', resolve);
+      }) 
+    },
+    getWxAccessToken:(data) =>{
+      return new Promise((resolve, reject) => {
+        TRMPLATE_GET('https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=id&corpsecret=secrect',data,resolve);
+      })
+    },
   }
 }
 

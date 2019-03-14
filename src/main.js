@@ -8,8 +8,8 @@ import TopBack from './components/top_back'
 import Share from './components/share'
 import VueCookies from 'vue-cookies'
 import iView from 'iview' //导入iview组件库
-import 'iview/dist/styles/iview.css'; // 导入iview样式
-
+import 'iview/dist/styles/iview.css';// 导入iview样式
+import wx from 'weixin-js-sdk';
 //swiper引用
 //import VueAwesomeSwiper from 'vue-awesome-swiper'
 // require styles
@@ -28,6 +28,7 @@ Vue.use(TopBack);  //返回公共组件
 Vue.use(Share);  //分享公共组件
 Vue.use(VueCookies);
 Vue.use(iView);//使用iview组件
+Vue.use(wx);
 
 
 /* eslint-disable no-new */
