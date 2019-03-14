@@ -104,6 +104,9 @@
             }
           }
       },
+      warning () {
+        this.$Message.warning('尚未登陆');
+      },
       created() {
           this.id = this.$route.params.id;
           console.log("id",this.id);
@@ -117,16 +120,20 @@
           this.bgVal = false;
         },
         showReserve(){
-          service.bookService.info({'access-token': this.orderform.access_token}).then(res => {
-            if (res.status === 200) {
-              console.log(res.data);
-              this.orderform.username=res.data.username;
-              this.orderform.phone=res.data.phone;
-              this.orderform.address=res.data.address;
-            }
-          })
-          this.reserve = true;
-          this.bgVal = true;
+          if(this.access_token == null) {
+            this.warning();
+          } else {
+              service.bookService.info({'access-token': this.orderform.access_token}).then(res => {
+                if (res.status === 200) {
+                  console.log(res.data);
+                  this.orderform.username = res.data.username;
+                  this.orderform.phone = res.data.phone;
+                  this.orderform.address = res.data.address;
+                }
+              })
+              this.reserve = true;
+              this.bgVal = true;
+          }
         },
         showShare(){
           this.share = true;
@@ -140,7 +147,6 @@
               this.book = res.data;
               this.orderform.book_name = res.data.name;
               this.orderform.access_token = this.$cookies.get('access_token');
-              // this.orderform.access_token = '5T_p-UZqPSkPKIcMepsniiFRfPZeShiN';
             }
           })
         },
