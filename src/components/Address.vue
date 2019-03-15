@@ -1,5 +1,6 @@
 <template>
   <div class="font-box bg">
+
     <TopBack>
       <span slot="headerTxt">收货地址</span>
     </TopBack>
@@ -28,6 +29,7 @@
     <div class="botFixbtn">
       <button class="btn">保存</button>
     </div>
+
   </div>
 </template>
 

@@ -26,9 +26,9 @@
         <tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box">
           <tab-item selected @on-item-click="onItemClick">简介</tab-item>
           <tab-item @on-item-click="onItemClick">视频</tab-item>
-          <tab-item @on-item-click="onItemClick" v-if="pay">作业</tab-item>
-          <tab-item @on-item-click="onItemClick" v-if="pay">测验</tab-item>
-          <tab-item @on-item-click="onItemClick" v-if="pay">答疑</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay" v-show="pay">作业</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay" v-show="pay">测验</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay" v-show="pay">答疑</tab-item>
         </tab>
       </sticky>
 
@@ -163,9 +163,15 @@
               </a>
             </li>
             <li>
-              <a href="javascript:;">
+              <a href="javascript:;" v-if="isLogin">
                 <i class="collect" :class="{ on: collect}" @click="collectionCourse"></i>
                 <span>收藏</span>
+              </a>
+              <a href="javascript:;" v-if="isLogin == false">
+                <router-link :to="{'name': 'Login'}">
+                  <i class="collect" :class="{ on: collect}"></i>
+                  <span>收藏</span>
+                </router-link>
               </a>
             </li>
             <li class="money">
@@ -176,8 +182,11 @@
             </li>
           </ul>
         </div>
-        <div class="right" v-if="courseInfo.course">
-          <router-link :to="{'name': 'PayCenter', params:{info: courseInfo.course}}" class="btn">立即购买</router-link>
+        <div class="right" v-if="courseInfo.course && isLogin">
+          <router-link :to="{'name': 'PayCenter', params:{courseid: courseInfo.course.id}}" class="btn" :disabled="pay">{{pay ? '已购买' : '立即购买'}}</router-link>
+        </div>
+        <div class="right" v-if="courseInfo.course && isLogin == false">
+          <router-link :to="{'name': 'Login'}" class="btn">立即购买</router-link>
         </div>
       </div>
     </div>
@@ -187,6 +196,7 @@
 <script>
   import { Tab, TabItem, Sticky, Cell, Group } from 'vux'
   import  service_course from '@/http/services/course.js'
+  import service_user from '@/http/services/user.js'
   import service from '@/http/services/personal.js'
     export default {
         name: "ClassShare",
@@ -214,7 +224,8 @@
           },
           courseid: '',
           flagArray: [],
-          flag: false
+          flag: false,
+          isLogin: false
         }
       },
       components: {
@@ -252,12 +263,24 @@
         },
 
         getInfo () {
-          service_course.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
+          service_user.userService.isLogin({'access-token': this.$cookies.get('access_token') ? this.$cookies.get('access_token') : ''}).then(res => {
             if (res.status === 200) {
-              this.pay = (this.courseInfo.course.ispay != 0);
+              if (res.data.message == '已登录') {
+                this.isLogin = true;
+              } else {
+                this.isLogin = false;
+                this.pay = false;
+              }
+              // console.log(this.isLogin);
+            }
+          })
+          service_course.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access_token')}).then(res => {
+            if (res.status === 200) {
+              this.pay = (res.data.course.ispay != 0);
               this.courseInfo.course = res.data.course;
               this.courseInfo.teacher = res.data.teacher;
-              console.log(res.data.course.iscollect);
+              this.collect = res.data.course.iscollect;
+              // console.log(this.courseInfo);
             }
           })
         },
@@ -272,9 +295,9 @@
                 }
               }
               console.log(this.flagArray);
-              // this.pay = (res.data.ispay != 0);
-              this.pay = true;
-              console.log(this.courseVideo.courseChapters);
+              this.pay = (res.data.ispay != 0);
+              // this.pay = true;
+              // console.log(this.courseVideo.courseChapters);
             } else {
               alert('something wrong!');
             }
@@ -290,7 +313,7 @@
                 this.courseHomework.course = res.data.course;
                 this.courseHomework.homeworks = res.data.homeworks;
                 this.courseHomework.submit_num = res.data.submit_num;
-                console.log(this.courseHomework);
+                // console.log(this.courseHomework);
               }
             })
           }else if (index == 3) {
@@ -299,7 +322,7 @@
                 this.courseTest.examnum = res.data.examnum;
                 this.courseTest.examuser = res.data.examuser;
                 this.courseTest.list = res.data.list;
-                console.log(this.courseTest);
+                // console.log(this.courseTest);
               }
             })
           }
@@ -309,7 +332,7 @@
         upDownControl(index1, index2) {
           this.flagArray['show' + index1 + index2] = !this.flagArray['show' + index1 + index2]
           this.flag = this.flagArray['show' + index1 + index2];
-          console.log(this.flagArray);
+          // console.log(this.flagArray);
           return this.flag;
         },
 
@@ -317,12 +340,17 @@
           this.collect = !this.collect;
          service.personalService.collectionCourse({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}) .then(res => {
            if (res.status === 200 && res.data.status === 0) {
-             console.log('操作成功' + this.collect);
+             // console.log('操作成功' + this.collect);
+             if (this.collect == true) {
+               this.$Message.success('收藏成功！');
+             } else {
+               this.$Message.success('已取消收藏！');
+             }
            } else {
              console.log(res.data.message + this.collect);
            }
          })
-        }
+        },
 
       },
     }

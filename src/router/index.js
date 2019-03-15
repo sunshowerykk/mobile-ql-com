@@ -152,7 +152,7 @@ const router = new Router({
       component: MySet
     },
     {
-      path: '/PayCenter/:info',
+      path: '/PayCenter/:id',
       name: 'PayCenter',
       component: PayCenter
     },

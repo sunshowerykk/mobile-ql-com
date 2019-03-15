@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import service from '@/http/services/user.js'
+    import service_user from '@/http/services/user.js'
     export default {
       name: "login",
       data() {
@@ -45,7 +45,7 @@
       methods: {
 
         handleLogin: function () {
-          service.userService.signIn(this.loginForm).then(res => {
+          service_user.userService.signIn(this.loginForm).then(res => {
             if (res.status === 200) {
               this.$cookies.set('access_token', res.data.access_token, 3600*24*7);  // 保存cookie
               console.log(this.$cookies.get('access_token'))    // 获取cookie
