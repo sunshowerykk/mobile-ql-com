@@ -19,7 +19,7 @@
             </li>
             <li>
               <label><i>*</i>收货人地址</label>
-              <textarea placeholder="请填写宿舍地址"class="text tera"  ></textarea>
+              <textarea placeholder="请填写宿舍地址" class="text tera"  ></textarea>
             </li>
           </ul>
         </form>

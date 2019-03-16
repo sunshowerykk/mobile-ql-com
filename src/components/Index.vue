@@ -4,7 +4,7 @@
         <div class="logo">
           <img src="../assets/img/logo.png" />
         </div>
-        <router-link to="/Login" class="toLogin">登录</router-link>
+        <router-link :to="this.head.link" class="toLogin" >{{ head.text }}</router-link>
       </div>
 
       <!--导航-->
@@ -30,7 +30,7 @@
           <swiper :options="swiperNotice" class="swiper-notice">
             <swiper-slide v-for="(slide, index) in noticeDatas" :key="index">
               <router-link :to="{name: 'Notice',params:{id: 1}}">
-                <div>{{ slide.title }} <span>活动时间：{{ slide.date}}</span></div>
+                <div>{{ slide.title }} <span>活动时间：{{ slide.date }}</span></div>
               </router-link>
             </swiper-slide>
           </swiper>
@@ -39,42 +39,20 @@
       <!--公告 notice end-->
 
       <!--资讯 start-->
-      <div class="indexNews">
+      <div class="indexNews" v-for = "info in information">
         <div class="tit">
           <h3>资讯</h3>
         </div>
         <div>
-          <router-link :to="{ name: 'InformationDetail',params: { id: '1'} }">
+          <router-link :to="{ name: 'InformationDetail',params: { id: info.id }}">
             <div>
-              <h5>19:30名师指导2019年中级会计职称怎么学</h5>
+              <h5>{{ info.title }}</h5>
               <small>
-                <span>中华会计网校</span>
+                <span>{{ info.author }}</span>
               </small>
             </div>
             <div>
-              <img src="../assets/img/img3.png" alt="">
-            </div>
-          </router-link>
-          <router-link :to="{ name: 'InformationDetail',params: { id: '1'} }">
-            <div>
-              <h5>19:30名师指导2019年中级会计职称怎么学</h5>
-              <small>
-                <span>中华会计网校</span>
-              </small>
-            </div>
-            <div>
-              <img src="../assets/img/img3.png" alt="">
-            </div>
-          </router-link>
-          <router-link to="">
-            <div>
-              <h5>19:30名师指导2019年中级会计职称怎么学</h5>
-              <small>
-                <span>中华会计网校</span>
-              </small>
-            </div>
-            <div>
-              <img src="../assets/img/img3.png" alt="">
+              <img :src="info.pic" alt=""/>
             </div>
           </router-link>
         </div>
@@ -108,13 +86,20 @@
 <script>
   // require styles
   import 'swiper/dist/css/swiper.css'
-
+  import service from '@/http/services/information.js'
+  import service1 from '@/http/services/user.js'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
       name: "Index",
       data(){
           return{
+            //头部显示登录，或者欢迎
+            head: {
+              text: '',
+              link: '',
+            },
+            token: '',
             swiperOption: {
               // some swiper options/callbacks
               // 所有的参数同 swiper 官方 api 参数
@@ -152,6 +137,7 @@
                 date: '2012.12.12'
               }
             ],
+            information:'',
             recenLearningShow: true,
           }
       },
@@ -164,7 +150,40 @@
           return this.$refs.mySwiper.swiper
         }
       },
-      methods:{
+      methods: {
+        initinformation: function () {
+          service.informationService.list().then(res => {
+            if (res.status === 200) {
+              console.log(res.data);
+              this.information = res.data;
+            }
+          })
+        },
+        //获取accesstoken
+        getCookie: function () {
+          this.token = this.$cookies.get('access_token');
+          console.log(this.token);
+        },
+        //判断是否登录
+        getLogInfo: function () {
+          if(this.token == null || this.token == ''){
+            this.head.text = "登录";
+            this.head.link = '/Login';
+          }
+          else{
+            service1.userService.getSet(this.token).then(res => {
+            if (res.status === 200) {
+              this.head.text = "你好, " + res.data.username;
+              this.head.link = '/UserCenter';
+            }
+          })
+          }
+        }
+      },
+      mounted:function () {
+        this.initinformation();
+        this.getCookie();
+        this.getLogInfo();
       }
     }
 </script>

@@ -5,32 +5,18 @@
     </TopBack>
 
     <div class="course myorder xollection">
-      <div class="orderList">
+      <div class="orderList" v-for = "collection in collections">
         <ul>
           <li>
             <a href="#">
               <div class="item clearfix">
                 <div class="pic">
-                  <img src="../assets/img/img22.png"  />
+                  <img :src="collection.home_pic" />
                 </div>
                 <div class="txt">
-                  <h5>VIp套餐班VIp套餐班VIp套餐班VIp套餐班</h5>
-                  <span class="red"><b>￥118.00</b></span>
-                  <strike>￥198.0</strike>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="item clearfix">
-                <div class="pic">
-                  <img src="../assets/img/img22.png"  />
-                </div>
-                <div class="txt">
-                  <h5>VIp套餐班VIp套餐班VIp套餐班VIp套餐班</h5>
-                  <span class="red"><b>￥118.00</b></span>
-                  <strike>￥198.0</strike>
+                  <h5>{{ collection.course_name }}</h5>
+                  <span class="red"><b>{{ collection.price - collection.discount }}</b></span>
+                  <strike>{{ collection.price }}</strike>
                 </div>
               </div>
             </a>
@@ -45,8 +31,32 @@
 </template>
 
 <script>
+    import service from '@/http/services/user.js'
     export default {
-        name: "MyCollect"
+        name: "MyCollect",
+        data() {
+          return {
+            collections: '',
+            token : ''
+          }
+        },
+        methods: {
+          getCookie :function () {
+            this.token = this.$cookies.get('access_token');
+          },
+          getCollections :function () {
+            service.userService.getCollections(this.token).then(res => {
+            if (res.status === 200) {
+              this.collections = res.data;
+              console.log(this.collections);
+            }
+          })
+          }
+        },
+        mounted:function () {
+          this.getCookie();
+          this.getCollections();
+      }
     }
 </script>
 

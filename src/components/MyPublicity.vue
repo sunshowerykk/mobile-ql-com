@@ -13,14 +13,14 @@
         <div class="cont">
           <div class="list">
             <ul class="clearfix">
-              <li><a href="#"><img src="../assets/img/font1.png" /></a></li>
-              <li><a href="#"><img src="../assets/img/font2.png" /></a></li>
-              <li><a href="#"><img src="../assets/img/font3.png" /></a></li>
-              <li><a href="#"><img src="../assets/img/font4.png" /></a></li>
+              <li><img src="../assets/img/font1.png" /></li>
+              <li><img src="../assets/img/font2.png" /></li>
+              <li><img src="../assets/img/font3.png" /></li>
+              <li><img src="../assets/img/font4.png" /></li>
             </ul>
           </div>
           <div class="wema">
-            <img src="../assets/img/ma.png"  />
+            <img :src="this.qrcode"  />
           </div>
         </div>
       </div>
@@ -30,26 +30,46 @@
               </div>-->
     </div>
 
-    <Share v-if="share" :share="share" @changeShare="changeShare($event)"></Share>
+    <share v-if="share" :share="share" @changeShare="changeShare($event)" ></share>
+
+    </Share>
   </div>
 </template>
 
 <script>
+    import service from '@/http/services/user.js'
     export default {
         name: "Publicity",
       data(){
           return{
             share: false,
+            qrcode: '',
+            token: '',
           }
       },
       methods:{
-        showShare(){
+        showShare() {
           this.share = true;
         },
-        changeShare(msg){
+        changeShare(msg) {
           this.share = msg;
-        }
-      }
+        },
+        getCookie: function () {
+            this.token = this.$cookies.get('access_token');
+        },
+        getQrcode: function () {
+          service.userService.getQrcode(this.token).then(res => {
+            if (res.status === 200) {
+              this.qrcode = res.data;
+              console.log(this.qrcode);
+            }
+          })
+        },
+      },
+     mounted() {
+       this.getCookie();
+       this.getQrcode();
+     },
     }
 </script>
 
