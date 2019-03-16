@@ -21,8 +21,8 @@
               <img :src="info.list_pic"  />
             </div>
             <div class="txt">
-              <h5>{{ info.course_name || info.name }}</h5>
-              <span>￥{{ info.discount }}</span><s>￥{{ info.price }}</s>
+              <h5>2019专升本2019专升本2019专升本2019专升本</h5>
+              <span>￥1180</span><strike>￥1178</strike>
             </div>
           </div>
         </a>
@@ -47,7 +47,7 @@
 
       <div class="chooseLst">
         <ul>
-          <li v-for="book, index in books">
+          <li v-for="(book, index) in books" :key="book.id">
             <div class="item clearfix">
               <div class="inpt">
                 <input type="checkbox" class="chek" :value="book.id"
@@ -65,13 +65,13 @@
 
       <div class="orderMoney">
         <span>订单金额</span>
-        <strong class="fr">￥{{ info.discount }}</strong>
+        <strong class="fr">￥189.00</strong>
       </div>
 
       <div class="orderbotFix">
         <div class="cont clearfix">
           <div class="left fl">
-            <a href="#" class="btn">实付:<strong>￥{{ info.discount }}</strong></a>
+            <a href="#" class="btn">实付:<strong>￥189.00</strong></a>
           </div>
           <div class="right fr">
             <div class="btn" @click="confirmOrder">确认订单</div>
@@ -125,7 +125,7 @@
               </li>
               <li>
                 <label><i>*</i>收货人地址</label>
-                <textarea placeholder="请填写宿舍地址"class="text tera" v-model="user_info.address" ></textarea>
+                <textarea placeholder="请填写宿舍地址" class="text tera" v-model="user_info.address" ></textarea>
               </li>
             </ul>
           </form>

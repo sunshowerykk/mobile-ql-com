@@ -1,7 +1,7 @@
 <template>
     <div class="font-box">
       <TopBack>
-        <span slot="headerTxt">大学语文一本通</span>
+        <span slot="headerTxt">{{book.name}}</span>
         <span slot="share" class="share" @click="showShare"></span>
       </TopBack>
 
@@ -11,10 +11,10 @@
             <img src="../assets/img/img16.png" />
           </div>
           <div class="txt">
-            <p>2019年初级会计职称《技击法职称》2019年初级会计职称《技击法职称》2019年初级会计职称《技击法职称》</p>
+            <p>{{book.name}}</p>
             <div class="prise">
-              <strong>￥48预订价</strong>
-              <span><strike>79</strike>售价</span>
+              <strong>￥{{book.order_price}}预订价</strong>
+              <span><strike>{{book.price}}</strike>售价</span>
             </div>
             <div class="oppint" @click="showReserve">我要预订</div>
           </div>
@@ -22,16 +22,7 @@
       </div>
       <div class="introduction">
         <h5><span>简介</span></h5>
-        <p>
-          大学计算机是计算机的入门课程，在AI热度非凡和互联网+的形势下，利用计算机解决问题提成为当今社会的人人都具备的能力
-          大学计算机是计算机的入门课程，在AI热度非凡和互联网+的形势下，利用计算机解决问题提成为当今社会的人人都具备的能力
-        </p>
-        <img src="../assets/img/img17.png"  />
-        <p>
-          大学计算机是计算机的入门课程，在AI热度非凡和互联网+的形势下，利用计算机解决问题提成为当今社会的人人都具备的能力
-          大学计算机是计算机的入门课程，在AI热度非凡和互联网+的形势下，利用计算机解决问题提成为当今社会的人人都具备的能力
-        </p>
-        <img src="../assets/img/img17.png"  />
+        {{book.intro}}
       </div>
 
       <!--弹出层 背景-->
@@ -66,20 +57,20 @@
                 <ul>
                   <li>
                     <label><i>*</i>收货人姓名</label>
-                    <input type="text" placeholder="请使用真实姓名" class="text" />
+                    <input type="text" placeholder="请使用真实姓名" class="text"  v-model="orderform.username" />
                   </li>
                   <li>
                     <label><i>*</i>手机号码</label>
-                    <input type="text" placeholder="请输入手机号码" class="text" />
+                    <input type="text" placeholder="请输入手机号码" class="text" v-model="orderform.phone"/>
                   </li>
                   <li>
                     <label><i>*</i>收货人地址</label>
-                    <textarea placeholder="请填写宿舍地址"class="text tera"  ></textarea>
+                    <textarea placeholder="请填写宿舍地址"class="text tera"  v-model="orderform.address"></textarea>
                   </li>
                 </ul>
               </form>
               <div class="btnmod">
-                <button class="btn confirm" @click="hideModal">确定</button>
+                <button class="btn confirm" @click="bookorder">确定</button>
                 <button class="btn Cancel" @click="hideModal">取消</button>
               </div>
             </div>
@@ -90,34 +81,94 @@
 </template>
 
 <script>
+  import service from '@/http/services/book.js'
     export default {
         name: "LibraryDetail",
       data(){
           return {
-            id: 0,
-            reserve:0,
-            share: 0,
-            bgVal: 0
+            reserve:false,
+            share: false,
+            bgVal: false,
+            book:'',
+            bookidform: {
+              id: '',
+            },
+            orderform: {
+              bookid: '',
+              book_num: 1,
+              book_name:'',
+              username:'',
+              phone:'',
+              address:'',
+              access_token:'',
+            }
           }
+      },
+      warning () {
+        this.$Message.warning('尚未登陆');
       },
       created() {
           this.id = this.$route.params.id;
           console.log("id",this.id);
+          this.bookidform.id=this.$route.params.id;
+        this.orderform.bookid=this.$route.params.id;
       },
       methods:{
         hideModal(){
-          this.reserve = 0;
-          this.share = 0;
-          this.bgVal = 0;
+          this.reserve = false;
+          this.share = false;
+          this.bgVal = false;
         },
         showReserve(){
-          this.reserve = 1;
-          this.bgVal = 1;
+          if(this.access_token == null) {
+            this.warning();
+          } else {
+              service.bookService.info({'access-token': this.orderform.access_token}).then(res => {
+                if (res.status === 200) {
+                  console.log(res.data);
+                  this.orderform.username = res.data.username;
+                  this.orderform.phone = res.data.phone;
+                  this.orderform.address = res.data.address;
+                }
+              })
+              this.reserve = true;
+              this.bgVal = true;
+          }
         },
         showShare(){
-          this.share = 1;
-          this.bgVal = 1;
-        }
+          this.share = true;
+          this.bgVal = true;
+        },
+
+        initbookdetail:function() {
+          service.bookService.detail(this.bookidform).then(res => {
+            if (res.status === 200) {
+              console.log(res.data);
+              this.book = res.data;
+              this.orderform.book_name = res.data.name;
+              this.orderform.access_token = this.$cookies.get('access_token');
+            }
+          })
+        },
+
+        bookorder:function() {
+          if(this.orderform.username.length==0||this.orderform.phone.length==0||this.orderform.address.length==0) {
+            alert("信息不够完善，请填写完毕");
+            this.hideModal();
+            return ;
+          }
+          service.bookService.order(this.orderform).then(res => {
+            if (res.status === 200) {
+              console.log(res.data);
+              alert("预定成功");
+              this.hideModal();
+            }
+          })
+        },
+      },
+      mounted:function(){
+        this.access_token = this.$cookies.get('access_token');
+        this.initbookdetail();
       }
     }
 </script>

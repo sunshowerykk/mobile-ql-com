@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Index from '@/components/Index' //首页-资讯
 import SetMeal from '@/components/SetMeal' //套餐
 import ClassQuality from '@/components/ClassQuality' //精品课
-import QualityCourseVideo from '@/components/QualityCourseVideo'
 import PublicClass from '@/components/PublicClass' //公开课
 import Library from '@/components/Library'  //图书
 import Notice from '@/components/Notice' //公告
@@ -30,12 +29,18 @@ import ClassShare from '@/components/ClassShare'  //课程分享
 import MyEarnings from '@/components/MyEarnings'  //我的收益
 import EditInfo from '@/components/EditInfo' //绑定账号
 import Register from '@/components/Register'  //注册
+import OpenCoursePayCenter from '@/components/OpenCoursePayCenter'  //公开课购买
 
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
+    {
+      path: '/OpenCoursePayCenter/:id',
+      name: 'OpenCoursePayCenter',
+      component: OpenCoursePayCenter
+    },
     {
       path: '/',
       name: 'Index',
@@ -50,11 +55,6 @@ const router = new Router({
       path: '/ClassQuality',
       name: 'ClassQuality',
       component: ClassQuality
-    },
-    {
-      path: '/QualityCourseVideo/:video_url/:title',
-      name: 'QualityCourseVideo',
-      component: QualityCourseVideo
     },
     {
       path: '/PublicClass',
@@ -72,7 +72,7 @@ const router = new Router({
       component: Notice
     },
     {
-      path: '/SetMealDetail/:pid',
+      path: '/SetMealDetail/:id',
       name: 'SetMealDetail',
       component: SetMealDetail
     },

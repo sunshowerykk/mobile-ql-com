@@ -6,23 +6,56 @@
     <div class="editInfo">
       <div class="accountNumber">
         <label>支付宝账号</label>
-        <input type="text" placeholder="手机号/邮箱" class="text" />
+        <input type="text" placeholder="手机号/邮箱" class="text" v-model="alipayaccount"/>
       </div>
       <div class="tips">
-        <p>1支付宝1支付宝1支付宝1支付宝1支付宝1支付宝11支付宝1支付宝支付宝</p>
-        <p>1支付宝1支付宝1支付宝1支付宝</p>
+        <p></p>
+        <p></p>
       </div>
       <div class="btnMod">
-        <button class="btn">保存</button>
+        <button class="btn" @click="saveAlipay">保存</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import service from '@/http/services/user.js'
+  import { Datetime, Group } from 'vux'
     export default {
-        name: "EditInfo"
+        name: "EditInfo",
+      data(){
+        return{
+         alipayaccount : '',
+          access_token :'',
+        }
+      },
+      methods:{
+        saveAlipay() {
+          service.personalService.updateAlipay({'access-token': this.access_token,'alipay_account' : this.alipayaccount}).then(res => {
+            if (res.status === 200) {
+             this.success();
+            }
+          })
+        },
+        success () {
+          this.$Message.success('修改成功');
+        },
+        init() {
+          service.personalService.getAlipay({'access-token': this.access_token}).then(res => {
+            if (res.status === 200) {
+              console.log(res.data);
+              this.alipayaccount = res.data;
+            }
+          })
+        }
+      },
+      mounted() {
+          this.init();
+          this.access_token = this.$cookies.get("access_token");
+      }
     }
+
 </script>
 
 <style scoped>

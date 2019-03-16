@@ -14,65 +14,17 @@
         </div>
         <div class="list">
           <ul>
-            <li>
-              <router-link :to="{'name': 'LibraryDetail', params:{id: '1'}}">
+            <li v-for="book in books">
+              <router-link :to="{'name': 'LibraryDetail', params:{id: book.id}}">
                 <div class="inner clearfix">
                   <div class="img">
-                    <img src="../assets/img/img15.png"  />
+                    <img :src="book.pic">
                   </div>
                   <div class="info">
-                    <h5>2019年湖南省普通高校专升本考试高等数学教材</h5>
+                    <h5>{{book.name}}</h5>
                     <div class="prise">
-                      <strong>￥48预订价</strong>
-                      <span><strike>￥79</strike>售价</span>
-                    </div>
-                  </div>
-                </div>
-              </router-link>
-            </li>
-            <li>
-              <router-link :to="{'name': 'LibraryDetail', params:{id: '1'}}">
-                <div class="inner clearfix">
-                  <div class="img">
-                    <img src="../assets/img/img15.png"  />
-                  </div>
-                  <div class="info">
-                    <h5>2019年湖南省普通高校专升本考试高等数学教材</h5>
-                    <div class="prise">
-                      <strong>￥48预订价</strong>
-                      <span><strike>￥79</strike>售价</span>
-                    </div>
-                  </div>
-                </div>
-              </router-link>
-            </li>
-            <li>
-              <router-link :to="{name: 'LibraryDetail', params:{id: '1'}}">
-                <div class="inner clearfix">
-                  <div class="img">
-                    <img src="../assets/img/img15.png"  />
-                  </div>
-                  <div class="info">
-                    <h5>2019年湖南省普通高校专升本考试高等数学教材</h5>
-                    <div class="prise">
-                      <strong>￥48预订价</strong>
-                      <span><strike>￥79</strike>售价</span>
-                    </div>
-                  </div>
-                </div>
-              </router-link>
-            </li>
-            <li>
-              <router-link :to="{'name': 'LibraryDetail', params:{id: '1'}}">
-                <div class="inner clearfix">
-                  <div class="img">
-                    <img src="../assets/img/img15.png"  />
-                  </div>
-                  <div class="info">
-                    <h5>2019年湖南省普通高校专升本考试高等数学教材</h5>
-                    <div class="prise">
-                      <strong>￥48预订价</strong>
-                      <span><strike>￥79</strike>售价</span>
+                      <strong>{{book.order_price}}预订价</strong>
+                      <span><strike>￥{{book.price}}</strike>售价</span>
                     </div>
                   </div>
                 </div>
@@ -85,9 +37,32 @@
 </template>
 
 <script>
+  import service from '@/http/services/book.js'
     export default {
-        name: "Library"
+        name: "Library",
+      data() {
+          return {
+            books:''
+          }
+      },
+
+      methods: {
+        initbooklist: function () {
+          service.bookService.list().then(res => {
+            if (res.status === 200) {
+              // alert(res.data);
+              console.log(res.data);
+              this.books=res.data;
+            }
+          })
+        },
+      },
+      mounted:function(){
+        this.initbooklist();
+      }
     }
+
+
 </script>
 
 <style scoped>

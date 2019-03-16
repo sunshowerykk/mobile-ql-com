@@ -6,12 +6,12 @@
 
     <ul class="clearfix IncomeDel">
       <li>
-        <strong>总佣金(0)</strong>
-        <span>0</span>
+        <strong>总佣金({{this.income}})</strong>
+        <span>{{this.income}}</span>
       </li>
       <li>
-        <strong>已结算(0)</strong>
-        <span>0</span>
+        <strong>已结算({{this.settlement}})</strong>
+        <span>{{this.settlement}}</span>
       </li>
     </ul>
     <router-link to="/MyGeneralize" class="er-btn">明细查询</router-link>
@@ -41,30 +41,28 @@
     </div>
 
     <div class="incomeLst">
-      <ul class="clearfix">
+      <ul class="clearfix" >
         <li>
           <div class="item">
             <h5>时间</h5>
-            <span>2018年12月</span>
-            <span>2019年1月</span>
+            <span v-for="incomMonth in monthincome">{{incomMonth.month}}</span>
+
           </div>
           <div class="item">
             <h5>业绩</h5>
-            <span>2680<strong>(明细)</strong></span>
-            <span>2680<strong>(明细)</strong></span>
+            <span v-for="incomMonth in monthincome">{{incomMonth.income}}</span>
           </div>
         </li>
         <li>
-          <div class="item">
+          <div class="item" >
             <h5>佣金</h5>
-            <span>480</span>
-            <span>2019年1月</span>
+            <span v-for="incomMonth in monthincome">{{incomMonth.myincome}}</span>
           </div>
-          <div class="item">
-            <h5>状态</h5>
-            <span>已结算</span>
-            <span>未结算</span>
-          </div>
+          <!--<div class="item" >-->
+            <!--<h5>状态</h5>-->
+            <!--<span>已结算</span>-->
+            <!--<span>未结算</span>-->
+          <!--</div>-->
         </li>
       </ul>
     </div>
@@ -77,6 +75,7 @@
 </template>
 
 <script>
+  import service from '@/http/services/user.js'
   import { Datetime, Group } from 'vux'
     export default {
         name: "MyEarnings",
@@ -84,6 +83,10 @@
           return{
             value1: '2015-11-12',
             value2: '2015-11-12',
+            access_token: '',
+            income : '',
+            settlement: '',
+            monthincome:'',
           }
       },
       components: {
@@ -109,8 +112,37 @@
           console.log('current value', this.value2)
         },
         change2 (value) {
-          console.log('change', value)
+          console.log('伍浩伟 ', value)
+          service.personalService.incomeMonthCheck({'access-token': this.access_token,'date' :this.value1,'date2' : this.value2}).then(res => {
+            if (res.status === 200) {
+              this.monthincome = res.data;
+               console.log(this.monthincome)
+            }
+          })
         },
+        init() {
+          service.personalService.income({'access-token': this.access_token}).then(res => {
+            if (res.status === 200) {
+              this.income = res.data.income;
+              this.settlement = res.data.settlement;
+              console.log(this.income.income)
+              // this.settlement = res.data.settlement;
+            }
+          })
+        },
+        initMonthCheck() {
+          service.personalService.incomeMonth({'access-token': this.access_token}).then(res => {
+            if (res.status === 200) {
+              this.monthincome = res.data;
+              console.log(this.monthincome)
+            }
+          })
+        },
+      },
+      mounted() {
+          this.access_token = this.$cookies.get("access_token");
+          this.init();
+          this.initMonthCheck();
       }
     }
 </script>
@@ -219,7 +251,7 @@
 
   .incomeLst ul li span {
     display: block;
-    font-size: 0.24rem;
+    font-size: 0.23rem;
   }
 
   .incomeLst ul li strong {

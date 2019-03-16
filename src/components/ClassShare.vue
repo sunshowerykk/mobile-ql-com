@@ -1,6 +1,5 @@
 <template>
   <div class="font-box bg">
-
     <div class="detailImg" v-if="courseInfo">
       <a class="goback" @click="goBack"></a>
       <a class="share" @click="shareFn"></a>
@@ -42,117 +41,69 @@
                 <div class="main" v-html="courseInfo.course.intro"></div>
               </div>
             </div>
+
           </div>
         </div>
 
-        <div v-if="indexActive == 1" key="1">
-
-          <group title="" class="class-group">
-
-            <div v-for="Chapter, index_1 in courseVideo.courseChapters">
-              <div v-for="Section, index_2 in Chapter.courseSections">
-                <cell
-                  class="cell-class"
-                  :title="Chapter.name + ':' + Section.name"
-                  :key="index_1 + index_2"
-                  is-link
-                  :border-intent="false"
-                  :arrow-direction="flag ? 'up' : 'down'"
-                  @click.native="flag = upDownControl(index_1, index_2)"
-                ></cell>
-
-                <template v-if="flagArray['show' + index_1 + index_2]">
-                  <dl class="class-item">
-
-                    <dd v-for="coursePoint in Section.courseSectionPoints">
-                      <router-link :to="{name: 'QualityCourseVideo', params:{video_url: coursePoint.video_url, title: coursePoint.name}}">
-                            <a href="#">
-                              <div class="item clearfix">
-                                <div class="left">
-                                  <span class="type">视频</span>
-                                  <span class="name">{{coursePoint.name}}</span>
-                                </div>
-                                <div class="right">
-                                  <span class="already" v-if="pay">已学0%</span>
-                                  <span class="time"><i></i>{{ coursePoint.duration }}</span>
-                                </div>
-                              </div>
-                            </a>
-                      </router-link>
-                    </dd>
-
-                  </dl>
-                </template>
+        <div v-if="activeIndex == 1" key="1">
+          <div class="tab-pal">
+            <div class="courseLst">
+              <h3>课程</h3>
+              <div class="list">
+                <ul>
+                  <li>
+                    <a href="#">
+                      <div class="item">
+                        <h5>2019湖南专升本英语基础知识精讲课</h5>
+                        <span class="prise">单价￥199</span>
+                        <span class="classHours">课时127</span>
+                        <i></i>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="item">
+                        <h5>2019湖南专升本英语基础知识精讲课</h5>
+                        <span class="prise">单价￥199</span>
+                        <span class="classHours">课时127</span>
+                        <i></i>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="item">
+                        <h5>2019湖南专升本英语基础知识精讲课</h5>
+                        <span class="prise">单价￥199</span>
+                        <span class="classHours">课时127</span>
+                        <i></i>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="item">
+                        <h5>2019湖南专升本英语基础知识精讲课</h5>
+                        <span class="prise">单价￥199</span>
+                        <span class="classHours">课时127</span>
+                        <i></i>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
-
-          </group>
-        </div>
-
-        <div v-else-if="indexActive == 2" key="2">
-          <div class="tab-pal">
-            <div class="workDetail">
-              <span>应交作业<strong class="must">{{ courseHomework.homeworks }}</strong>次，实交作业<strong class="real">{{ courseHomework.submit_num }}</strong>次</span>
-            </div>
-            <div class="submitDltList">
-              <ul>
-                <div v-for="chapter in courseHomework.course.courseChapters">
-                  <div v-for="section in chapter.courseSections">
-                    <li v-if="section.homework != '' && section.homework != null">
-                      <div class="item">
-                        <h5>{{ chapter.name + ':  ' + section.name }}</h5>
-                        <div class="workName clearfix">
-                          <span class="fl">作业</span>
-                          <strong class="fr" v-html="section.homework"></strong>
-                        </div>
-                        <div class="submitDlt clearfix">
-                          <span class="fl">提交</span>
-                          <div class="dlt fr">
-                            <div class="pic">
-                              <img :src="section.userHomework.length == 0 ? require('../assets/img/img26.png') : section.userHomework[0].pic_url" alt="上传作业" />
-                            </div>
-                            <span class="tip">{{ section.userHomework.length == 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
-                            <a href="#" class="viedo">视频讲解</a>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </div>
-                </div>
-              </ul>
-            </div>
           </div>
         </div>
+      </transition>
 
-        <div v-else-if="indexActive == 3" key="3">
-          <div class="tab-pal">
-            <div class="workDetail">
-              <span>应考<strong class="must">{{ courseTest.examnum }}</strong>次，已通关<strong class="real">{{ courseTest.examuser }}</strong>次</span>
-            </div>
-            <div class="submitDltList">
-              <ul>
-                <li v-for="test, index in courseTest.list">
-                  <div class="item">
-                    <h5>第{{ index+1 }}单元<span>{{ test.chapterName }}</span></h5>
-                    <div class="test">
-                      <strong>{{ test.examName }}</strong>
-                      <a href="https://exam.kaoben.top" class="look">查看答卷</a>
-                      <span class="tip">已通关</span>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      </transition-group>
 
     </div>
 
     <Share v-if="share" :share="share" @changeShare="changeShare($event)"></Share>
 
-    <div class="botFixed">
+    <div class="botFixed" v-show="!pay">
       <div class="cont clearfix">
         <div class="left">
           <ul class="clearfix">
@@ -176,8 +127,8 @@
             </li>
             <li class="money">
               <a href="javascript:;">
-                <strong>￥{{ courseInfo.course.discount }}</strong>
-                <span><s>￥{{ courseInfo.course.price }}</s></span>
+                <strong>￥{{ courseInfo.course.price }}</strong>
+                <span>8门课</span>
               </a>
             </li>
           </ul>
@@ -203,7 +154,7 @@
       data(){
         return{
           id: '',
-          indexActive: 0,
+          activeIndex: 0,
           share: 0,
           pay: false,
           collect: false,
@@ -237,15 +188,6 @@
         console.log("id",this.id);
         this.courseid = this.$route.params.id;
       },
-
-      components: {
-        Tab,
-        TabItem,
-        Cell,
-        Group,
-        Sticky
-      },
-
       mounted() {
         this.getInfo();
       },
@@ -257,7 +199,9 @@
         changeShare(msg){
           this.share = msg;
         },
-
+        onItemClick(index){
+          this.activeIndex = index;
+        },
         goBack(){
           this.$router.go(-1);
         },
@@ -351,13 +295,11 @@
            }
          })
         },
-
       },
     }
 </script>
 
 <style>
-
   .detailImg {
     position: relative;
   }

@@ -1,6 +1,6 @@
 import {TEMPLATE_Form_POST, TEMPLATE_GET, TEMPLATE_POST} from './index'
 
-const service_course = {
+const service = {
   courseService: {
     courseList: ({}) => {
       return new Promise((resolve, data, reject) => {
@@ -37,9 +37,7 @@ const service_course = {
         TEMPLATE_GET('/api/order/book-order', data, resolve)
       })
     },
-
-
   }
 }
 
-export default service_course
+export default service
