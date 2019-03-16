@@ -41,7 +41,6 @@
                 <div class="main" v-html="courseInfo.course.intro"></div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -96,7 +95,7 @@
             </div>
           </div>
         </div>
-      </transition>
+      </transition-group>
 
 
     </div>
