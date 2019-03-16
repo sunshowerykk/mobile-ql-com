@@ -1,7 +1,7 @@
 <template>
     <div class="labsMod">
       <nav>
-        <router-link to="/"><span>资讯</span></router-link>
+        <router-link to="/home"><span>资讯</span></router-link>
         <router-link to="/SetMeal"><span>套餐</span></router-link>
         <router-link to="/ClassQuality"><span>精品课</span></router-link>
         <router-link to="/PublicClass"><span>公开课</span></router-link>
@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        name: "Navigation",
+        name: "navigation",
         data(){
           return{
           }
@@ -23,7 +23,7 @@
 </script>
 
 <style scoped>
-  nav{
+  nav {
     width: 100%;
     display: flex;
     align-items: center;
@@ -32,13 +32,13 @@
     font-size: 0.3rem;
     text-align: center;
   }
-  a{
+  a {
     display: block;
     flex-grow: 1;
     color: #333;
     height: 100%;
   }
-  a span{
+  a span {
     display: inline-block;
     height: 100%;
     line-height: 0.7rem;
@@ -46,10 +46,10 @@
     box-sizing: border-box;
     padding: 0 0.18rem;
   }
-  .router-link-exact-active{
+  .router-link-exact-active {
     color: #DB2C1B;
   }
-  .router-link-exact-active span{
+  .router-link-exact-active span {
     border-bottom: 0.04rem solid #DB2C1B;
   }
   .labsMod {

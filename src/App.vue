@@ -29,7 +29,7 @@ export default {
   body{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     color: #333;
-    font-size: 50px;
+    font-size: 12px;
   }
   h1,h2,h3,h4,h5,h6{
     font-weight: normal;
@@ -51,37 +51,6 @@ export default {
   ul,li,ol{
     list-style: none;
   }
-
-  /*头部 start*/
-  .header {
-    background: #db2c1b;
-    height: 0.88rem;
-    line-height: 0.88rem;
-    position: relative;
-  }
-
-  .header .logo {
-    width: 1.25rem;
-    margin: 0 auto;
-    padding-top: 0.25rem;
-  }
-
-  .header .logo img {
-    display: block;
-    width: 100%;
-  }
-
-  .header .toLogin {
-    font-size: 0.26rem;
-    display: inline-block;
-    height: 0.88rem;
-    line-height: 0.88rem;
-    top: 0;
-    right: 0.2rem;
-    position: absolute;
-    color: #fff;
-  }
-  /*头部 end*/
 
   /*swiper banner*/
   .swiper-pagination.banner-swiper .swiper-pagination-bullet{
@@ -148,136 +117,6 @@ export default {
       line-height: 36px;
     }
   }
-
-  /*精品课 start*/
-  .setMeal {
-    padding: 0.2rem;
-  }
-
-  .setMeal .tit {
-    height: 0.8rem;
-    line-height: 0.8rem;
-    padding-left: 0.2rem;
-  }
-
-  .setMeal .tit h3 {
-    font-size: 0.32rem;
-    color: #333;
-    position: relative;
-    padding-left: 0.2rem;
-  }
-
-  .setMeal .tit h3:before {
-    position: absolute;
-    top: 0.26rem;
-    left: 0;
-    content: "";
-    width: 0.05rem;
-    height: 0.3rem;
-    background: #DB2C1B;
-  }
-
-  .setMeal .list {
-    padding: 0.2rem 0;
-  }
-
-  .setMeal .list li {
-    background: #fff;
-    margin-bottom: 0.3rem;
-    border-bottom-left-radius: 0.1rem;
-    border-bottom-right-radius: 0.1rem;
-    box-shadow: 0px 8px 10px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .setMeal .list li:last-child {
-    margin-bottom: 0;
-  }
-
-  .setMeal .list li .type {
-    background: url(./assets/img/li_bg1.png) no-repeat center;
-    background-size: 100% 100%;
-    padding: 0.2rem 0.3rem 0.3rem;
-    border-top-left-radius: 0.1rem;
-    border-top-right-radius: 0.1rem;
-    position: relative;
-  }
-
-  .setMeal .list li .type .classname {
-    font-size: 0.28rem;
-    color: #fff;
-    display: block;
-    margin-bottom: 0.2rem;
-  }
-
-  .setMeal .list li .type .classs {
-    position: absolute;
-    top: 0.33rem;
-    right: 0.3rem;
-    padding: 0 0.1rem;
-    height: 0.3rem;
-    line-height: 0.3rem;
-    font-size: 0.22rem;
-    color: #fff;
-    border: 1px solid #fff;
-    border-radius: 0.1rem;
-  }
-
-  .setMeal .list li .bg2 {
-    background: url(./assets/img/li_bg2.png) no-repeat center;
-    background-size: 100% 100%;
-  }
-
-  .setMeal .list li .bg3 {
-    background: url(./assets/img/li_bg3.png) no-repeat center;
-    background-size: 100% 100%;
-  }
-
-  .setMeal .list li dd {
-    float: left;
-    margin-right: 0.2rem;
-  }
-
-  .setMeal .list li dd img {
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 1rem;
-    vertical-align: top;
-    margin-right: 0.1rem;
-  }
-
-  .setMeal .list li dd span {
-    font-size: 0.22rem;
-    color: #fff;
-    display: inline-block;
-    line-height: 0.6rem;
-  }
-
-  .setMeal .list li .prisebox {
-    padding: 0.4rem 0.3rem;
-    overflow: hidden;
-  }
-
-  .setMeal .list li .prisebox .prise {
-    font-size: 0.28rem;
-    color: #DB2C1B;
-  }
-
-  .setMeal .list li .prisebox .bought {
-    float: right;
-    font-size: 0.26rem;
-    color: #999;
-  }
-
-  .setMeal .list li .prisebox .bought i {
-    display: inline-block;
-    width: 0.3rem;
-    height: 0.3rem;
-    background: url(./assets/img/ivon11.png) no-repeat center;
-    background-size: 0.3rem 0.3rem;
-    vertical-align: top;
-    margin: 0.05rem 0.1rem;
-  }
-  /*精品课 end*/
 
   /*分享*/
   .share{

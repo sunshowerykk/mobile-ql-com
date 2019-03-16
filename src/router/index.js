@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-//import HelloWorld from '@/components/HelloWorld'
-import Index from '@/components/Index' //首页-资讯
-import SetMeal from '@/components/SetMeal' //套餐
+import main from '@/pages/main'
+import login from '@/pages/login/Login'  //登录
+import home from '@/pages/main/home/index' //首页
+import SetMeal from '@/pages/main/package/SetMeal' //套餐
+import SetMealDetail from '@/pages/main/package/SetMealDetail' //套餐详情
 import ClassQuality from '@/components/ClassQuality' //精品课
 import PublicClass from '@/components/PublicClass' //公开课
 import Library from '@/components/Library'  //图书
 import Notice from '@/components/Notice' //公告
-import SetMealDetail from '@/components/SetMealDetail' //套餐详情
 import PublicClassDetail from '@/components/PublicClassDetail' //公开课视频详情
 import LibraryDetail from '@/components/LibraryDetail'  //图书详情
-import Login from '@/components/Login'  //登录
 import VerificationCode from '@/components/VerificationCode'  //验证码登录
 import InformationDetail from '@/components/informationDetail' //资讯详情
 import UserCenter from '@/components/UserCenter'  //个人中心
@@ -37,152 +37,184 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/OpenCoursePayCenter/:id',
-      name: 'OpenCoursePayCenter',
-      component: OpenCoursePayCenter
+      path: '/login',
+      name: 'login',
+      component: login
     },
     {
       path: '/',
-      name: 'Index',
-      component: Index
-    },
-    {
-      path: '/SetMeal',
-      name: 'SetMeal',
-      component: SetMeal
-    },
-    {
-      path: '/ClassQuality',
-      name: 'ClassQuality',
-      component: ClassQuality
-    },
-    {
-      path: '/PublicClass',
-      name: 'PublicClass',
-      component: PublicClass
-    },
-    {
-      path: '/Library',
-      name: 'Library',
-      component: Library
-    },
-    {
-      path: '/Notice/:id',
-      name: 'Notice',
-      component: Notice
-    },
-    {
-      path: '/SetMealDetail/:id',
-      name: 'SetMealDetail',
-      component: SetMealDetail
-    },
-    {
-      path: '/PublicClassDetail/:id',
-      name: 'PublicClassDetail',
-      component: PublicClassDetail
-    },
-    {
-      path: '/LibraryDetail/:id',
-      name: 'LibraryDetail',
-      component: LibraryDetail
-    },
-    {
-      path: '/Login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/VerificationCode',
-      name: 'VerificationCode',
-      component: VerificationCode
-    },
-    {
-      path: '/InformationDetail/:id',
-      name: 'InformationDetail',
-      component: InformationDetail
-    },
-    {
-      path: '/UserCenter',
-      name: 'UserCenter',
-      component: UserCenter
-    },
-    {
-      path: '/Message',
-      name: 'Message',
-      component: Message
-    },
-    {
-      path: '/MyClass',
-      name: 'MyClass',
-      component: MyClass
-    },
-    {
-      path: '/MyClassDetail/:id',
-      name: 'MyClassDetail',
-      component: MyClassDetail
-    },
-    {
-      path: '/MyGold',
-      name: 'MyGold',
-      component: MyGold
-    },
-    {
-      path: '/MyPublicity',
-      name: 'MyPublicity',
-      component: MyPublicity
-    },
-    {
-      path: '/MyOrder',
-      name: 'MyOrder',
-      component: MyOrder
-    },
-    {
-      path: '/MyCollect',
-      name: 'MyCollect',
-      component: MyCollect
-    },
-    {
-      path: '/MyGeneralize',
-      name: 'MyGeneralize',
-      component: MyGeneralize
-    },
-    {
-      path: '/MySet',
-      name: 'MySet',
-      component: MySet
-    },
-    {
-      path: '/PayCenter/:id',
-      name: 'PayCenter',
-      component: PayCenter
-    },
-    {
-      path: '/Address',
-      name: 'Address',
-      component: Address
-    },
-    {
-      path: '/ClassShare/:id',
-      name: 'ClassShare',
-      component: ClassShare
-    },
-    {
-      path: '/MyEarnings',
-      name: 'MyEarnings',
-      component: MyEarnings
-    },
-    {
-      path: '/EditInfo',
-      name: 'EditInfo',
-      component: EditInfo
-    },
-    {
-      path: '/Register',
-      name: 'Register',
-      component: Register
+      name: 'main',
+      component: main,
+      children: [
+        {
+          path: '/home',
+          name: 'home',
+          component: home
+        },
+        {
+          path: '/SetMeal',
+          name: 'SetMeal',
+          component: SetMeal
+        },
+        {
+          path: '/SetMealDetail/:id',
+          name: 'SetMealDetail',
+          component: SetMealDetail
+        }
+      ]
     }
   ]
-});
+})
+
+// const router = new Router({
+//   routes: [
+//     {
+//       path: '/OpenCoursePayCenter/:id',
+//       name: 'OpenCoursePayCenter',
+//       component: OpenCoursePayCenter
+//     },
+//     {
+//       path: '/',
+//       name: 'Index',
+//       component: Index
+//     },
+//     {
+//       path: '/SetMeal',
+//       name: 'SetMeal',
+//       component: SetMeal
+//     },
+//     {
+//       path: '/ClassQuality',
+//       name: 'ClassQuality',
+//       component: ClassQuality
+//     },
+//     {
+//       path: '/PublicClass',
+//       name: 'PublicClass',
+//       component: PublicClass
+//     },
+//     {
+//       path: '/Library',
+//       name: 'Library',
+//       component: Library
+//     },
+//     {
+//       path: '/Notice/:id',
+//       name: 'Notice',
+//       component: Notice
+//     },
+//     {
+//       path: '/SetMealDetail/:id',
+//       name: 'SetMealDetail',
+//       component: SetMealDetail
+//     },
+//     {
+//       path: '/PublicClassDetail/:id',
+//       name: 'PublicClassDetail',
+//       component: PublicClassDetail
+//     },
+//     {
+//       path: '/LibraryDetail/:id',
+//       name: 'LibraryDetail',
+//       component: LibraryDetail
+//     },
+//     {
+//       path: '/Login',
+//       name: 'Login',
+//       component: Login
+//     },
+//     {
+//       path: '/VerificationCode',
+//       name: 'VerificationCode',
+//       component: VerificationCode
+//     },
+//     {
+//       path: '/InformationDetail/:id',
+//       name: 'InformationDetail',
+//       component: InformationDetail
+//     },
+//     {
+//       path: '/UserCenter',
+//       name: 'UserCenter',
+//       component: UserCenter
+//     },
+//     {
+//       path: '/Message',
+//       name: 'Message',
+//       component: Message
+//     },
+//     {
+//       path: '/MyClass',
+//       name: 'MyClass',
+//       component: MyClass
+//     },
+//     {
+//       path: '/MyClassDetail/:id',
+//       name: 'MyClassDetail',
+//       component: MyClassDetail
+//     },
+//     {
+//       path: '/MyGold',
+//       name: 'MyGold',
+//       component: MyGold
+//     },
+//     {
+//       path: '/MyPublicity',
+//       name: 'MyPublicity',
+//       component: MyPublicity
+//     },
+//     {
+//       path: '/MyOrder',
+//       name: 'MyOrder',
+//       component: MyOrder
+//     },
+//     {
+//       path: '/MyCollect',
+//       name: 'MyCollect',
+//       component: MyCollect
+//     },
+//     {
+//       path: '/MyGeneralize',
+//       name: 'MyGeneralize',
+//       component: MyGeneralize
+//     },
+//     {
+//       path: '/MySet',
+//       name: 'MySet',
+//       component: MySet
+//     },
+//     {
+//       path: '/PayCenter/:id',
+//       name: 'PayCenter',
+//       component: PayCenter
+//     },
+//     {
+//       path: '/Address',
+//       name: 'Address',
+//       component: Address
+//     },
+//     {
+//       path: '/ClassShare/:id',
+//       name: 'ClassShare',
+//       component: ClassShare
+//     },
+//     {
+//       path: '/MyEarnings',
+//       name: 'MyEarnings',
+//       component: MyEarnings
+//     },
+//     {
+//       path: '/EditInfo',
+//       name: 'EditInfo',
+//       component: EditInfo
+//     },
+//     {
+//       path: '/Register',
+//       name: 'Register',
+//       component: Register
+//     }
+//   ]
+// });
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {

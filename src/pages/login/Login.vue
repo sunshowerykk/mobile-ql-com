@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import service_user from '@/http/services/user.js'
+    import userService from '@/http/services/user.js'
     export default {
       name: "login",
       data() {
@@ -45,7 +45,7 @@
       methods: {
 
         handleLogin: function () {
-          service.userService.signIn(this.loginForm).then(res => {
+          userService.userService.signIn(this.loginForm).then(res => {
             if (res.status === 200 && res.data.status === 0) {
               alert(res.data.access_token);
               this.$cookies.set('access_token', res.data.access_token, 3600*24*7);
@@ -94,7 +94,7 @@
     width: 0.2rem;
     height: 0.2rem;
     margin-left: 0.1rem;
-    background: url(../assets/img/icon22.png) no-repeat center;
+    background: url(../../assets/img/icon22.png) no-repeat center;
     background-size: 0.2rem 0.2rem;
   }
 

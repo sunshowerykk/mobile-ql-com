@@ -1,0 +1,121 @@
+.adresform_1 {
+  .btnmod {
+    text-align: center;
+    .btn {
+      border: none;
+      border-radius: 0.1rem;
+      width: 2rem;
+      height: 0.88rem;
+      font-size: 0.33rem;
+      color: #fff;
+      margin: 0 0.1rem;
+    }
+    .confirm {
+      background: #db2c1b;
+    }
+  }
+}
+.alert_cont {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  width: 6rem;
+  margin-left: -3rem;
+  background: #fff;
+  z-index: 101;
+  border-radius: 0.1rem;
+}
+.close-video-btn {
+  position: absolute;
+  right: 10px;
+  top: 18%;
+  img {
+    height: 30px;
+  }
+}
+
+.viedoCont{
+  z-index: 999;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  left: 0;
+  .cont{
+    width: 100%;
+    height: 100%;
+    .video {
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+.publicClass {
+  .list {
+    li {
+      box-shadow: none;
+      position: relative;
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      .item {
+        background: none;
+        overflow: hidden;
+        height: 100%;
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+        }
+      }
+      .viedo {
+        height: 3.6rem;
+      }
+    }
+    .txt {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.4);
+      span {
+        display: block;
+        text-align: center;
+      }
+      strong {
+        display: block;
+        text-align: center;
+        font-size: 0.4rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 0 10px;
+      }
+    }
+    .classtype {
+      padding-top: 1rem;
+      font-size: 0.28rem;
+    }
+    span {
+      &.time {
+        font-size: 0.24rem;
+        margin-top: 10px;
+        i {
+          display: inline-block;
+          width: 0.32rem;
+          height: 0.32rem;
+          @include icon15_1;
+          vertical-align: top;
+        }
+      }
+    }
+  }
+}
