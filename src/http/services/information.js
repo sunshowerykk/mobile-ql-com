@@ -4,12 +4,12 @@ const service = {
   informationService: {
     list: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('http://api.ql.com//information/list', data, resolve)
+        TEMPLATE_GET('/api/information/list', data, resolve)
       })
     },
     detail: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('http://api.ql.com//information/info', data, resolve)
+        TEMPLATE_GET('/api/information/info', data, resolve)
       })
     },
   }

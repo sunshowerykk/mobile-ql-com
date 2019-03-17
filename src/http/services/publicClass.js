@@ -4,17 +4,17 @@ const service = {
   publicClassService: {
     list: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('http://api.ql.com/course/open', data, resolve)
+        TEMPLATE_GET('/api/course/open', data, resolve)
       })
     },
     check: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('http://api.ql.com/course/open-check', data, resolve)
+        TEMPLATE_Form_POST('/api/course/open-check', data, resolve)
       })
     },
     courseDetail: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('http://api.ql.com/course/open-detail', data, resolve)
+        TEMPLATE_GET('/api/course/open-detail', data, resolve)
       })
     }
   }
