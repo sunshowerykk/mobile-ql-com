@@ -1,38 +1,38 @@
 .recommdBooks {
-  .list {
-    li {
-      box-shadow: none;
-      border-bottom: 1px solid #ececec;
-      padding: 10px;
-      .img {
-        float: left;
-        width: 27%;
-        img {
-          display: block;
-          width: 100%;
-        }
-      }
-      .info {
-        float: right;
-        width: 70%;
-        h5 {
-          font-size: 0.3rem;
-          color: #000;
-          line-height: 0.35rem;
-          margin-bottom: 0.3rem;
-        }
-        .prise {
-          strong {
-            font-size: 0.28rem;
-            color: #dd2523;
-            margin-right: 0.2rem;
-          }
-          span {
-            font-size: 0.24rem;
-            color: #999;
-          }
-        }
-      }
-    }
-  }
-}
+   .list {
+     li {
+       box-shadow: none;
+       border-bottom: 1px solid #ececec;
+       padding: 10px;
+       .img {
+         float: left;
+         width: 27%;
+         img {
+           display: block;
+           width: 100%;
+         }
+       }
+       .info {
+         float: right;
+         width: 70%;
+         h5 {
+           font-size: 0.3rem;
+           color: #000;
+           line-height: 0.35rem;
+           margin-bottom: 0.3rem;
+         }
+         .prise {
+           strong {
+             font-size: 0.28rem;
+             color: #dd2523;
+             margin-right: 0.2rem;
+           }
+           span {
+             font-size: 0.24rem;
+             color: #999;
+           }
+         }
+       }
+     }
+   }
+ }
