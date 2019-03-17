@@ -2,15 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import main from '@/pages/main'
 import login from '@/pages/login/Login'  //登录
+import Register from '@/pages/login/Register'  //注册
+import VerificationCode from '@/pages/login/VerificationCode'  //忘记密码
 import home from '@/pages/main/home/index' //首页
 import SetMeal from '@/pages/main/package/SetMeal' //套餐
 import SetMealDetail from '@/pages/main/package/SetMealDetail' //套餐详情
-import ClassQuality from '@/components/ClassQuality' //精品课
+import ClassQuality from '@/pages/main/course/ClassQuality' //精品课
 import PublicClass from '@/pages/main/open/PublicClass' //公开课
 import Library from '@/pages/main/library/Library'  //图书
 import Notice from '@/components/Notice' //公告
 import LibraryDetail from '@/pages/main/library/LibraryDetail'  //图书详情
-import VerificationCode from '@/components/VerificationCode'  //验证码登录
 import InformationList from '@/pages/main/information/informationList' //资讯列表 
 import InformationDetail from '@/pages/main/information/informationDetail' //资讯详情
 import UserCenter from '@/components/UserCenter'  //个人中心
@@ -28,7 +29,6 @@ import Address from '@/components/Address'  //收货地址
 import ClassShare from '@/components/ClassShare'  //课程分享
 import MyEarnings from '@/components/MyEarnings'  //我的收益
 import EditInfo from '@/components/EditInfo' //绑定账号
-import Register from '@/components/Register'  //注册
 import OpenCoursePayCenter from '@/components/OpenCoursePayCenter'  //公开课购买
 
 Vue.use(Router)
@@ -39,6 +39,58 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/Register',
+      name: 'Register',
+      component: Register
+    },
+    {
+      path: '/VerificationCode',
+      name: 'VerificationCode',
+      component: VerificationCode
+    },
+    {
+      path: '/',
+      name: 'main',
+      component: main,
+      children: [
+        {
+          path: '/index',
+          name: 'index',
+          component: home
+        },
+        {
+          path: '/SetMeal',
+          name: 'SetMeal',
+          component: SetMeal
+        },
+        {
+          path: '/SetMealDetail/:pid',
+          name: 'SetMealDetail',
+          component: SetMealDetail
+        },
+        {
+          path: '/PublicClass',
+          name: 'PublicClass',
+          component: PublicClass
+        },
+        {
+          path: '/Library',
+          name: 'Library',
+          component: Library
+        },
+        {
+          path: '/ClassQuality',
+          name: 'ClassQuality',
+          component: ClassQuality
+        },
+        {
+          path: '/ClassShare/:id',
+          name: 'ClassShare',
+          component: ClassShare
+        }
+      ]
     },
     {
       path: '/InformationDetail/:id',
@@ -55,38 +107,6 @@ const router = new Router({
       name: 'LibraryDetail',
       component: LibraryDetail
     },
-    {
-      path: '/',
-      name: 'main',
-      component: main,
-      children: [
-        {
-          path: '/home',
-          name: 'home',
-          component: home
-        },
-        {
-          path: '/SetMeal',
-          name: 'SetMeal',
-          component: SetMeal
-        },
-        {
-          path: '/SetMealDetail/:id',
-          name: 'SetMealDetail',
-          component: SetMealDetail
-        },
-        {
-          path: '/PublicClass',
-          name: 'PublicClass',
-          component: PublicClass
-        },
-        {
-          path: '/Library',
-          name: 'Library',
-          component: Library
-        }
-      ]
-    }
   ]
 })
 
@@ -98,59 +118,9 @@ const router = new Router({
 //       component: OpenCoursePayCenter
 //     },
 //     {
-//       path: '/',
-//       name: 'Index',
-//       component: Index
-//     },
-//     {
-//       path: '/SetMeal',
-//       name: 'SetMeal',
-//       component: SetMeal
-//     },
-//     {
-//       path: '/ClassQuality',
-//       name: 'ClassQuality',
-//       component: ClassQuality
-//     },
-//     {
-//       path: '/PublicClass',
-//       name: 'PublicClass',
-//       component: PublicClass
-//     },
-//     {
-//       path: '/Library',
-//       name: 'Library',
-//       component: Library
-//     },
-//     {
 //       path: '/Notice/:id',
 //       name: 'Notice',
 //       component: Notice
-//     },
-//     {
-//       path: '/SetMealDetail/:id',
-//       name: 'SetMealDetail',
-//       component: SetMealDetail
-//     },
-//     {
-//       path: '/PublicClassDetail/:id',
-//       name: 'PublicClassDetail',
-//       component: PublicClassDetail
-//     },
-//     {
-//       path: '/LibraryDetail/:id',
-//       name: 'LibraryDetail',
-//       component: LibraryDetail
-//     },
-//     {
-//       path: '/Login',
-//       name: 'Login',
-//       component: Login
-//     },
-//     {
-//       path: '/VerificationCode',
-//       name: 'VerificationCode',
-//       component: VerificationCode
 //     },
 //     {
 //       path: '/InformationDetail/:id',
@@ -232,11 +202,6 @@ const router = new Router({
 //       name: 'EditInfo',
 //       component: EditInfo
 //     },
-//     {
-//       path: '/Register',
-//       name: 'Register',
-//       component: Register
-//     }
 //   ]
 // });
 

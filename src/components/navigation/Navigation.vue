@@ -1,25 +1,20 @@
 <template>
     <div class="labsMod">
       <nav>
-        <router-link to="/home"><span>资讯</span></router-link>
+        <router-link to="/index"><span>首页</span></router-link>
         <router-link to="/SetMeal"><span>套餐</span></router-link>
         <router-link to="/ClassQuality"><span>精品课</span></router-link>
         <router-link to="/PublicClass"><span>公开课</span></router-link>
         <router-link to="/Library"><span>图书</span></router-link>
+        <router-link to="/informationList"><span>资讯</span></router-link>
       </nav>
     </div>
 </template>
 
 <script>
-    export default {
-        name: "navigation",
-        data(){
-          return{
-          }
-        },
-      methods:{
-      }
-    }
+  export default {
+    name: "navigation"
+  }
 </script>
 
 <style scoped>

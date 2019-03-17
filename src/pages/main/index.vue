@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import Header from '@/components/header/Header'
+import Header from '@/components/header'
 import Navigation from '@/components/navigation/Navigation'
 export default {
   name: 'home',

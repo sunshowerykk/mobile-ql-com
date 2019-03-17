@@ -1,23 +1,12 @@
 <!--精品课-->
 <template>
     <div>
-      <div class="header">
-        <div class="logo">
-          <img src="../assets/img/logo.png" />
-        </div>
-        <router-link to="" class="toLogin">登录</router-link>
-      </div>
-
-      <!--导航-->
-      <Navigation></Navigation>
-
       <div class="setMeal exCourse">
         <div class="tit">
           <h3>精品课程</h3>
         </div>
         <div class="list">
           <ul>
-
             <li v-for="course in courseList" :key="course.id">
               <router-link :to="{'name': 'ClassShare', params:{id: course.id}}">
                 <div class="item clearfix">
@@ -30,7 +19,7 @@
                     <span class="alreay">已更新至{{ course.classrooms }}课时</span>
                     <div class="prise">
                       <span>{{ course.discount }}</span>
-                      <span class="bought">{{ course.online }}</span>
+                      <span class="bought"><i></i>{{ course.online }}</span>
                     </div>
                   </div>
                 </div>

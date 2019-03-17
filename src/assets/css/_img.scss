@@ -82,4 +82,28 @@ $root_url: '../img';
   background-image: url('#{$root_url}/icon14on.png');
   background-size: 0.32rem 0.32rem;
 }
-
+@mixin icon20 {
+  @include bg;
+  background-image: url('#{$root_url}/icon20.png');
+  background-size: 0.25rem 0.25rem;
+}
+@mixin icon18 {
+  @include bg;
+  background-image: url('#{$root_url}/icon18.png');
+  background-size: 0.25rem 0.25rem;
+}
+@mixin icon19 {
+  @include bg;
+  background-image: url('#{$root_url}/icon19.png');
+  background-size: 0.25rem 0.25rem;
+}
+@mixin icon21 {
+  @include bg;
+  background-image: url('#{$root_url}/icon21.png');
+  background-size: 0.25rem 0.25rem;
+}
+@mixin icon22 {
+  @include bg;
+  background-image: url('#{$root_url}/icon22.png');
+  background-size: 0.2rem 0.2rem;
+}

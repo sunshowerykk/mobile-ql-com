@@ -1,0 +1,65 @@
+.loginform {
+  padding: 0.3rem 0.2rem;
+  li {
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #ececec;
+    .lecon {
+      float: left;
+      width: 15%;
+      font-size: 0.28rem;
+      color: #333;
+      line-height: 0.88rem;
+      .icon {
+        display: inline-block;
+        width: 0.2rem;
+        height: 0.2rem;
+        margin-left: 0.1rem;
+        background: url(../../assets/img/icon22.png) no-repeat center;
+        background-size: 0.2rem 0.2rem;
+      }
+    }
+    .text {
+      width: 82%;
+      height: 0.88rem;
+      border: none;
+      font-size: 0.28rem; /*color:#cacaca;*/
+      background: #fff;
+    }
+    .getbtn {
+      position: absolute;
+      top: 0;
+      right: 0.2rem;
+      background: none;
+      border: none;
+      font-size: 0.26rem;
+      color: #cacaca;
+      height: 0.88rem;
+      cursor: pointer;
+    }
+  }
+  .btnmod {
+    padding: 0.2rem 0;
+    .btn {
+      width: 100%;
+      height: 0.88rem;
+      font-size: 0.3rem;
+      background: #DB2C1B;
+      color: #fff;
+      border: none;
+      border-radius: 0.1rem;
+    }
+  }
+  .otherLogin {
+    a {
+      font-size: 0.24rem;
+      color: #666;
+    }
+    .ymaLogin {
+      float: right;
+    }
+    .on {
+      color: #DB2C1B;
+    }
+  }
+}

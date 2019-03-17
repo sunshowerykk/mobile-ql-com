@@ -8,8 +8,9 @@
 </template>
 
 <script>
+import service from '@/http/services/user.js'
 export default {
-  name: 'header',
+  name: 'headerBar',
   data () {
     return {
       //头部显示登录，或者欢迎
@@ -23,14 +24,14 @@ export default {
   methods: {
     //判断是否登录
     getLogInfo: function () {
-      if(this.token == null || this.token == ''){
+      if(!this.token) {
         this.head.text = "登录";
         this.head.link = '/Login';
       }
       else {
-        user.userService.getSet(this.token).then(res => {
+        service.personalService.getSet(this.token).then(res => {
           if (res.status === 200) {
-            this.head.text = "你好, " + res.data.username;
+            this.head.text = "hi, " + res.data.username;
             this.head.link = '/UserCenter';
           }
         })

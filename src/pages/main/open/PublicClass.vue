@@ -75,8 +75,6 @@
         initclasslist: function () {
           service.publicClassService.list().then(res => {
             if (res.status === 200) {
-              // alert(res.data);
-              console.log(res.data);
               this.classes=res.data;
             }
           })
@@ -85,7 +83,6 @@
           this.course_id = course_id;
           service.publicClassService.check({'course_id': course_id, 'access-token': this.access_token}).then(res => {
             if (res.status === 200) {
-              console.log(res.data.status);
               if(res.data.status == 0) {
                 this.warning();
               }

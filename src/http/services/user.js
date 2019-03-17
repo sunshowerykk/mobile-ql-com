@@ -12,6 +12,16 @@ const service_user = {
         TEMPLATE_GET('/api/user/islogin', data, resolve)
       })
     },
+    smsCode:(data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_Form_POST('http://api.ql.com/user/logincode', data, resolve)
+      }) 
+    },
+    changePassword:(data) =>{
+      return new Promise((resolve, reject) => {
+        TEMPLATE_Form_POST('http://api.ql.com/user/changepassword', data, resolve)
+      }) 
+    }
   },
   personalService: {
     incomeStatistics: (data) => {
@@ -52,16 +62,6 @@ const service_user = {
     register:(data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_Form_POST('http://api.ql.com/user/signup', data, resolve)
-      }) 
-    },
-    smsCode:(data) => {
-      return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('http://api.ql.com/user/logincode', data, resolve)
-      }) 
-    },
-    changePassword:(data) =>{
-      return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('http://api.ql.com/user/changepassword', data, resolve)
       }) 
     },
     changeSet:(data, token) =>{

@@ -108,9 +108,8 @@
         this.$Message.warning('尚未登陆');
       },
       created() {
-          this.id = this.$route.params.id;
-          console.log("id",this.id);
-          this.bookidform.id=this.$route.params.id;
+        this.id = this.$route.params.id;
+        this.bookidform.id=this.$route.params.id;
         this.orderform.bookid=this.$route.params.id;
       },
       methods:{
@@ -125,7 +124,6 @@
           } else {
               service.bookService.info({'access-token': this.orderform.access_token}).then(res => {
                 if (res.status === 200) {
-                  console.log(res.data);
                   this.orderform.username = res.data.username;
                   this.orderform.phone = res.data.phone;
                   this.orderform.address = res.data.address;
@@ -143,7 +141,6 @@
         initbookdetail:function() {
           service.bookService.detail(this.bookidform).then(res => {
             if (res.status === 200) {
-              console.log(res.data);
               this.book = res.data;
               this.orderform.book_name = res.data.name;
               this.orderform.access_token = this.$cookies.get('access_token');
@@ -159,7 +156,6 @@
           }
           service.bookService.order(this.orderform).then(res => {
             if (res.status === 200) {
-              console.log(res.data);
               alert("预定成功");
               this.hideModal();
             }

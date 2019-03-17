@@ -34,7 +34,7 @@
       <div class="index-content information">
         <div class="tit">
           <h3>资讯</h3>
-          <span>查看全部</span>
+          <span @click="gotoList('information')">查看全部</span>
         </div>
         <div class="item" v-for = "info in information" :key="info.id">
           <router-link :to="{ name: 'InformationDetail',params: { id: info.id }}">
@@ -56,7 +56,7 @@
       <div class="index-content setMeal">
         <div class="tit">
           <h3>VIP套餐</h3>
-          <span>查看全部</span>
+          <span @click="gotoList('setMeal')">查看全部</span>
         </div>
         <div class="list">
           <ul>
@@ -88,7 +88,7 @@
       <div class="index-content exCourse">
         <div class="tit">
           <h3>精品课程</h3>
-          <span>查看全部</span>
+          <span @click="gotoList('exCourse')">查看全部</span>
         </div>
         <div class="list">
           <ul>
@@ -153,7 +153,7 @@
       <div class="index-content recommdBooks">
         <div class="tit">
           <h3>推荐图书</h3>
-          <span>查看全部</span>
+          <span @click="gotoList('recommdBooks')">查看全部</span>
         </div>
         <div class="list">
           <ul>
@@ -260,8 +260,8 @@
         }
       },
       methods: {
-        getHomeData: function () {
-          service.homeService.getHomeData(this.$cookies.get('access_token')).then(res => {
+        getHomeData() {
+          service.homeService.getHomeData(this.token).then(res => {
             if (res.status === 200 && res.data.status === 0) {
               this.ads = res.data.data.ads;
               this.notices = res.data.data.notices;
@@ -276,6 +276,22 @@
             }
           })
         },
+        gotoList(tag) {
+          switch(tag) {
+            case 'information':
+              this.$router.push('informationList');
+              break;
+            case 'setMeal':
+              this.$router.push('SetMeal');
+              break;
+            case 'exCourse':
+              this.$router.push('ClassQuality');
+              break;
+            case 'recommdBooks':
+              this.$router.push('Library');
+              break;
+          }
+        }
       },
       mounted () {
         this.getHomeData();
