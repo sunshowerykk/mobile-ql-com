@@ -37,47 +37,7 @@
       bottom: 0.3rem;
     }
   }
-  // 公告
-  .notice_box {
-    width: 94.6%;
-    margin: 0.3rem auto;
-    @include notice-bg;
-    padding-left: 1rem;
-    display: flex;
-    box-sizing: border-box;
-    border-radius: 0.82rem;
-    align-items: center;
-    overflow: hidden;
-    height: 0.81rem;
-    .w_new {
-      font-size: 0.32rem;
-      color: #7d0818;
-      flex-shrink: 0;
-    }
-    .notice-swiper-box {
-      flex-grow: 1;
-      padding-left: 0.2rem;
-      box-sizing: border-box;
-      overflow: hidden;
-      padding-right: 0.5rem;
-      a {
-        color: #62432e;
-        font-size: 0.22rem;
-        text-align: left;
-        overflow: hidden;
-        > div {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        span{
-          color: #DB2C1B;
-          padding-left: 0.1rem;
-        }
-      }
-    }
-  }
-  // 资讯
+  // 资讯列表页
   .index-content {
     .tit {
       height: 0.8rem;
@@ -150,6 +110,46 @@
       }
       &+.item {
         border-top: 1px solid #f8f8f9;
+      }
+    }
+  }
+  // 公告
+  .notice_box {
+    width: 94.6%;
+    margin: 0.3rem auto;
+    @include notice-bg;
+    padding-left: 1rem;
+    display: flex;
+    box-sizing: border-box;
+    border-radius: 0.82rem;
+    align-items: center;
+    overflow: hidden;
+    height: 0.81rem;
+    .w_new {
+      font-size: 0.32rem;
+      color: #7d0818;
+      flex-shrink: 0;
+    }
+    .notice-swiper-box {
+      flex-grow: 1;
+      padding-left: 0.2rem;
+      box-sizing: border-box;
+      overflow: hidden;
+      padding-right: 0.5rem;
+      a {
+        color: #62432e;
+        font-size: 0.22rem;
+        text-align: left;
+        overflow: hidden;
+        > div {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        span{
+          color: #DB2C1B;
+          padding-left: 0.1rem;
+        }
       }
     }
   }

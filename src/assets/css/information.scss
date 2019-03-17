@@ -1,0 +1,76 @@
+// 资讯列表页
+.index-content.information {
+  .tit {
+    height: 0.8rem;
+    line-height: 0.8rem;
+    border-bottom: 1px solid #ececec;
+    padding: 0 0.2rem;
+    display: flex;
+    justify-content: space-between;
+    h3 {
+      font-size: 0.32rem;
+      color: #333;
+      position: relative;
+      padding-left: 0.2rem;
+      &:before {
+        top: 0.26rem;
+        left: 0;
+        content: "";
+        width: 0.05rem;
+        height: 0.3rem;
+        background: #DB2C1B;
+        position: absolute;
+      }
+    }
+    span {
+      position: relative;
+      color: #999;
+      &:after {
+        content: "";
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        transform: translateY(2px);
+        @include goto-list-icon;
+      }
+    }
+  }
+  .item {
+    font-size: 0.24rem;
+    a {
+      display: flex;
+      padding: 0.2rem;
+      justify-content: space-between;
+      align-items: center;
+      align-content: center;
+      line-height:initial;
+      .left {
+        width: 68%;
+        text-align: left;
+        h5 {
+          font-size: 0.3rem;
+          color: #333;
+          line-height: 0.35rem;
+          margin-bottom: 0.25rem;
+        }
+        small {
+          font-size: 0.24rem;
+          color: #999;
+          span {
+            margin-right: 0.3rem;
+          }
+        }
+      }
+      .right {
+        width: 28%;
+        img {
+          width: 100%;
+          display: block;
+        }
+      }
+    }
+    &+.item {
+      border-top: 1px solid #f8f8f9;
+    }
+  }
+}

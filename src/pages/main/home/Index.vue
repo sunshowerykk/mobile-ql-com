@@ -31,7 +31,7 @@
       <!--公告 notice end-->
 
       <!--资讯 start-->
-      <div class="index-content">
+      <div class="index-content information">
         <div class="tit">
           <h3>资讯</h3>
           <span>查看全部</span>

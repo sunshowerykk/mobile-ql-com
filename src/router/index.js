@@ -12,7 +12,8 @@ import Notice from '@/components/Notice' //公告
 import PublicClassDetail from '@/components/PublicClassDetail' //公开课视频详情
 import LibraryDetail from '@/components/LibraryDetail'  //图书详情
 import VerificationCode from '@/components/VerificationCode'  //验证码登录
-import InformationDetail from '@/components/informationDetail' //资讯详情
+import InformationList from '@/pages/main/information/informationList' //资讯列表 
+import InformationDetail from '@/pages/main/information/informationDetail' //资讯详情
 import UserCenter from '@/components/UserCenter'  //个人中心
 import Message from '@/components/Message' //消息中心
 import MyClass from '@/components/MyClass'  //我的课程
@@ -31,7 +32,6 @@ import EditInfo from '@/components/EditInfo' //绑定账号
 import Register from '@/components/Register'  //注册
 import OpenCoursePayCenter from '@/components/OpenCoursePayCenter'  //公开课购买
 
-
 Vue.use(Router)
 
 const router = new Router({
@@ -40,6 +40,16 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/InformationDetail/:id',
+      name: 'InformationDetail',
+      component: InformationDetail
+    },
+    {
+      path: '/informationList',
+      name: 'informationList',
+      component: InformationList
     },
     {
       path: '/',
@@ -60,7 +70,7 @@ const router = new Router({
           path: '/SetMealDetail/:id',
           name: 'SetMealDetail',
           component: SetMealDetail
-        }
+        },
       ]
     }
   ]
