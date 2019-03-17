@@ -4,7 +4,7 @@
         <span slot="headerTxt">消息中心</span>
       </TopBack>
 
-      <div class="newsList" v-for = "msg in messages">
+      <div class="newsList" v-for = "msg in messages" :key="msg.id">
         <ul>
           <li>
             <a href="#">
@@ -12,10 +12,7 @@
               <span class="time">{{ msg.get_time }}</span>
             </a>
           </li>
-            </a>
-          </li>
         </ul>
-
       </div>
     </div>
 </template>
