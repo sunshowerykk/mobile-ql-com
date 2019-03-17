@@ -1,0 +1,225 @@
+
+.home-container {
+  // 轮播
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      display: block;
+      height: 144px;
+    }
+    &.swiper-notice{
+      height: 0.81rem;
+    }
+  }
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+  .swiper-pagination {
+    &.banner-swiper {
+      font-size: 0px;
+      line-height: 0px;
+      bottom: 0.3rem;
+    }
+  }
+  // 公告
+  .notice_box {
+    width: 94.6%;
+    margin: 0.3rem auto;
+    @include notice-bg;
+    padding-left: 1rem;
+    display: flex;
+    box-sizing: border-box;
+    border-radius: 0.82rem;
+    align-items: center;
+    overflow: hidden;
+    height: 0.81rem;
+    .w_new {
+      font-size: 0.32rem;
+      color: #7d0818;
+      flex-shrink: 0;
+    }
+    .notice-swiper-box {
+      flex-grow: 1;
+      padding-left: 0.2rem;
+      box-sizing: border-box;
+      overflow: hidden;
+      padding-right: 0.5rem;
+      a {
+        color: #62432e;
+        font-size: 0.22rem;
+        text-align: left;
+        overflow: hidden;
+        > div {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        span{
+          color: #DB2C1B;
+          padding-left: 0.1rem;
+        }
+      }
+    }
+  }
+  // 资讯
+  .index-content {
+    .tit {
+      height: 0.8rem;
+      line-height: 0.8rem;
+      border-bottom: 1px solid #ececec;
+      padding: 0 0.2rem;
+      display: flex;
+      justify-content: space-between;
+      h3 {
+        font-size: 0.32rem;
+        color: #333;
+        position: relative;
+        padding-left: 0.2rem;
+        &:before {
+          top: 0.26rem;
+          left: 0;
+          content: "";
+          width: 0.05rem;
+          height: 0.3rem;
+          background: #DB2C1B;
+          position: absolute;
+        }
+      }
+      span {
+        position: relative;
+        color: #999;
+        &:after {
+          content: "";
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          transform: translateY(2px);
+          @include goto-list-icon;
+        }
+      }
+    }
+    .item {
+      font-size: 0.24rem;
+      a {
+        display: flex;
+        padding: 0.2rem;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        line-height:initial;
+        .left {
+          width: 68%;
+          text-align: left;
+          h5 {
+            font-size: 0.3rem;
+            color: #333;
+            line-height: 0.35rem;
+            margin-bottom: 0.25rem;
+          }
+          small {
+            font-size: 0.24rem;
+            color: #999;
+            span {
+              margin-right: 0.3rem;
+            }
+          }
+        }
+        .right {
+          width: 28%;
+          img {
+            width: 100%;
+            display: block;
+          }
+        }
+      }
+      &+.item {
+        border-top: 1px solid #f8f8f9;
+      }
+    }
+  }
+  /*python 弹窗 start*/
+  .recenLearning {
+    padding: 0.2rem;
+    font-size: 0.24rem;
+    .cont {
+      padding: 0.4rem 0.3rem;
+      position: relative;
+      background: #333333;
+      border-radius: 0.1rem;
+      overflow: hidden;
+      .pic {
+        float: left;
+        width: 30%;
+        position: relative;
+        img {
+          display: block;
+          width: 100%;
+        }
+        span {
+          display: inline-block;
+          height: 0.3rem;
+          line-height: 0.3rem;
+          width: 1rem;
+          color: #fff;
+          font-size: 0.18rem;
+          background: #ff7a41;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          text-align: center;
+          border-bottom-right-radius: 0.5rem;
+          border-top-right-radius: 0.5rem;
+        }
+      }
+      .txt {
+        float: right;
+        width: 66%;
+        color: #fff;
+        text-align: left;
+        margin-top: 0.07rem;
+        h5 {
+          font-size: 0.28rem;
+          margin-bottom:0.1rem;
+        }
+        span {
+          font-size: 0.24rem;
+        }
+      }
+      .moreicon {
+        display: inline-block;
+        width: 0.32rem;
+        height: 0.32rem;
+        position: absolute;
+        top: 50%;
+        right: 0.3rem;
+        margin-top: -0.16rem;
+        @include moreicon;
+      }
+      .close {
+        position: absolute;
+        top: 0;
+        left: 0rem;
+        width: 0.32rem;
+        height: 0.32rem;
+        @include closebtn;
+        cursor: pointer;
+      }
+    }
+  }
+}

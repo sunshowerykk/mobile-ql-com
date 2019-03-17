@@ -1,43 +1,49 @@
 <template>
   <div class="font-box bg">
-    <div class="detailImg">
+    <div class="detailImg" v-if="courseInfo">
       <a class="goback" @click="goBack"></a>
       <a class="share" @click="shareFn"></a>
-      <img src="../assets/img/img12.png" class="img"  />
+      <img :src="courseInfo.course.home_pic" class="img"  />
       <div class="classname">
-        <strong>计算机应用基础</strong>
-        <div class="school">
-          <span>中南财经政法大学</span>
-          <span>金大卫等</span>
+        <strong>{{ courseInfo.course.course_name }}</strong>
+        <div class="school" >
+          <span>{{ courseInfo.teacher[0].unit }}</span>
+          <span>{{ courseInfo.teacher[0].teacher_name }} 等</span>
         </div>
       </div>
     </div>
 
     <div class="course">
+      <!--&lt;!&ndash;tabs&ndash;&gt;-->
+      <!--<tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box" v-if="!pay">-->
+        <!--<tab-item selected @on-item-click="onItemClick">课程介绍</tab-item>-->
+        <!--<tab-item @on-item-click="onItemClick">视频</tab-item>-->
+      <!--</tab>-->
 
-      <!--tabs-->
-      <tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box">
-        <tab-item selected @on-item-click="onItemClick">课程介绍</tab-item>
-        <tab-item @on-item-click="onItemClick">视频</tab-item>
-      </tab>
 
-      <transition name="fade" mode="out-in">
-        <div v-if="activeIndex == 0" key="0">
+      <sticky>
+        <tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box">
+          <tab-item selected @on-item-click="onItemClick">简介</tab-item>
+          <tab-item @on-item-click="onItemClick">视频</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay" v-show="pay">作业</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay" v-show="pay">测验</tab-item>
+          <tab-item @on-item-click="onItemClick" v-if="pay" v-show="pay">答疑</tab-item>
+        </tab>
+      </sticky>
+
+      <transition-group name="fade" mode="out-in">
+
+        <div v-if="indexActive == 0" key="0">
           <div class="tab-bd">
             <div class="tab-pal">
               <div class="courseLst">
                 <h3>简介</h3>
-                <div class="main">
-                  <p>
-                    大学计算机是计算机的入门课程，在AI热度非凡和互联网+的形势下，利用计算机解决问题提成为当今社会的人人都具备的能力
-                    大学计算机是计算机的入门课程，在AI热度非凡和互联网+的形势下，利用计算机解决问题提成为当今社会的人人都具备的能力
-                  </p>
-                </div>
+                <div class="main" v-html="courseInfo.course.intro"></div>
               </div>
             </div>
-
           </div>
         </div>
+
         <div v-if="activeIndex == 1" key="1">
           <div class="tab-pal">
             <div class="courseLst">
@@ -89,7 +95,7 @@
             </div>
           </div>
         </div>
-      </transition>
+      </transition-group>
 
 
     </div>
@@ -107,21 +113,30 @@
               </a>
             </li>
             <li>
-              <a href="javascript:;">
-                <i class="collect" :class="{ on: collect}" @click="collect = !collect"></i>
+              <a href="javascript:;" v-if="isLogin">
+                <i class="collect" :class="{ on: collect}" @click="collectionCourse"></i>
                 <span>收藏</span>
+              </a>
+              <a href="javascript:;" v-if="isLogin == false">
+                <router-link :to="{'name': 'Login'}">
+                  <i class="collect" :class="{ on: collect}"></i>
+                  <span>收藏</span>
+                </router-link>
               </a>
             </li>
             <li class="money">
               <a href="javascript:;">
-                <strong>￥200</strong>
+                <strong>￥{{ courseInfo.course.price }}</strong>
                 <span>8门课</span>
               </a>
             </li>
           </ul>
         </div>
-        <div class="right">
-          <router-link to="/PayCenter" class="btn">立即购买</router-link>
+        <div class="right" v-if="courseInfo.course && isLogin">
+          <router-link :to="{'name': 'PayCenter', params:{courseid: courseInfo.course.id}}" class="btn" :disabled="pay">{{pay ? '已购买' : '立即购买'}}</router-link>
+        </div>
+        <div class="right" v-if="courseInfo.course && isLogin == false">
+          <router-link :to="{'name': 'Login'}" class="btn">立即购买</router-link>
         </div>
       </div>
     </div>
@@ -129,22 +144,53 @@
 </template>
 
 <script>
-  import { Tab, TabItem } from 'vux'
+  import { Tab, TabItem, Sticky, Cell, Group } from 'vux'
+  import  service_course from '@/http/services/course.js'
+  import service_user from '@/http/services/user.js'
+  import service from '@/http/services/personal.js'
     export default {
         name: "ClassShare",
       data(){
         return{
-          id: 0,
+          id: '',
           activeIndex: 0,
           share: 0,
           pay: false,
-          collect: false
+          collect: false,
+          courseInfo: {
+            course: {},
+            teacher: [{}]
+          },
+          courseVideo: '',
+          courseHomework: {
+            course: '',
+            homeworks: '',
+            submit_num: ''
+          },
+          courseTest: {
+            examnum: 0,
+            examuser: 0,
+            list: ''
+          },
+          courseid: '',
+          flagArray: [],
+          flag: false,
+          isLogin: false
         }
       },
       components: {
         Tab,
         TabItem
       },
+      created() {
+        this.id = this.$route.params.id;
+        console.log("id",this.id);
+        this.courseid = this.$route.params.id;
+      },
+      mounted() {
+        this.getInfo();
+      },
+
       methods:{
         shareFn(){
           this.share = 1;
@@ -157,8 +203,98 @@
         },
         goBack(){
           this.$router.go(-1);
-        }
-      }
+        },
+
+        getInfo () {
+          service_user.userService.isLogin({'access-token': this.$cookies.get('access_token') ? this.$cookies.get('access_token') : ''}).then(res => {
+            if (res.status === 200) {
+              if (res.data.message == '已登录') {
+                this.isLogin = true;
+              } else {
+                this.isLogin = false;
+                this.pay = false;
+              }
+              // console.log(this.isLogin);
+            }
+          })
+          service_course.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access_token')}).then(res => {
+            if (res.status === 200) {
+              this.pay = (res.data.course.ispay != 0);
+              this.courseInfo.course = res.data.course;
+              this.courseInfo.teacher = res.data.teacher;
+              this.collect = res.data.course.iscollect;
+              // console.log(this.courseInfo);
+            }
+          })
+        },
+
+        getCourseVideo() {
+          service_course.courseService.courseVideo({'course_id': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
+            if (res.status === 200 && res.data.status === 0) {
+              this.courseVideo = res.data.course;
+              for (var i = 0; i < this.courseVideo.courseChapters.length; i++) {
+                for (var j = 0; j < this.courseVideo.courseChapters[i].courseSections.length; j++) {
+                  this.flagArray['show' + i + j] = false;
+                }
+              }
+              console.log(this.flagArray);
+              this.pay = (res.data.ispay != 0);
+              // this.pay = true;
+              // console.log(this.courseVideo.courseChapters);
+            } else {
+              alert('something wrong!');
+            }
+          })
+        },
+
+        onItemClick(index){
+          if (index == 1) {
+            this.getCourseVideo();
+          }else if (index == 2) {
+            service.personalService.courseHomework({'access-token': this.$cookies.get('access_token'), 'course_id': this.courseid}).then(res => {
+              if (res.status === 200) {
+                this.courseHomework.course = res.data.course;
+                this.courseHomework.homeworks = res.data.homeworks;
+                this.courseHomework.submit_num = res.data.submit_num;
+                // console.log(this.courseHomework);
+              }
+            })
+          }else if (index == 3) {
+            service.personalService.courseTestList({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}).then(res => {
+              if (res.status === 200) {
+                this.courseTest.examnum = res.data.examnum;
+                this.courseTest.examuser = res.data.examuser;
+                this.courseTest.list = res.data.list;
+                // console.log(this.courseTest);
+              }
+            })
+          }
+          this.indexActive = index;
+        },
+
+        upDownControl(index1, index2) {
+          this.flagArray['show' + index1 + index2] = !this.flagArray['show' + index1 + index2]
+          this.flag = this.flagArray['show' + index1 + index2];
+          // console.log(this.flagArray);
+          return this.flag;
+        },
+
+        collectionCourse() {
+          this.collect = !this.collect;
+         service.personalService.collectionCourse({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}) .then(res => {
+           if (res.status === 200 && res.data.status === 0) {
+             // console.log('操作成功' + this.collect);
+             if (this.collect == true) {
+               this.$Message.success('收藏成功！');
+             } else {
+               this.$Message.success('已取消收藏！');
+             }
+           } else {
+             console.log(res.data.message + this.collect);
+           }
+         })
+        },
+      },
     }
 </script>
 

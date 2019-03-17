@@ -6,10 +6,9 @@
         <span slot="share" class="share" @click="showShare"></span>
       </TopBack>
 
-      <div class="viedoCont">
+      <div class="viedoCont" v-if="showVideo">
         <div class="cont">
-          <video class="video" poster="../assets/img/img31.jpg" id="video" controls>
-            <source src="../assets/viedo/video.mp4" type="video/mp4">抱歉，你的浏览器不能查看该视频
+          <video class="video" id="video" :src="course_url" :poster="list_pic" controls="controls" autoplay>
           </video>
         </div>
       </div>
@@ -19,24 +18,42 @@
 </template>
 
 <script>
+  import service from '@/http/services/publicClass.js'
     export default {
         name: "PublicClassDetail",
       data(){
         return{
           id: 0,
-          share: false
+          share: false,
+          course_id: '',
+          list_pic: '',
+          course_url: '',
+          access_token:'',
         }
       },
       created() {
-          var id = this.$route.params.id;
+          this.courseid = this.$route.params.id;
+          this.list_pic = this.$route.params.pic;
       },
       methods:{
-        changeShare(msg){
+
+        changeShare (msg){
           this.share = msg;
         },
-        showShare(){
+        showShare (){
           this.share = true;
+        },
+        check () {
+          service.publicClassService.check({'course_id': this.courseid, 'access-token': this.access_token}).then(res => {
+            if (res.status === 200) {
+              this.course_url=res.data.url;
+            }
+          })
         }
+      },
+      mounted: function(){
+        this.access_token = this.$cookies.get('access_token');
+        this.check();
       }
     }
 </script>
@@ -48,9 +65,12 @@
     height: calc(~"100%" - 0.88rem);
     width: 100%;
     .cont{
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      width: 100%;
+      height: 100%;
+      .video {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 </style>

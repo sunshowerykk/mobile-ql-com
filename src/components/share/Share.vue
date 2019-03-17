@@ -7,16 +7,16 @@
       <h3>分享至</h3>
       <ul class="clearfix">
         <li>
-          <a href="#">
-            <img src="../../assets/img/icon16.png" />
+          
+            <img src="../../assets/img/icon16.png" @click="onMenuShareAppMessage"/>
             <span>微信好友</span>
-          </a>
+          
         </li>
         <li>
-          <a href="#">
-            <img src="../../assets/img/icon17.png" />
-            <span>微信好友</span>
-          </a>
+          
+            <img src="../../assets/img/icon17.png" @click="onMenuShareTimeline"/>
+            <span>朋友圈</span>
+          
         </li>
       </ul>
     </div>
@@ -24,14 +24,63 @@
 </template>
 
 <script>
+    var wx = require('weixin-js-sdk');
     export default {
-        name: "Share",
+      name: "Share",
       props:["share"],
-      methods:{
+      mounted() {
+         wx.config({
+          debug: true, //开启调试模式
+          appId: '', //公众号唯一标示
+          timestamp: '',//必填，生成签名时间戳
+          nonceStr: '',//必填，生成签名的随即传
+          signature: '',//必填，签名
+          jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline'] //必填，需要使用的js接口列表
+        });
+      }, 
+      methods: {
         hideModal(){
           this.$emit("changeShare", 0);
+        },
+        //分享给朋友
+        onMenuShareAppMessage: function(){
+        wx.onMenuShareAppMessage({
+          title: '', // 分享标题
+          desc: '', // 分享描述
+          link: '', // 分享链接，该链接域名必须与当前企业的可信域名一致
+          imgUrl: '', // 分享图标
+          type: '', // 分享类型,music、video或link，不填默认为link
+          dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+          success: function () {
+              // 用户确认分享后执行的回调函数
+              alert("分享成功！");
+          },
+          cancel: function () {
+              // 用户取消分享后执行的回调函数
+              alert("分享失败！");
+          }
+        });
+        },
+      //分享到朋友圈
+      onMenuShareTimeline: function() {
+      wx.onMenuShareTimeline({
+        title: '', // 分享标题
+        link: '', // 分享链接，该链接域名必须与当前企业的可信域名一致
+        imgUrl: '', // 分享图标
+        success: function () {
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () {
+            // 用户取消分享后执行的回调函数
         }
+        });
       }
+    },
+      data() {
+        return {
+          
+        }
+      },
     }
 </script>
 

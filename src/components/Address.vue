@@ -1,5 +1,6 @@
 <template>
   <div class="font-box bg">
+
     <TopBack>
       <span slot="headerTxt">收货地址</span>
     </TopBack>
@@ -18,7 +19,7 @@
             </li>
             <li>
               <label><i>*</i>收货人地址</label>
-              <textarea placeholder="请填写宿舍地址"class="text tera"  ></textarea>
+              <textarea placeholder="请填写宿舍地址" class="text tera"  ></textarea>
             </li>
           </ul>
         </form>
@@ -28,6 +29,7 @@
     <div class="botFixbtn">
       <button class="btn">保存</button>
     </div>
+
   </div>
 </template>
 

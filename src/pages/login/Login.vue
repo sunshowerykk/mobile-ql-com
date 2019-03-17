@@ -9,19 +9,19 @@
             <ul>
               <li>
                 <span class="lecon numBtn">+86<i class="icon"></i></span>
-                <input type="text" placeholder="请输入手机号码" class="text" />
+                <input type="text" placeholder="请输入手机号码" v-model="loginForm.phone" class="text" />
               </li>
               <li>
                 <label for="" class="lecon">密码</label>
-                <input type="password" placeholder="请输入密码" class="text" />
+                <input type="password" placeholder="请输入密码" v-model="loginForm.password" class="text" />
               </li>
             </ul>
             <div class="btnmod">
-              <button class="btn">登录</button>
+              <button class="btn" @click="handleLogin">登录</button>
             </div>
             <div class="otherLogin clearfix">
-              <span class="pwdLogin on">密码登录</span>
-              <router-link to="/VerificationCode" class="ymaLogin" replace  >验证码登录</router-link>
+              <a><router-link to="/Register">注册</router-link></a>
+              <router-link to="/VerificationCode" class="ymaLogin" replace  >忘记密码?</router-link>
             </div>
           </form>
         </div>
@@ -30,8 +30,35 @@
 </template>
 
 <script>
+    import userService from '@/http/services/user.js'
     export default {
-        name: "login"
+      name: "login",
+      data() {
+        return {
+          loginForm: {
+            phone: '',
+            password: '',
+          }
+        }
+      },
+
+      methods: {
+
+        handleLogin: function () {
+          userService.userService.signIn(this.loginForm).then(res => {
+            if (res.status === 200 && res.data.status === 0) {
+              alert(res.data.access_token);
+              this.$cookies.set('access_token', res.data.access_token, 3600*24*7);
+              console.log(this.loginForm);
+              this.$router.push({path: '/'})
+            }
+            else{
+              alert(res.data.msg);
+            }
+          })
+        },
+
+      }
     }
 </script>
 
@@ -67,7 +94,7 @@
     width: 0.2rem;
     height: 0.2rem;
     margin-left: 0.1rem;
-    background: url(../assets/img/icon22.png) no-repeat center;
+    background: url(../../assets/img/icon22.png) no-repeat center;
     background-size: 0.2rem 0.2rem;
   }
 

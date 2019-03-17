@@ -1,7 +1,7 @@
 <template>
     <div class="font-box">
       <TopBack>
-        <span slot="headerTxt">登录</span>
+        <span slot="headerTxt">忘记密码</span>
       </TopBack>
 
       <!--登录-->
@@ -11,20 +11,24 @@
             <ul>
               <li>
                 <span class="lecon numBtn">+86<i class="icon"></i></span>
-                <input type="text" placeholder="请输入手机号码" class="text" />
+                <input type="text" placeholder="请输入手机号码" v-model="changeForm.phone" class="text" />
+              </li>
+              <li>
+                <label for="" class="lecon">验证码</label>
+                <input type="password" placeholder="请输入验证码" v-model="changeForm.change_password_code" class="text" />
+                <button class="getbtn" @click="handleSms">获取验证码</button>
               </li>
               <li>
                 <label for="" class="lecon">密码</label>
-                <input type="password" placeholder="请输入验证码" class="text" />
-                <button class="getbtn">获取验证码</button>
+                <input type="password" v-model="changeForm.password" placeholder="请输入新密码" class="text" />
               </li>
             </ul>
             <div class="btnmod">
-              <button class="btn">登录</button>
+              <button class="btn" @click="handlePassword">确认修改</button>
             </div>
             <div class="otherLogin clearfix">
               <router-link to="/Login"  class="pwdLogin" replace >密码登录</router-link>
-              <span class="ymaLogin on">验证码登录</span>
+              <span class="ymaLogin on">修改密码</span>
             </div>
           </form>
         </div>
@@ -33,8 +37,39 @@
 </template>
 
 <script>
+    import service from '@/http/services/user.js'
     export default {
-        name: "VerificationCode"
+        name: "VerificationCode",
+        data() {
+          return{
+            changeForm: {
+              phone: '',
+              password: '',
+              change_password_code: ''
+            }
+          }
+        },
+        methods: {
+          //获取验证码
+          handleSms: function(){
+            service.userService.smsCode({phone: this.changeForm.phone}).then(res => {
+              if(res.status === 200){
+                console.log(res.data);
+              }
+            })
+          },
+          //修改密码
+          handlePassword: function(){
+            service.userService.changePassword(this.changeForm).then(res => {
+              if(res.status === 200 && res.data.status === 0){
+                console.log(res.data);
+              }
+              else{
+                alert("修改失败")
+              }
+            })
+          }
+        },
     }
 </script>
 

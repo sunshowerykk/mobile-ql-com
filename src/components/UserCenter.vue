@@ -7,11 +7,11 @@
       <div class="pCenter">
         <div class="infoMod clearfix">
           <div class="pic">
-            <img src="../assets/img/img2.png"  />
+            <img :src="userinfo.picture"  />
           </div>
           <div class="txt">
-            <strong>某某某</strong>
-            <span>已学习0时9分</span>
+            <strong>{{ userinfo.username }}</strong>
+            <span>已学习 {{ duration.hour }} 小时 {{ duration.minute }} 分钟</span>
           </div>
         </div>
         <div class="menuLst">
@@ -31,8 +31,46 @@
 </template>
 
 <script>
+    import service from '@/http/services/user.js'
     export default {
-        name: "UserCenter"
+        name: "UserCenter",
+        data() {
+          //获取头像
+          return {
+            userinfo : {
+              picture: '',
+              username: ''
+            },
+            token: '',
+            duration: ''
+          }
+        },
+        methods: {
+          getCookie: function () {
+            this.token = this.$cookies.get('access_token');
+          },
+          getUserInfo: function () {
+            service.userService.getSet(this.token).then(res => {
+            if (res.status === 200) {
+              this.userinfo = res.data;
+              console.log(this.userinfo);
+            }
+          })
+          },
+          getDuration: function () {
+            service.userService.getDuration(this.token).then(res => {
+            if (res.status === 200) {
+              this.duration = res.data;
+              console.log(this.duration);
+            }
+          })
+          }
+        },
+          mounted: function () {
+            this.getCookie();
+            this.getUserInfo();
+            this.getDuration();
+        }
     }
 </script>
 

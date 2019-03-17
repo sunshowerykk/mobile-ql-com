@@ -1,0 +1,84 @@
+@mixin bg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+$root_url: '../img';
+
+@mixin notice-bg {
+  @include bg;
+  background-image: url('#{$root_url}/noticeBg.png');
+}
+@mixin moreicon {
+  @include bg;
+  background-image: url('#{$root_url}/moreicon.png');
+  background-size: 0.32rem 0.32rem;
+}
+@mixin closebtn {
+  @include bg;
+  background-image: url('#{$root_url}/closebtn.png');
+  background-size: 0.32rem 0.32rem;
+}
+@mixin goto-list-icon {
+  @include bg;
+  background-image: url('#{$root_url}/more.png');
+}
+@mixin ivon11 {
+  @include bg;
+  background-image: url('#{$root_url}/ivon11.png');
+  background-size: 0.3rem 0.3rem;
+}
+@mixin package-bg {
+  @include bg;
+  background-image: url('#{$root_url}/package-bg.png');
+}
+@mixin package-bg2 {
+  @include bg;
+  background-image: url('#{$root_url}/package-bg2.png');
+}
+@mixin icon15_1 {
+  @include bg;
+  background-image: url('#{$root_url}/icon15_1.png');
+  background-size: 0.32rem 0.32rem;
+}
+@mixin icon12 {
+  @include bg;
+  background-image: url('#{$root_url}/icon12.png');
+  background-size: 0.3rem 0.3rem;
+}
+@mixin goback {
+  @include bg;
+  background-image: url('#{$root_url}/goback.png');
+  background-size: 0.3rem 0.3rem;
+}
+@mixin img8 {
+  @include bg;
+  background-image: url('#{$root_url}/img8.png');
+  background-size: 0.3rem 0.3rem;
+}
+@mixin icon15 {
+  @include bg;
+  background-image: url('#{$root_url}/icon15.png');
+  background-size: 0.3rem 0.3rem;
+}
+@mixin icon15on {
+  @include bg;
+  background-image: url('#{$root_url}/icon15on.png');
+  background-size: 0.3rem 0.3rem;
+}
+@mixin icon13 {
+  @include bg;
+  background-image: url('#{$root_url}/icon13.png');
+  background-size: 0.32rem 0.32rem;
+}
+@mixin icon14 {
+  @include bg;
+  background-image: url('#{$root_url}/icon14.png');
+  background-size: 0.32rem 0.32rem;
+}
+@mixin icon14on {
+  @include bg;
+  background-image: url('#{$root_url}/icon14on.png');
+  background-size: 0.32rem 0.32rem;
+}
