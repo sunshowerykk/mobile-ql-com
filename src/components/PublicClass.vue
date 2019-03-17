@@ -1,14 +1,6 @@
 <!--公开课-->
 <template>
     <div>
-      <div class="header">
-        <div class="logo">
-          <img src="../assets/img/logo.png" />
-        </div>
-        <router-link to="" class="toLogin">学员端</router-link>
-      </div>
-      <Navigation></Navigation>
-
       <div class="setMeal publicClass">
         <div class="tit">
           <h3>升本公开课</h3>
@@ -24,7 +16,7 @@
             </div>
           </div>
           <ul>
-            <li v-for="cass in classes">
+            <li v-for="cass in classes" :key="cass.id">
                 <div class="item" @click="check(cass.id,cass.list_pic)">
                   <img :src="cass.list_pic">
                   <div class="txt" >
