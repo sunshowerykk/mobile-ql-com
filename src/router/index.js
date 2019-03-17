@@ -6,11 +6,10 @@ import home from '@/pages/main/home/index' //首页
 import SetMeal from '@/pages/main/package/SetMeal' //套餐
 import SetMealDetail from '@/pages/main/package/SetMealDetail' //套餐详情
 import ClassQuality from '@/components/ClassQuality' //精品课
-import PublicClass from '@/components/PublicClass' //公开课
-import Library from '@/components/Library'  //图书
+import PublicClass from '@/pages/main/open/PublicClass' //公开课
+import Library from '@/pages/main/library/Library'  //图书
 import Notice from '@/components/Notice' //公告
-import PublicClassDetail from '@/components/PublicClassDetail' //公开课视频详情
-import LibraryDetail from '@/components/LibraryDetail'  //图书详情
+import LibraryDetail from '@/pages/main/library/LibraryDetail'  //图书详情
 import VerificationCode from '@/components/VerificationCode'  //验证码登录
 import InformationDetail from '@/components/informationDetail' //资讯详情
 import UserCenter from '@/components/UserCenter'  //个人中心
@@ -42,6 +41,11 @@ const router = new Router({
       component: login
     },
     {
+      path: '/LibraryDetail/:id',
+      name: 'LibraryDetail',
+      component: LibraryDetail
+    },
+    {
       path: '/',
       name: 'main',
       component: main,
@@ -60,7 +64,17 @@ const router = new Router({
           path: '/SetMealDetail/:id',
           name: 'SetMealDetail',
           component: SetMealDetail
-        }
+        },
+        {
+          path: '/PublicClass',
+          name: 'PublicClass',
+          component: PublicClass
+        },
+        {
+        path: '/Library',
+        name: 'Library',
+        component: Library
+       }
       ]
     }
   ]
