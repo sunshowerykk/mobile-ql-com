@@ -31,6 +31,8 @@ Vue.use(VueCookies);
 Vue.use(iView);//使用iview组件
 Vue.use(wx);
 
+router.push('/index');
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
