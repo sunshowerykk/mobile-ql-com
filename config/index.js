@@ -12,10 +12,6 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target: 'http://101.236.19.193:16800',
-        // target: 'http://101.236.57.220:16800/',
-        // target: 'http://localhost:8080',
-        // target:'http://43.241.237.154:8080',
         target: 'http://api.ql.com',
         changeOrigin: true,
         pathRewrite: {

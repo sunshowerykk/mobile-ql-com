@@ -1,6 +1,8 @@
 import http from 'axios'
 import qs from 'qs'
 
+http.defaults.baseURL = process.env.API_ROOT
+
 export const TEMPLATE_GET = (str, data, resolve) => {
   http.get(str, {
     params: data || {}
