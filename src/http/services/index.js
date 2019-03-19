@@ -91,7 +91,7 @@ const service = {
   homeService: {
     getHomeData: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/site/index', data, resolve)
+        TEMPLATE_GET('/site/index', data, resolve)
       })
     },
   }

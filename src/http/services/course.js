@@ -4,37 +4,37 @@ const service = {
   courseService: {
     courseList: ({}) => {
       return new Promise((resolve, data, reject) => {
-        TEMPLATE_GET('/api/course/list', data, resolve)
+        TEMPLATE_GET('/course/list', data, resolve)
       })
     },
 
     courseShare: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/course/detail', data, resolve)
+        TEMPLATE_GET('/course/detail', data, resolve)
       })
     },
 
     courseVideo: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/course/course-video', data, resolve)
+        TEMPLATE_GET('/course/course-video', data, resolve)
       })
     },
 
     courseOrder: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/course/course-order', data, resolve)
+        TEMPLATE_GET('/course/course-order', data, resolve)
       })
     },
 
     confirmOrder: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/order/confirm-order', data, resolve)
+        TEMPLATE_GET('/order/confirm-order', data, resolve)
       })
     },
 
     bookOrder: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/order/book-order', data, resolve)
+        TEMPLATE_GET('/order/book-order', data, resolve)
       })
     },
   }

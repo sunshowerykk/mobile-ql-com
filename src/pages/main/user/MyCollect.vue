@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import service from '@/http/services/user.js'
+    import service_user from '@/http/services/user.js'
     export default {
         name: "MyCollect",
         data() {
@@ -45,7 +45,7 @@
             this.token = this.$cookies.get('access_token');
           },
           getCollections :function () {
-            service.userService.getCollections(this.token).then(res => {
+            service_user.userService.getCollections(this.token).then(res => {
             if (res.status === 200) {
               this.collections = res.data;
               console.log(this.collections);
@@ -59,7 +59,3 @@
       }
     }
 </script>
-
-<style scoped>
-
-</style>

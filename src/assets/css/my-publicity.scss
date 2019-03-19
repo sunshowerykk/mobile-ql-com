@@ -1,0 +1,58 @@
+.preach .pic img {
+  display: block;
+  width: 100%;
+}
+
+.preach .bg {
+  position: relative;
+  height: 7.97rem;
+}
+
+.preach .bg .posi {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.preach .bg .cont {
+  position: relative;
+  z-index: 9;
+}
+
+.preach .bg .list {
+  padding: 0.4rem;
+}
+
+.preach .bg .list li {
+  float: left;
+  width: 25%;
+  text-align: center;
+}
+
+.preach .bg .list li img {
+  display: block;
+  margin: 0 auto;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.preach .bg .wema {
+  padding-top: 1rem; /*padding-bottom:3rem;*/
+}
+
+.preach .bg .wema img {
+  display: block;
+  margin: 0 auto;
+  width: 2.15rem;
+}
+
+.preach .tips {
+  padding: 0.2rem;
+}
+
+.preach .tips p {
+  font-size: 0.26rem;
+  color: #333;
+}

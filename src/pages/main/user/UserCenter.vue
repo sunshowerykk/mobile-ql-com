@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import service from '@/http/services/user.js'
+    import service_user from '@/http/services/user.js'
     export default {
         name: "UserCenter",
         data() {
@@ -50,7 +50,7 @@
             this.token = this.$cookies.get('access_token');
           },
           getUserInfo: function () {
-            service.userService.getSet(this.token).then(res => {
+            service_user.userService.getSet(this.token).then(res => {
             if (res.status === 200) {
               this.userinfo = res.data;
               console.log(this.userinfo);
@@ -58,7 +58,7 @@
           })
           },
           getDuration: function () {
-            service.userService.getDuration(this.token).then(res => {
+            service_user.userService.getDuration(this.token).then(res => {
             if (res.status === 200) {
               this.duration = res.data;
               console.log(this.duration);
@@ -74,68 +74,3 @@
     }
 </script>
 
-<style scoped>
-  .pCenter .infoMod {
-    padding: 0.5rem 0.3rem;
-    background: #68685c;
-  }
-
-  .pCenter .infoMod .pic {
-    float: left;
-    width: 15%;
-  }
-
-  .pCenter .infoMod .pic img {
-    display: block;
-    width: 100%;
-    border-radius: 1rem;
-  }
-
-  .pCenter .infoMod .txt {
-    float: right;
-    width: 80%;
-    color: #fff;
-    padding-top: 0.23rem;
-    line-height: 0.4rem;
-  }
-
-  .pCenter .infoMod .txt strong {
-    display: block;
-    font-size: 0.3rem;
-    line-height: 0.28rem;
-  }
-
-  .pCenter .infoMod .txt span {
-    display: block;
-    font-size: 0.24rem;
-  }
-
-  .pCenter .menuLst li {
-    position: relative;
-    height: 1rem;
-    line-height: 1rem;
-    border-bottom: 1px solid #ececec;
-    padding: 0 0.3rem;
-    background: url(../assets/img/more.png) no-repeat 97%;
-    background-size: 0.32rem 0.32rem;
-  }
-
-  .pCenter .menuLst li a {
-    font-size: 0.28rem;
-    color: #333;
-  }
-
-  .pCenter .menuLst li .num {
-    display: inline-block;
-    width: 0.1rem;
-    height: 0.1rem;
-    border-radius: 1rem;
-    background: #DB2C1B;
-    position: absolute;
-    top: 0.45rem;
-    right: 0.55rem;
-  }
-  .user-center-item{
-    display: block;
-  }
-</style>

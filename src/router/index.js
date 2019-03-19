@@ -8,26 +8,27 @@ import home from '@/pages/main/home/index' //首页
 import SetMeal from '@/pages/main/package/SetMeal' //套餐
 import SetMealDetail from '@/pages/main/package/SetMealDetail' //套餐详情
 import ClassQuality from '@/pages/main/course/ClassQuality' //精品课
+import ClassShare from '@/pages/main/course/ClassShare' //精品课详情页
 import PublicClass from '@/pages/main/open/PublicClass' //公开课
 import Library from '@/pages/main/library/Library'  //图书
 import Notice from '@/components/Notice' //公告
 import LibraryDetail from '@/pages/main/library/LibraryDetail'  //图书详情
-import InformationList from '@/pages/main/information/informationList' //资讯列表 
+import InformationList from '@/pages/main/information/informationList' //资讯列表
 import InformationDetail from '@/pages/main/information/informationDetail' //资讯详情
-import UserCenter from '@/components/UserCenter'  //个人中心
-import Message from '@/components/Message' //消息中心
-import MyClass from '@/components/MyClass'  //我的课程
-import MyClassDetail from '@/components/MyClassDetail'  //我的课程视频页
-import MyGold from '@/components/MyGold'  //我的金币
-import MyPublicity from '@/components/MyPublicity'  //我的宣传页
-import MyOrder from '@/components/MyOrder'  //我的订单
-import MyCollect from '@/components/MyCollect'  //我的收藏
+import PayCenter from '@/pages/main/pay/PayCenter'  //支付中心
+import UserCenter from '@/pages/main/user/UserCenter'   // 个人中心
+import MyClass from '@/pages/main/user/MyClass'   // 我的课程
+import MyClassDetail from '@/pages/main/user/MyClassDetail'   // 我的课程详情
+import Message from '@/pages/main/user/Message'//消息中心
+import MyGold from '@/pages/main/user/MyGold'//我的金币
+import MyOrder from '@/pages/main/user/MyOrder'//我的订单
+import MyCollect from '@/pages/main/user/MyCollect'//我的收藏
+import MyEarnings from '@/pages/main/user/MyEarnings'//我的收益
+import MyPublicity from '@/pages/main/user/MyPublicity'//我的宣传页
+import MySet from '@/pages/main/user/MySet'//我的设置
+
 import MyGeneralize from '@/components/MyGeneralize'  //我的推广收益
-import MySet from '@/components/MySet'  //我的设置
-import PayCenter from '@/components/PayCenter'  //结算中心
 import Address from '@/components/Address'  //收货地址
-import ClassShare from '@/components/ClassShare'  //课程分享
-import MyEarnings from '@/components/MyEarnings'  //我的收益
 import EditInfo from '@/components/EditInfo' //绑定账号
 import OpenCoursePayCenter from '@/components/OpenCoursePayCenter'  //公开课购买
 
@@ -106,6 +107,61 @@ const router = new Router({
       path: '/LibraryDetail/:id',
       name: 'LibraryDetail',
       component: LibraryDetail
+    },
+    {
+      path: '/PayCenter/:id',
+      name: 'PayCenter',
+      component: PayCenter
+    },
+    {
+      path: '/UserCenter/',
+      name: 'UserCenter',
+      component: UserCenter
+    },
+    {
+      path: '/Message/',
+      name: 'Message',
+      component: Message
+    },
+    {
+      path: '/MyClass/',
+      name: 'MyClass',
+      component: MyClass
+    },
+    {
+      path: '/MyClassDetail/:id',
+      name: 'MyClassDetail',
+      component: MyClassDetail
+    },
+    {
+      path: '/MyGold/',
+      name: 'MyGold',
+      component: MyGold
+    },
+    {
+      path: '/MyOrder/',
+      name: 'MyOrder',
+      component: MyOrder
+    },
+    {
+      path: '/MyCollect/',
+      name: 'MyCollect',
+      component: MyCollect
+    },
+    {
+      path: '/MyEarnings/',
+      name: 'MyEarnings',
+      component: MyEarnings
+    },
+    {
+      path: '/MyPublicity/',
+      name: 'MyPublicity',
+      component: MyPublicity
+    },
+    {
+      path: '/MySet/',
+      name: 'MySet',
+      component: MySet
     },
   ]
 })

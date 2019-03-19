@@ -1,0 +1,178 @@
+.bg {
+  background: #fafafa;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+.tab-nav {
+  text-align: center;
+  padding: 0.2rem 0;
+  font-size: 0;
+  background: #fff;
+}
+.tab-nav li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  float: none;
+  width: auto;
+  border: 1px solid #DB2C1B;
+  padding: 0 0.2rem;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  background: #DB2C1B;
+  color: #fff;
+}
+.tab-nav li a {
+  display: block;
+  font-size: 0.28rem;
+}
+.tab-nav li.on {
+  background: none;
+  border-bottom: 1px solid #DB2C1B;
+}
+.tab-nav li.on a{
+  color: #DB2C1B;
+}
+/*.page9{background:#f2f2f2;}*/
+.duration {
+  background: url(../../assets/img/mystudyBg.png) no-repeat center;
+  background-size: 100% 100%;
+  padding: 0.3rem 0;
+  text-align: center;
+}
+.duration strong {
+  font-size: 0.42rem;
+  color: #fff;
+}
+.duration span {
+  font-size: 0.28rem;
+  color: #fff;
+  margin: 0 0.3rem 0 0.2rem;
+}
+.duration img {
+  vertical-align: top;
+  width: 1rem;
+}
+.mycourseList .tit {
+  height: 0.7rem;
+  line-height: 0.7rem;
+  background: #fff;
+  padding: 0 0.2rem;
+}
+.mycourseList .tit a {
+  font-size: 0.28rem;
+  color: #333;
+}
+.mycourseList .tit span.all {
+  float: right;
+  font-size: 0.26rem;
+}
+.mycourseList .tit span.all i {
+  display: inline-block;
+  width: 0.3rem;
+  height: 0.3rem;
+  background: url(../../assets/img/icon20.png) no-repeat center;
+  background-size: 0.3rem 0.3rem;
+}
+.mycourseList .noCourse {
+  padding-top: 2rem;
+  text-align: center;
+}
+.mycourseList .noCourse h5 {
+  font-size: 0.28rem;
+  color: #999;
+  margin-bottom: 0.2rem;
+  text-align: center;
+}
+.mycourseList .noCourse .go {
+  display: block;
+  margin: 0 auto;
+  width: 1.7rem;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  background: #DB2C1B;
+  color: #fff;
+  text-align: center;
+  font-size: 0.26rem;
+  border-radius: 0.1rem;
+}
+.studyPlan {
+  background: #fff;
+  padding: 0.2rem;
+}
+.studyPlan .tit {
+  height: 0.7rem;
+  line-height: 0.7rem;
+  margin-bottom: 0.1rem;
+}
+.studyPlan .tit h5 {
+  font-size: 0.3rem;
+  color: #333;
+}
+.studyPlan .tit h5 i {
+  display: inline-block;
+  width: 0.32rem;
+  height: 0.32rem;
+  vertical-align: top;
+  margin-right: 0.1rem;
+  margin-top: 0.2rem;
+  background: url(../../assets/img/icon23.png) no-repeat center;
+  background-size: 0.32rem 0.32rem;
+}
+.studyPlan .pic {
+  padding-bottom: 0.2rem;
+}
+.studyPlan .pic img {
+  display: block;
+  width: 100%;
+}
+.studyPlan .plan {
+  padding-bottom: 0.2rem;
+}
+.studyPlan .txt {
+  padding: 0.2rem;
+  border: 1px solid #ECECEC;
+  box-shadow: -1px 6px 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 0.1rem;
+}
+.studyPlan .txt p {
+  font-size: 0.26rem;
+  padding-bottom: 0.1rem;
+}
+.mycourseList .lst {
+  padding: 0.2rem;
+  background: #fff;
+}
+.mycourseList .lst ul li {
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #ECECEC;
+}
+.mycourseList .lst ul li:last-child {
+  border-bottom: none;
+}
+.mycourseList .lst ul li .pic {
+  float: left;
+  width: 33%;
+}
+.mycourseList .lst ul li .pic img {
+  display: block;
+  width: 100%;
+}
+.mycourseList .lst ul li .txt {
+  float: right;
+  width: 64%;
+}
+.mycourseList .lst ul li .txt h5 {
+  font-size: 0.3rem;
+  color: #333;
+}
+.mycourseList .lst ul li .txt span {
+  font-size: 0.22rem;
+  color: #999;
+  display: block;
+}
+.mycourseList .lst ul li .txt strong {
+  font-size: 0.26rem;
+  color: #DB2C1B;
+}

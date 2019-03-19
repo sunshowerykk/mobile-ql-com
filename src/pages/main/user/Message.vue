@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import service from '@/http/services/user.js'
+    import service_user from '@/http/services/user.js'
     export default {
         name: "Message",
         data() {
@@ -32,7 +32,7 @@
             this.token = this.$cookies.get('access_token');
           },
           getMessage :function () {
-            service.userService.getMessage(this.token).then(res => {
+            service_user.userService.getMessage(this.token).then(res => {
             if (res.status === 200) {
               this.messages = res.data;
               console.log(this.messages);
@@ -46,32 +46,3 @@
       }
     }
 </script>
-
-<style scoped>
-  .newsList {
-    padding: 0.2rem;
-  }
-
-  .newsList li {
-    padding: 0.2rem;
-    border-bottom: 1px solid #ececec;
-  }
-
-  .newsList li:last-child {
-    border-bottom: none;
-  }
-
-  .newsList li h5 {
-    font-size: 0.28rem;
-    color: #333;
-    margin-bottom: 0.2rem;
-  }
-
-  .newsList li .time {
-    display: block;
-    text-align: right;
-    font-size: 0.24rem;
-    color: #999;
-  }
-
-</style>

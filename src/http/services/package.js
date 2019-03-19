@@ -4,13 +4,13 @@ const service = {
   packageService: {
     packageList: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/package/list', data, resolve)
+        TEMPLATE_GET('/package/list', data, resolve)
       })
     },
 
     packageDetail: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/package/detail', data, resolve)
+        TEMPLATE_GET('/package/detail', data, resolve)
       })
     }
 

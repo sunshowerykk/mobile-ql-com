@@ -4,95 +4,95 @@ const service_user = {
   userService: {
     signIn: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('/api/user/login', data, resolve)
+        TEMPLATE_Form_POST('/user/login', data, resolve)
       })
     },
     isLogin:(data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/user/islogin', data, resolve)
+        TEMPLATE_GET('/user/islogin', data, resolve)
       })
     },
     smsCode:(data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('/api/user/logincode', data, resolve)
-      }) 
+        TEMPLATE_Form_POST('/user/logincode', data, resolve)
+      })
     },
     changePassword:(data) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('/api/user/changepassword', data, resolve)
-      }) 
+        TEMPLATE_Form_POST('/user/changepassword', data, resolve)
+      })
     }
   },
   personalService: {
     incomeStatistics: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/income-statistics', data, resolve)
+        TEMPLATE_GET('/personal/income-statistics', data, resolve)
       })
     },
     income: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/income', data, resolve)
+        TEMPLATE_GET('/personal/income', data, resolve)
       })
     },
     incomeCheck: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/income-check', data, resolve)
+        TEMPLATE_GET('/personal/income-check', data, resolve)
       })
     },
     incomeMonthCheck: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/income-month-check', data, resolve)
+        TEMPLATE_GET('/personal/income-month-check', data, resolve)
       })
     },
     incomeMonth: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/income-month', data, resolve)
+        TEMPLATE_GET('/personal/income-month', data, resolve)
       })
     },
     updateAlipay: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/update-alipay', data, resolve)
+        TEMPLATE_GET('/personal/update-alipay', data, resolve)
       })
     },
     getAlipay: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/get-alipay', data, resolve)
+        TEMPLATE_GET('/personal/get-alipay', data, resolve)
       })
     },
     register:(data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('/api/user/signup', data, resolve)
-      }) 
+        TEMPLATE_Form_POST('/user/signup', data, resolve)
+      })
     },
     changeSet:(data, token) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_Form_POST('/api/personal/change-set?access-token=' + token, data, resolve)
-      }) 
+        TEMPLATE_Form_POST('/personal/change-set?access-token=' + token, data, resolve)
+      })
     },
     getSet:(data) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/user-profile?access-token=' + data, '', resolve);
-      }) 
+        TEMPLATE_GET('/personal/user-profile?access-token=' + data, '', resolve);
+      })
     },
     getMessage:(data) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/message-list?access-token=' + data, '', resolve);
-      }) 
+        TEMPLATE_GET('/personal/message-list?access-token=' + data, '', resolve);
+      })
     },
     getCollections:(data) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/collection-list?access-token=' + data, '', resolve);
-      }) 
+        TEMPLATE_GET('/personal/collection-list?access-token=' + data, '', resolve);
+      })
     },
     getDuration:(data) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/duration?access-token=' + data, '', resolve);
-      }) 
+        TEMPLATE_GET('/personal/duration?access-token=' + data, '', resolve);
+      })
     },
     getQrcode:(data) =>{
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/api/personal/qrcode?access-token=' + data, '', resolve);
-      }) 
+        TEMPLATE_GET('/personal/qrcode?access-token=' + data, '', resolve);
+      })
     },
     getWxAccessToken:(data) =>{
       return new Promise((resolve, reject) => {
