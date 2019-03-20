@@ -32,6 +32,8 @@
     created() {
       this.video_url = this.$route.params.video_url;
       this.title = this.$route.params.title;
+      console.log(this.title);
+      console.log(this.video_url);
     },
     methods:{
       changeShare(msg){

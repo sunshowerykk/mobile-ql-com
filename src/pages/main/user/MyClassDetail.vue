@@ -50,20 +50,18 @@
                 <dl class="class-item">
 
                   <dd v-for="coursePoint in Section.courseSectionPoints">
-                    <router-link :to="{name: 'QualityCourseVideo', params:{video_url: coursePoint.video_url, title: coursePoint.name}}">
-                      <a href="#">
-                        <div class="item clearfix">
-                          <div class="left">
-                            <span class="type">视频</span>
-                            <span class="name">{{coursePoint.name}}</span>
-                          </div>
-                          <div class="right">
-                            <span class="already">已学0%</span>
-                            <span class="time"><i></i>{{ coursePoint.duration }}</span>
-                          </div>
+                    <a href="#" @click="openCheck(Section.id, coursePoint.id, coursePoint.name)">
+                      <div class="item clearfix">
+                        <div class="left">
+                          <span class="type">视频</span>
+                          <span class="name">{{coursePoint.name}}</span>
                         </div>
-                      </a>
-                    </router-link>
+                        <div class="right">
+                          <span class="already">已学0%</span>
+                          <span class="time"><i></i>{{ coursePoint.duration }}</span>
+                        </div>
+                      </div>
+                    </a>
                   </dd>
 
                 </dl>
@@ -190,6 +188,7 @@
 <script>
   import { Tab, TabItem, Sticky, Cell, Group } from 'vux'
   import service from "@/http/services/personal";
+  import service_course from "@/http/services/course";
   export default {
     name: "MyClassDetail",
     data(){
@@ -271,6 +270,22 @@
         this.flag = this.flagArray['show' + index1 + index2];
         console.log(this.flagArray);
         return this.flag;
+      },
+      openCheck(section_id, point_id, title) {
+        service_course.courseService.check({'access-token': this.$cookies.get('access_token') ? this.$cookies.get('access_token') : '',
+          'course_id': this.id, 'section_id': section_id,
+          'point_id': point_id}).then(res => {
+
+          if (res.data.status === 0) {
+            this.$Message.info(res.data.message);
+            this.$router.push({path: '/Login'});
+          } else if (res.data.status === 3) {
+            this.$Message.warning(res.data.message);
+          } else {
+            this.$Message.success(res.data.message);
+            this.$router.push({name: 'QualityCourseVideo', params:{title: title, video_url: res.data.url}});
+          }
+        })
       }
     },
     mounted: function () {

@@ -84,7 +84,7 @@
           },
           exit: function () {
             this.$cookies.set('access_token', "", -1);
-            this.$router.push({path: '/'});
+            this.$router.push({path: '/index'});
           },
           initSettings: function () {
             service_user.userService.getSet({'access-token': this.token}).then(res => {

@@ -47,7 +47,7 @@
           userService.userService.signIn(this.loginForm).then(res => {
             if (res.status === 200 && res.data.status === 0) {
               this.$cookies.set('access_token', res.data.access_token);
-              this.$router.push({path: '/home'})
+              this.$router.push({path: '/index'})
             } else {
               this.$Message.error(res.data.msg);
             }
