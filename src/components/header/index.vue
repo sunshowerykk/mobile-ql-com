@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import service from '@/http/services/user.js'
+import service_user from '@/http/services/user'
 export default {
   name: 'headerBar',
   data () {
@@ -29,7 +29,7 @@ export default {
         this.head.link = '/Login';
       }
       else {
-        service.personalService.getSet(this.token).then(res => {
+        service_user.userService.getSet({'access-token': this.token}).then(res => {
           if (res.status === 200) {
             this.head.text = "hi, " + res.data.username;
             this.head.link = '/UserCenter';

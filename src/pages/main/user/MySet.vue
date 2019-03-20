@@ -39,7 +39,7 @@
                   :action="fileUploadUrl"
                   style="display: inline-block;width:58px;">
                   <Button icon="ios-cloud-upload-outline">上传头像</Button>
-                  <img :src="this.settings.picture"></img>
+                  <img :src="this.settings.picture">
                 </Upload>
               </div>
             </li>
@@ -87,7 +87,7 @@
             this.$router.push({path: '/'});
           },
           initSettings: function () {
-            service_user.userService.getSet(this.token).then(res => {
+            service_user.userService.getSet({'access-token': this.token}).then(res => {
             if (res.status === 200) {
               this.settings = res.data;
               this.settings.picture = res.data.picture;

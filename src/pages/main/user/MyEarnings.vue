@@ -113,7 +113,7 @@
         },
         change2 (value) {
           console.log('伍浩伟 ', value)
-          service_user.personalService.incomeMonthCheck({'access-token': this.access_token,'date' :this.value1,'date2' : this.value2}).then(res => {
+          service_user.userService.incomeMonthCheck({'access-token': this.access_token,'date' :this.value1,'date2' : this.value2}).then(res => {
             if (res.status === 200) {
               this.monthincome = res.data;
                console.log(this.monthincome)
@@ -121,7 +121,7 @@
           })
         },
         init() {
-          service_user.personalService.income({'access-token': this.access_token}).then(res => {
+          service_user.userService.income({'access-token': this.access_token}).then(res => {
             if (res.status === 200) {
               this.income = res.data.income;
               this.settlement = res.data.settlement;
@@ -131,7 +131,7 @@
           })
         },
         initMonthCheck() {
-          service_user.personalService.incomeMonth({'access-token': this.access_token}).then(res => {
+          service_user.userService.incomeMonth({'access-token': this.access_token}).then(res => {
             if (res.status === 200) {
               this.monthincome = res.data;
               console.log(this.monthincome)

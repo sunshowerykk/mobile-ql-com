@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import main from '@/pages/main'
-import login from '@/pages/login/Login'  //登录
+import Login from '@/pages/login/Login'  //登录
 import Register from '@/pages/login/Register'  //注册
 import VerificationCode from '@/pages/login/VerificationCode'  //忘记密码
 import home from '@/pages/main/home/index' //首页
@@ -26,6 +26,7 @@ import MyCollect from '@/pages/main/user/MyCollect'//我的收藏
 import MyEarnings from '@/pages/main/user/MyEarnings'//我的收益
 import MyPublicity from '@/pages/main/user/MyPublicity'//我的宣传页
 import MySet from '@/pages/main/user/MySet'//我的设置
+import QualityCourseVideo from '@/pages/main/course/QualityCourseVideo'//我的设置
 
 import MyGeneralize from '@/components/MyGeneralize'  //我的推广收益
 import Address from '@/components/Address'  //收货地址
@@ -37,9 +38,9 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: login
+      path: '/Login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/Register',
@@ -162,6 +163,11 @@ const router = new Router({
       path: '/MySet/',
       name: 'MySet',
       component: MySet
+    },
+    {
+      path: '/QualityCourseVideo/',
+      name: 'QualityCourseVideo',
+      component: QualityCourseVideo
     },
   ]
 })

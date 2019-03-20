@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import service_user from '@/http/services/user.js'
+    import service_user from '@/http/services/user'
     export default {
         name: "UserCenter",
         data() {
@@ -50,7 +50,7 @@
             this.token = this.$cookies.get('access_token');
           },
           getUserInfo: function () {
-            service_user.userService.getSet(this.token).then(res => {
+            service_user.userService.getSet({'access-token': this.token}).then(res => {
             if (res.status === 200) {
               this.userinfo = res.data;
               console.log(this.userinfo);
@@ -58,7 +58,7 @@
           })
           },
           getDuration: function () {
-            service_user.userService.getDuration(this.token).then(res => {
+            service_user.userService.getDuration({'access-token': this.token}).then(res => {
             if (res.status === 200) {
               this.duration = res.data;
               console.log(this.duration);

@@ -1,0 +1,11 @@
+.viedoCont{
+  position: fixed;
+  background: #000;
+  height: calc(100% - 0.88rem);
+  width: 100%;
+  .cont{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

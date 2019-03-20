@@ -275,12 +275,12 @@
             this.courseInfo.course = res.data.course;
             this.courseInfo.teacher = res.data.teacher;
             this.collect = res.data.course.iscollect;
-            // console.log(this.courseInfo);
+            console.log(this.courseInfo);
           }
         })
       },
       getCourseVideo() {
-        service_course.courseService.courseVideo({'course_id': this.courseid, 'access-token': this.$cookies.get('access-token')}).then(res => {
+        service_course.courseService.courseVideo({'course_id': this.courseid, 'access-token': this.$cookies.get('access_token')}).then(res => {
           if (res.status === 200 && res.data.status === 0) {
             this.courseVideo = res.data.course;
             for (var i = 0; i < this.courseVideo.courseChapters.length; i++) {
@@ -290,6 +290,7 @@
             }
             console.log(this.flagArray);
             this.pay = (res.data.ispay != 0);
+            console.log(res.data);
             // this.pay = true;
             // console.log(this.courseVideo.courseChapters);
           } else {

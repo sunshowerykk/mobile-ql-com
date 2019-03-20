@@ -7,23 +7,22 @@ const service_user = {
         TEMPLATE_Form_POST('/user/login', data, resolve)
       })
     },
-    isLogin:(data) => {
+    isLogin: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/user/islogin', data, resolve)
       })
     },
-    smsCode:(data) => {
+    smsCode: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_Form_POST('/user/logincode', data, resolve)
       })
     },
-    changePassword:(data) =>{
+    changePassword: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_Form_POST('/user/changepassword', data, resolve)
       })
-    }
-  },
-  personalService: {
+    },
+
     incomeStatistics: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/personal/income-statistics', data, resolve)
@@ -59,46 +58,46 @@ const service_user = {
         TEMPLATE_GET('/personal/get-alipay', data, resolve)
       })
     },
-    register:(data) => {
+    register: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_Form_POST('/user/signup', data, resolve)
       })
     },
-    changeSet:(data, token) =>{
+    changeSet: (data, token) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_Form_POST('/personal/change-set?access-token=' + token, data, resolve)
       })
     },
-    getSet:(data) =>{
+    getSet: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/personal/user-profile?access-token=' + data, '', resolve);
+        TEMPLATE_GET('/personal/user-profile', data, resolve);
       })
     },
-    getMessage:(data) =>{
+    getMessage: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/personal/message-list?access-token=' + data, '', resolve);
       })
     },
-    getCollections:(data) =>{
+    getCollections: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/personal/collection-list?access-token=' + data, '', resolve);
       })
     },
-    getDuration:(data) =>{
+    getDuration: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/personal/duration?access-token=' + data, '', resolve);
+        TEMPLATE_GET('/personal/duration', data, resolve);
       })
     },
-    getQrcode:(data) =>{
+    getQrcode: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/personal/qrcode?access-token=' + data, '', resolve);
       })
     },
-    getWxAccessToken:(data) =>{
+    getWxAccessToken: (data) => {
       return new Promise((resolve, reject) => {
-        TRMPLATE_GET('https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=id&corpsecret=secrect',data,resolve);
+        TRMPLATE_GET('https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=id&corpsecret=secrect', data, resolve);
       })
-    },
+    }
   }
 }
 

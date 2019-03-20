@@ -14,7 +14,7 @@
                     <span class="classname">{{ course_package.name }}</span>
                     <dl class="clearfix">
                       <dd v-for="teacher in course_package.teacher" :key="teacher.id">
-                        <!-- <img src="../../assets/img/img7.png" class="terImg"  /> -->
+                         <img :src="teacher.pic" class="terImg"  />
                         <span>{{ teacher.name }}</span>
                       </dd>
                     </dl>

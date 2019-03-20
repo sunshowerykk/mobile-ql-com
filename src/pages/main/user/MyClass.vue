@@ -83,7 +83,7 @@
 </template>
 
 <script>
-  import  service from '@/http/services/personal.js'
+  import  service from '@/http/services/personal'
   export default {
     name: "MyClass",
     data(){
@@ -91,7 +91,7 @@
         tabIndex: 0,
         myindex: 0,
         datas:[],
-        isLogin: flase,
+        isLogin: false,
         // courseList: {
         //   course_list: '',
         //   course_count: 0,
