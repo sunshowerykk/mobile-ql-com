@@ -110,7 +110,7 @@ const router = new Router({
       component: LibraryDetail
     },
     {
-      path: '/PayCenter/:id',
+      path: '/PayCenter/:type/:id',
       name: 'PayCenter',
       component: PayCenter
     },

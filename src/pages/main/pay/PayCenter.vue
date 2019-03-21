@@ -148,6 +148,7 @@
     created(){
       this.countDown(1024);
       this.id = this.$route.params.id;
+      this.type = this.$route.params.type;
     },
     watch: {
       checkedValue: function (new_v, old_v) {
@@ -161,6 +162,7 @@
         info: '',
         books: '',
         id: '',
+        type: '',
         course_count: 1,
         items: [],
         address_flag: false,
@@ -260,7 +262,12 @@
       }
     },
     mounted: function () {
-      this.getCourseInfo();
+      if (this.type == 'course') {
+        this.getCourseInfo();
+      } else {
+        this.$Message.info('套餐！，等待完善！');
+      }
+
     }
   }
 </script>

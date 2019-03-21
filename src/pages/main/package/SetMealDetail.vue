@@ -1,9 +1,9 @@
 <!--套餐详情-->
 <template>
     <div class="font-box">
-      <!-- <TopBack>
-        <span slot="headerTxt">{{ packageDetail.package.name }}</span>
-      </TopBack> -->
+      <!--<TopBack>-->
+        <!--<span slot="headerTxt">{{ packageDetail.package.name }}</span>-->
+      <!--</TopBack>-->
       <!--nav start-->
       <div class="detailImg">
         <div class="share" @click="showShare"></div>
@@ -118,7 +118,7 @@
             </ul>
           </div>
           <div class="right" v-if="packageDetail.package">
-            <router-link :to="{'name': 'PayCenter', params:{info: packageDetail.package}}" class="btn">立即购买</router-link>
+            <router-link :to="{'name': 'PayCenter', params:{type: 'package', id: pid}}" class="btn">立即购买</router-link>
           </div>
         </div>
       </div>

@@ -6,7 +6,25 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
+  data () {
+    return {
+      isRouterAlive: true
+    }
+  },
+  methods: {
+    reload () {
+      this.isRouterAlive = false;
+      this.$nextTick(function () {
+        this.isRouterAlive = true;
+      })
+    }
+  }
 }
 </script>
 
@@ -144,7 +162,7 @@ export default {
     height: 0.7rem;
   }
   .vux-tab-wrap.class-detail-tab-box .vux-tab{
-    height: 0.7rem;
+    height: 1.0rem;
   }
   .vux-tab-wrap.class-detail-tab-box  .vux-tab .vux-tab-item{
     line-height: 0.7rem;

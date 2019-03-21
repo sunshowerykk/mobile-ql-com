@@ -72,6 +72,40 @@
         </group>
       </div>
 
+      <!--<div v-else-if="indexActive == 1" key="1">-->
+        <!--<div class="tab-pal">-->
+          <!--<div class="workDetail">-->
+            <!--<span>应交作业<strong class="must">{{ courseHomework.homeworks }}</strong>次，实交作业<strong class="real">{{ courseHomework.submit_num }}</strong>次</span>-->
+          <!--</div>-->
+          <!--<div class="submitDltList">-->
+            <!--<ul>-->
+              <!--<div v-for="chapter in courseHomework.course.courseChapters">-->
+                <!--<div v-for="section in chapter.courseSections">-->
+                  <!--<li v-if="section.homework != '' && section.homework != null">-->
+                    <!--<div class="item">-->
+                      <!--<h5>{{ chapter.name + ':  ' + section.name }}</h5>-->
+                      <!--<div class="workName clearfix">-->
+                        <!--<span class="fl">作业</span>-->
+                        <!--<strong class="fr" v-html="section.homework"></strong>-->
+                      <!--</div>-->
+                      <!--<div class="submitDlt clearfix">-->
+                        <!--<span class="fl">提交</span>-->
+                        <!--<div class="dlt fr">-->
+                          <!--<div class="pic">-->
+                            <!--<img :src="section.userHomework.length == 0 ? require('../../../assets/img/img26.png') : section.userHomework[0].pic_url" alt="上传作业" />-->
+                          <!--</div>-->
+                          <!--<span class="tip">{{ section.userHomework.length == 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>-->
+                          <!--<a href="#" class="viedo">视频讲解</a>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</li>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <div v-else-if="indexActive == 1" key="1">
         <div class="tab-pal">
           <div class="workDetail">
@@ -91,11 +125,29 @@
                       <div class="submitDlt clearfix">
                         <span class="fl">提交</span>
                         <div class="dlt fr">
-                          <div class="pic">
-                            <img :src="section.userHomework.length == 0 ? require('../../../assets/img/img26.png') : section.userHomework[0].pic_url" alt="上传作业" />
+                          <div class="pic" v-if="section.userHomework.length === 0 || section.userHomework[0].status == 3">
+                            <Upload
+                              name="homeworkImg"
+                              multiple
+                              :format="['jpg','jpeg','png']"
+                              :max-size="7024"
+                              :action="uploadUrl + '&section_id=' + section.id + '&course_id=' + id"
+                              :on-success="uploadSuccess"
+                              :on-error="uploadError">
+                              <i-button type="info" icon="ios-cloud-upload-outline">上传作业</i-button>
+                            </Upload>
                           </div>
-                          <span class="tip">{{ section.userHomework.length == 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
-                          <a href="#" class="viedo">视频讲解</a>
+                          <div v-if="section.userHomework.length != 0 && section.userHomework[0].status != 3">
+                            <div class="pic" v-for="pic in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })">
+                              <img :src="pic" alt="上传作业" />
+                            </div>
+                          </div>
+                          <span class="tip">{{ section.userHomework.length === 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
+                          <router-link
+                            :to="{'name': 'QualityCourseVideo', params:{title: chapter.name + ':  ' + section.name + '-习题讲解', video_url: section.explain_video_url}}"
+                            class="viedo">
+                            视频讲解
+                          </router-link>
                         </div>
                       </div>
                     </div>
@@ -214,12 +266,14 @@
           list: ''
         },
         flagArray: [],
-        flag: false
+        flag: false,
+        uploadUrl: 'http://api.ql.com/personal/homework-upload?access-token=',
       }
     },
     created() {
       this.id = this.$route.params.id;
       console.log("id",this.id);
+      this.uploadUrl = this.uploadUrl + this.$cookies.get('access_token');
     },
     components: {
       Tab,
@@ -286,6 +340,18 @@
             this.$router.push({name: 'QualityCourseVideo', params:{title: title, video_url: res.data.url}});
           }
         })
+      },
+
+      uploadSuccess(res, file) {
+        if (res.status == 0) {
+          this.$Message.success('上传成功！');
+          this.reload();
+        } else {
+          this.$Message.warning(res.message);
+        }
+      },
+      uploadError(res, file) {
+        console.log('failed');
       }
     },
     mounted: function () {

@@ -106,11 +106,30 @@
                         <div class="submitDlt clearfix">
                           <span class="fl">提交</span>
                           <div class="dlt fr">
-                            <div class="pic">
-                              <img :src="section.userHomework.length == 0 ? require('../../../assets/img/img26.png') : section.userHomework[0].pic_url" alt="上传作业" />
+                            <div class="pic" v-if="section.userHomework.length === 0 || section.userHomework[0].status == 3">
+                              <Upload
+                                name="homeworkImg"
+                                multiple
+                                :format="['jpg','jpeg','png']"
+                                :max-size="7024"
+                                :action="uploadUrl + '&section_id=' + section.id + '&course_id=' + id"
+                                :on-success="uploadSuccess"
+                                :on-error="uploadError">
+                                <i-button type="info" icon="ios-cloud-upload-outline">上传作业</i-button>
+                              </Upload>
                             </div>
-                            <span class="tip">{{ section.userHomework.length == 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
-                            <a href="#" class="viedo">视频讲解</a>
+                            <div v-if="section.userHomework.length != 0 && section.userHomework[0].status != 3">
+                              <div class="pic" v-for="pic in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })">
+                                <img :src="pic" alt="上传作业" />
+                              </div>
+                            </div>
+                            <span class="tip">{{ section.userHomework.length === 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
+                            <router-link
+                              :to="{'name': 'QualityCourseVideo', params:{title: chapter.name + ':  ' + section.name + '-习题讲解', video_url: section.explain_video_url}}"
+                              :disabled="!pay"
+                              class="viedo">
+                              视频讲解
+                            </router-link>
                           </div>
                         </div>
                       </div>
@@ -181,7 +200,7 @@
           </ul>
         </div>
         <div class="right" v-if="courseInfo.course && isLogin">
-          <router-link :to="{'name': 'PayCenter', params:{courseid: courseInfo.course.id}}" class="btn" :disabled="pay">{{pay ? '已购买' : '立即购买'}}</router-link>
+          <router-link :to="{'name': 'PayCenter', params:{type: 'course', id: id}}" class="btn" :disabled="pay">{{pay ? '已购买' : '立即购买'}}</router-link>
         </div>
         <div class="right" v-if="courseInfo.course && isLogin == false">
           <router-link :to="{'name': 'Login'}" class="btn">立即购买</router-link>
@@ -197,6 +216,7 @@
   import service_user from '@/http/services/user.js'
   import service from '@/http/services/personal.js'
   export default {
+    inject: ['reload'],
     name: "ClassShare",
     data(){
       return{
@@ -223,18 +243,18 @@
         courseid: '',
         flagArray: [],
         flag: false,
-        isLogin: false
+        isLogin: false,
+        uploadUrl: 'http://api.ql.com/personal/homework-upload?access-token=',
       }
     },
-    components: {
-      Tab,
-      TabItem
-    },
+
     created() {
       this.id = this.$route.params.id;
       console.log("id",this.id);
       this.courseid = this.$route.params.id;
+      this.uploadUrl = this.uploadUrl + this.$cookies.get('access_token');
     },
+
     components: {
       Tab,
       TabItem,
@@ -305,7 +325,7 @@
               this.courseHomework.course = res.data.course;
               this.courseHomework.homeworks = res.data.homeworks;
               this.courseHomework.submit_num = res.data.submit_num;
-              // console.log(this.courseHomework);
+              console.log(this.courseHomework);
             }
           })
         }else if (index == 3) {
@@ -357,6 +377,18 @@
               this.$router.push({name: 'QualityCourseVideo', params:{title: title, video_url: res.data.url}});
             }
         })
+      },
+
+      uploadSuccess(res, file) {
+        if (res.status == 0) {
+          this.$Message.success('上传成功！');
+          this.reload();
+        } else {
+          this.$Message.warning(res.message);
+        }
+      },
+      uploadError(res, file) {
+        console.log('failed');
       }
     },
   }
