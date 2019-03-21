@@ -250,7 +250,6 @@
 
     created() {
       this.id = this.$route.params.id;
-      console.log("id",this.id);
       this.courseid = this.$route.params.id;
       this.uploadUrl = this.uploadUrl + this.$cookies.get('access_token');
     },
