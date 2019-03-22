@@ -109,7 +109,6 @@
                             <div class="pic" v-if="section.userHomework.length === 0 || section.userHomework[0].status == 3">
                               <Upload
                                 name="homeworkImg"
-                                multiple
                                 :format="['jpg','jpeg','png']"
                                 :max-size="7024"
                                 :action="uploadUrl + '&section_id=' + section.id + '&course_id=' + id"
@@ -387,7 +386,7 @@
         }
       },
       uploadError(res, file) {
-        console.log('failed');
+        this.$Message.error('上传失败！');
       }
     },
   }

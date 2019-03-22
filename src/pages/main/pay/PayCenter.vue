@@ -226,6 +226,25 @@
           }
         })
       },
+
+      getPackageInfo() {
+        service_course.courseService.packageOrder({'pid': this.id, 'access-token': this.$cookies.get('access_token')}).then(res => {
+          if(res.status === 200 && res.data.status == 0) {
+            this.info  = res.data.course_info;
+            this.books = res.data.books;
+            this.course_count = res.data.course_count;
+            this.user_info.username = res.data.user_info.username;
+            this.user_info.phone = res.data.user_info.phone;
+            this.user_info.address = res.data.user_info.address;
+            console.log(res.data.user_info);
+            for (var i = 0; i < this.books.length; i++) {
+              this.items[i] = false;
+            }
+            console.log(this.items);
+          }
+        })
+      },
+
       handleSelect(index) {
         this.items[index] = !this.items[index];
         console.log(this.items);
@@ -236,35 +255,40 @@
         }
       },
       confirmOrder() {
-        if (this.answer.length > 1) {
-          this.$Message.warning('只可选择一本图书！');
-        }
-        service_course.courseService.confirmOrder({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}).then(res => {
-          if (res.status === 200 && res.data.code === 0) {
-            console.log(res.data);
-            if (this.answer.length > 0) {
-              service_course.courseService.bookOrder({'access-token': this.$cookies.get('access_token'),
-                'book_id': this.answer[0], 'username': this.user_info.username,
-                'phone': this.user_info.phone, 'address': this.user_info.address})
-                .then(res => {
-                  if (res.status === 200 && res.data.code === 0) {
-                    this.$Message.success('赠品图书选择成功！');
-                    this.payModal = true;
-                  } else {
-                    this.$Message.warning('出错了！');
-                  }
-                })
+        if (this.answer.length > this.course_count) {
+          this.$Message.warning('只可选择' + this.course_count + '本图书！');
+        } else {
+          service_course.courseService.confirmOrder({'access-token': this.$cookies.get('access_token'), 'course_id': this.id, 'type': this.type}).then(res => {
+            if (res.status === 200 && res.data.code === 0) {
+              console.log(res.data);
+              if (this.answer.length > 0) {
+                service_course.courseService.bookOrder({'access-token': this.$cookies.get('access_token'),
+                  'book_id': this.answer, 'username': this.user_info.username,
+                  'phone': this.user_info.phone, 'address': this.user_info.address})
+                  .then(res => {
+                    if (res.status === 200 && res.data.code === 0) {
+                      this.$Message.success('赠品图书选择成功！');
+                      this.payModal = true;
+                    } else {
+                      this.$Message.warning('出错了！');
+                    }
+                  })
+              } else {
+                this.payModal = true;
+              }
+            } else {
+              this.$Message.warning(res.data.message);
             }
-          } else {
-            this.$Message.warning(res.data.message);
-          }
-        })
+          })
+        }
+
       }
     },
     mounted: function () {
       if (this.type == 'course') {
         this.getCourseInfo();
-      } else {
+      } else if (this.type == 'package') {
+        this.getPackageInfo();
         this.$Message.info('套餐！，等待完善！');
       }
 

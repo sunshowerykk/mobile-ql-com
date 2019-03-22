@@ -93,7 +93,7 @@
 
       <Share v-if="share" :share="share" @changeShare="changeShare($event)"></Share>
 
-      <div class="botFixed" v-show="!pay">
+      <div class="botFixed">
         <div class="cont clearfix">
           <div class="left">
             <ul class="clearfix">
@@ -104,10 +104,7 @@
                 </a>
               </li>
               <li>
-                <a href="javascript:;">
-                  <i class="collect" :class="{ on: collect}" @click="collect = !collect"></i>
-                  <span>收藏</span>
-                </a>
+
               </li>
               <li class="money">
                 <a href="javascript:;">
@@ -117,8 +114,13 @@
               </li>
             </ul>
           </div>
-          <div class="right" v-if="packageDetail.package">
-            <router-link :to="{'name': 'PayCenter', params:{type: 'package', id: pid}}" class="btn">立即购买</router-link>
+          <div class="right" v-if="packageDetail.package && isLogin">
+            <router-link
+              :to="{'name': 'PayCenter', params:{type: 'package', id: pid}}"
+              class="btn" :disabled="isPay">{{isPay ? '已购买' : '立即购买'}}</router-link>
+          </div>
+          <div class="right" v-if="packageDetail.package && isLogin == false">
+            <router-link :to="{'name': 'Login'}" class="btn">立即购买</router-link>
           </div>
         </div>
       </div>
@@ -128,7 +130,8 @@
 
 <script>
   import { Tab, TabItem } from 'vux'
-  import  service from '@/http/services/package.js'
+  import service from '@/http/services/package.js'
+  import service_user from '@/http/services/user.js'
     export default {
       name: "SetMealDetail",
       data(){
@@ -137,16 +140,19 @@
           datas:['1','2'],
           activeIndex: 0,
           share: false,
+          isPay: false,
           packageDetail: {
             package: '',
             course: ''
           },
-          pay: false,
           collect: false,
+          user_token: '',
+          isLogin: false
         }
       },
       created() {
         this.pid = this.$route.params.pid;
+        this.user_token = this.$cookies.get('access_token');
         console.log("pid",this.$route.params.pid);
       },
       components: {
@@ -164,12 +170,30 @@
           this.share = true;
         },
 
+        Login() {
+
+        },
+
         getPackageDetail() {
-          service.packageService.packageDetail({pid: this.pid}).then(res => {
+          service_user.userService.isLogin({'access-token': this.user_token ? this.user_token : ''}).then(res => {
+            if (res.status === 200) {
+              console.log(res.data.message);
+              if (res.data.message == '已登录') {
+                this.isLogin = true;
+              } else {
+                this.isLogin = false;
+                this.isPay = false;
+              }
+            }
+          })
+
+          service.packageService.packageDetail({'pid': this.pid, 'access-token': this.user_token}).then(res => {
             if (res.status === 200 && res.data.status === 0) {
               this.packageDetail.package = res.data.package;
               this.packageDetail.course = res.data.course;
+              this.isPay = (res.data.ispay == 1);
               console.log(this.packageDetail);
+              console.log(this.isPay);
             } else {
               alert('wrong!');
             }
