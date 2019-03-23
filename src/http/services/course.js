@@ -37,7 +37,11 @@ const service_course = {
         TEMPLATE_GET('/order/confirm-order', data, resolve)
       })
     },
-
+    confirmPay: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/order/pay', data, resolve)
+      })
+    },
     bookOrder: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/order/book-order', data, resolve)

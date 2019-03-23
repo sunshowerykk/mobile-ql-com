@@ -175,12 +175,11 @@ const router = new Router({
       name: 'MarketerCenter',
       component: MarketerCenter
     },
-
     // 教师端
     {
       path: '/TeacherCenter/',
       name: 'TeacherCenter',
-      component: TeacherCenter
+      component: TeacherCenter},
     {
       path: '/OpenCoursePayCenter/:id',
       name: 'OpenCoursePayCenter',
@@ -300,34 +299,36 @@ router.beforeEach((to, from, next) => {
   let isLogin = global.isLogin; // 是否登录
   // 未登录状态；当路由到nextRoute指定页时，跳转至login
   let role = global.$cookies.get("access_role");
-  if (role == 'student') {
-    if (studentNextRoute.indexOf(to.name) >= 0) {
-      if (!isLogin) {
-        router.push({
-          name: 'login'
-        })
+  if(role){
+    if (role == 'student') {
+      if (studentNextRoute.indexOf(to.name) >= 0) {
+        if (!isLogin) {
+          router.push({
+            name: 'login'
+          })
+        }
       }
     }
-  }
-  if (role == 'teacher') {
-    if (teacherNextRoute.indexOf(to.name) >= 0) {
-      if (!isLogin) {
-        router.push({
-          name: 'login'
-        })
+    if (role == 'teacher') {
+      if (teacherNextRoute.indexOf(to.name) >= 0) {
+        if (!isLogin) {
+          router.push({
+            name: 'login'
+          })
+        }
       }
     }
-  }
-  if (role.indexOf('marketer') > -1) {
-    if (marketerNextRoute.indexOf(to.name) >= 0) {
-      if (!isLogin) {
-        router.push({
-          name: 'login'
-        })
+    if (role.indexOf('marketer') > -1) {
+      if (marketerNextRoute.indexOf(to.name) >= 0) {
+        if (!isLogin) {
+          router.push({
+            name: 'login'
+          })
+        }
       }
     }
-  }
 
+  }
   // 已登录状态；当路由到login时，跳转至home
   if (to.name === 'login') {
     if (isLogin) {

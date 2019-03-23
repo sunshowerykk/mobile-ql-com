@@ -51,8 +51,8 @@
             <div class="item clearfix">
               <div class="inpt">
                 <input type="checkbox" class="chek" :value="book.id"
-                       name="checkbox" @click="handleSelect(index)"
-                       :checked="items[index]" v-model="checkedValue" />
+                       name="checkbox" @click="handleSelect(index,book.id)"
+                       :checked="items[index]" />
               </div>
               <div class="fr imgChoose">
                 <img :src="book.pictrue"  />
@@ -104,7 +104,7 @@
         </li>
       </ul>
       <div class="btnMod">
-        <button class="btn">确认付款</button>
+        <button class="btn" @click="confirmPay()">确认付款</button>
       </div>
     </div>
 
@@ -142,156 +142,202 @@
 </template>
 
 <script>
-  import  service_course from '@/http/services/course.js'
-  export default {
-    name: "PayCenter",
-    created(){
-      this.countDown(1024);
-      this.id = this.$route.params.id;
-      this.type = this.$route.params.type;
-    },
-    watch: {
-      checkedValue: function (new_v, old_v) {
-        this.answer = this.checkedValue;
-      }
-    },
-    data(){
-      return{
-        countStr: "00:00:00",
-        payModal: false,
-        info: '',
-        books: '',
-        id: '',
-        type: '',
-        course_count: 1,
-        items: [],
-        address_flag: false,
-        setAddressFlag: false,
-        user_info: {
-          username: '',
-          phone: '',
-          address: ''
-        },
-        checkedValue: [],
-        answer: []
-      }
-    },
-    methods:{
-      countDown(times){
-        let _this = this;
-        var timer=null;
-        timer=setInterval(function(){
-          var day=0,
-            hour=0,
-            minute=0,
-            second=0;//时间默认值
-          if(times > 0){
-            day = Math.floor(times / (60 * 60 * 24));
-            hour = Math.floor(times / (60 * 60)) - (day * 24);
-            minute = Math.floor(times / 60) - (day * 24 * 60) - (hour * 60);
-            second = Math.floor(times) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-          }
-          if (day <= 9) day = '0' + day;
-          if (hour <= 9) hour = '0' + hour;
-          if (minute <= 9) minute = '0' + minute;
-          if (second <= 9) second = '0' + second;
-          //
-          _this.countStr =hour+":"+minute+":"+second ;
-          times--;
-        },1000);
-        if(times<=0){
-          clearInterval(timer);
+import service_course from "@/http/services/course.js";
+export default {
+  name: "PayCenter",
+  created() {
+    this.countDown(1024);
+    this.id = this.$route.params.id;
+    this.type = this.$route.params.type;
+  },
+  data() {
+    return {
+      countStr: "00:00:00",
+      payModal: false,
+      info: "",
+      books: "",
+      id: "",
+      type: "",
+      course_count: 1,
+      items: [],
+      address_flag: false,
+      setAddressFlag: false,
+      user_info: {
+        username: "",
+        phone: "",
+        address: ""
+      },
+      checkedValue: [],
+      answer: [],
+      order_sn:''
+    };
+  },
+  methods: {
+    countDown(times) {
+      let _this = this;
+      var timer = null;
+      timer = setInterval(function() {
+        var day = 0,
+          hour = 0,
+          minute = 0,
+          second = 0; //时间默认值
+        if (times > 0) {
+          day = Math.floor(times / (60 * 60 * 24));
+          hour = Math.floor(times / (60 * 60)) - day * 24;
+          minute = Math.floor(times / 60) - day * 24 * 60 - hour * 60;
+          second =
+            Math.floor(times) -
+            day * 24 * 60 * 60 -
+            hour * 60 * 60 -
+            minute * 60;
         }
-      },
-      goPay(){
-        this.payModal = true;
-      },
-      hideModal(){
-        this.payModal = false;
-      },
-      getCourseInfo() {
-        service_course.courseService.courseOrder({'course_id': this.id, 'access-token': this.$cookies.get('access_token')}).then(res => {
-          if(res.status === 200 && res.data.status == 0) {
-            this.info  = res.data.course_info;
+        if (day <= 9) day = "0" + day;
+        if (hour <= 9) hour = "0" + hour;
+        if (minute <= 9) minute = "0" + minute;
+        if (second <= 9) second = "0" + second;
+        //
+        _this.countStr = hour + ":" + minute + ":" + second;
+        times--;
+      }, 1000);
+      if (times <= 0) {
+        clearInterval(timer);
+      }
+    },
+    goPay() {
+      this.payModal = true;
+    },
+    hideModal() {
+      this.payModal = false;
+    },
+    getCourseInfo() {
+      service_course.courseService
+        .courseOrder({
+          course_id: this.id,
+          "access-token": this.$cookies.get("access_token")
+        })
+        .then(res => {
+          if (res.status === 200 && res.data.status == 0) {
+            this.info = res.data.course_info;
             this.books = res.data.books;
             this.course_count = res.data.course_count;
             this.user_info.username = res.data.user_info.username;
             this.user_info.phone = res.data.user_info.phone;
             this.user_info.address = res.data.user_info.address;
-            console.log(res.data.user_info);
             for (var i = 0; i < this.books.length; i++) {
               this.items[i] = false;
             }
-            console.log(this.items);
           }
-        })
-      },
+        });
+    },
 
-      getPackageInfo() {
-        service_course.courseService.packageOrder({'pid': this.id, 'access-token': this.$cookies.get('access_token')}).then(res => {
-          if(res.status === 200 && res.data.status == 0) {
-            this.info  = res.data.course_info;
+    getPackageInfo() {
+      service_course.courseService
+        .packageOrder({
+          pid: this.id,
+          "access-token": this.$cookies.get("access_token")
+        })
+        .then(res => {
+          if (res.status === 200 && res.data.status == 0) {
+            this.info = res.data.course_info;
             this.books = res.data.books;
             this.course_count = res.data.course_count;
             this.user_info.username = res.data.user_info.username;
             this.user_info.phone = res.data.user_info.phone;
             this.user_info.address = res.data.user_info.address;
-            console.log(res.data.user_info);
             for (var i = 0; i < this.books.length; i++) {
               this.items[i] = false;
             }
-            console.log(this.items);
           }
-        })
-      },
-
-      handleSelect(index) {
-        this.items[index] = !this.items[index];
-        console.log(this.items);
-        if (this.items.indexOf(true) != -1) {
-          this.address_flag = true;
-        } else {
-          this.address_flag = false;
-        }
-      },
-      confirmOrder() {
-        if (this.answer.length > this.course_count) {
-          this.$Message.warning('只可选择' + this.course_count + '本图书！');
-        } else {
-          service_course.courseService.confirmOrder({'access-token': this.$cookies.get('access_token'), 'course_id': this.id, 'type': this.type}).then(res => {
+        });
+    },
+    remove(arr, val) {
+      var index = arr.indexOf(val);
+      if (index > -1) {
+        arr.splice(index, 1);
+      }
+      return arr;
+    },
+    handleSelect(index, id) {
+      this.items[index] = !this.items[index];
+      if (this.items[index] && !this.answer.includes(id)) {
+        this.answer.push(id);
+      } else {
+        this.answer = this.remove(this.answer, id);
+      }
+      if (this.items.indexOf(true) != -1) {
+        this.address_flag = true;
+      } else {
+        this.address_flag = false;
+      }
+    },
+    confirmOrder() {
+      if (this.answer.length > this.course_count) {
+        this.$Message.warning("只可选择" + this.course_count + "本图书！");
+      } else {
+        service_course.courseService
+          .confirmOrder({
+            "access-token": this.$cookies.get("access_token"),
+            course_id: this.id,
+            type: this.type
+          })
+          .then(res => {
             if (res.status === 200 && res.data.code === 0) {
-              console.log(res.data);
               if (this.answer.length > 0) {
-                service_course.courseService.bookOrder({'access-token': this.$cookies.get('access_token'),
-                  'book_id': this.answer, 'username': this.user_info.username,
-                  'phone': this.user_info.phone, 'address': this.user_info.address})
+                service_course.courseService
+                  .bookOrder({
+                    "access-token": this.$cookies.get("access_token"),
+                    book_id: this.answer,
+                    username: this.user_info.username,
+                    phone: this.user_info.phone,
+                    address: this.user_info.address
+                  })
                   .then(res => {
                     if (res.status === 200 && res.data.code === 0) {
-                      this.$Message.success('赠品图书选择成功！');
+                      this.$Message.success("赠品图书选择成功！");
                       this.payModal = true;
                     } else {
-                      this.$Message.warning('出错了！');
+                      this.$Message.warning("出错了！");
                     }
-                  })
+                  });
               } else {
                 this.payModal = true;
               }
+              this.order_sn = res.data.order_sn
             } else {
               this.$Message.warning(res.data.message);
             }
-          })
-        }
-
+          });
       }
     },
-    mounted: function () {
-      if (this.type == 'course') {
-        this.getCourseInfo();
-      } else if (this.type == 'package') {
-        this.getPackageInfo();
-        this.$Message.info('套餐！，等待完善！');
-      }
-
+    confirmPay() {
+      const order_sn = this.order_sn
+      service_course.courseService
+        .confirmPay({
+          "access-token": this.$cookies.get("access_token"),
+          "order_sn":this.order_sn,
+          "code":123,
+          "coupon_id":-1,
+          "use_coin":0,
+        })
+        .then(res => {
+          if (res.status === 200 && res.data.code === 0) {
+            console.log(res.data)
+          }
+          else{
+            console.log(res.data.message)
+            this.$Message.info(res.data.message);
+          }
+        })
+        ;
+    }
+  },
+  mounted: function() {
+    if (this.type == "course") {
+      this.getCourseInfo();
+    } else if (this.type == "package") {
+      this.getPackageInfo();
+      this.$Message.info("套餐！，等待完善！");
     }
   }
+};
 </script>

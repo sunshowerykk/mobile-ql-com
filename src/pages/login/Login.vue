@@ -47,14 +47,16 @@ export default {
           this.$cookies.set("access_token", res.data.access_token);
           this.$cookies.set("access_role", res.data.role);
           const role = res.data.role;
-          if (role == "student") {
-            this.$router.push({ path: "/index" });
-          } else if (role == "teacher") {
-            //角色是教师,跳教师首页
-            this.$router.push({ path: "/index" });
-          } else if (role.indexOf("marketer") > -1) {
-            //角色是市场专员,跳市场专员首页
-            this.$router.push({ path: "/index" });
+          if (role) {
+            if (role == "student") {
+              this.$router.push({ path: "/index" });
+            } else if (role == "teacher") {
+              //角色是教师,跳教师首页
+              this.$router.push({ path: "/TeacherCenter" });
+            } else if (role.indexOf("marketer") > -1) {
+              //角色是市场专员,跳市场专员首页
+              this.$router.push({ path: "/MarketerCenter" });
+            }
           } else {
             this.$router.push({ path: "/index" });
           }
