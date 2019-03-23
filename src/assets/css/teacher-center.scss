@@ -1,0 +1,6 @@
+.teacher-center {
+    .banner {
+        @include teacher-center-banner;
+        height: 80px;
+    }
+}

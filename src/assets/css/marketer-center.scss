@@ -1,0 +1,6 @@
+.marketer-center {
+    .banner {
+        @include marketer-center-banner;
+        height: 80px;
+    }
+}

@@ -107,3 +107,11 @@ $root_url: '../img';
   background-image: url('#{$root_url}/icon22.png');
   background-size: 0.2rem 0.2rem;
 }
+@mixin marketer-center-banner {
+  @include bg;
+  background-image: url('#{$root_url}/marketer-center-banner.jpg');
+}
+@mixin teacher-center-banner {
+  @include bg;
+  background-image: url('#{$root_url}/teacher-center-banner.jpg');
+}

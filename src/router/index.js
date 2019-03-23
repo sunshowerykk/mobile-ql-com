@@ -17,6 +17,8 @@ import InformationList from '@/pages/main/information/informationList' //资讯�
 import InformationDetail from '@/pages/main/information/informationDetail' //资讯详情
 import PayCenter from '@/pages/main/pay/PayCenter'  //支付中心
 import UserCenter from '@/pages/main/user/UserCenter'   // 个人中心
+import MarketerCenter from '@/pages/marketer/UserCenter' //市场专员个人中心
+import TeacherCenter from '@/pages/teacher/UserCenter' //教师个人中心
 import MyClass from '@/pages/main/user/MyClass'   // 我的课程
 import MyClassDetail from '@/pages/main/user/MyClassDetail'   // 我的课程详情
 import Message from '@/pages/main/user/Message'//消息中心
@@ -168,6 +170,19 @@ const router = new Router({
       path: '/QualityCourseVideo/',
       name: 'QualityCourseVideo',
       component: QualityCourseVideo
+    },
+    // 市场专员
+    {
+      path: '/MarketerCenter/',
+      name: 'MarketerCenter',
+      component: MarketerCenter
+    },
+
+    // 教师端
+    {
+      path: '/TeacherCenter/',
+      name: 'TeacherCenter',
+      component: TeacherCenter
     },
   ]
 })
