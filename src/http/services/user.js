@@ -1,4 +1,8 @@
-import {TEMPLATE_POST, TEMPLATE_GET, TEMPLATE_Form_POST} from './index'
+import {
+  TEMPLATE_POST,
+  TEMPLATE_GET,
+  TEMPLATE_Form_POST
+} from './index'
 
 const service_user = {
   userService: {

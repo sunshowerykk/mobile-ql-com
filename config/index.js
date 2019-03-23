@@ -12,10 +12,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://api.ql.com',
+        target: 'https://api.kaoben.top',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''   //重写接口
+          '^/api': '' //重写接口
         }
       }
     },

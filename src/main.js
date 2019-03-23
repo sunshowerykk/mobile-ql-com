@@ -25,10 +25,10 @@ Vue.use(Vant);*/
 
 Vue.config.productionTip = false;
 
-Vue.use(TopBack);  //返回公共组件
-Vue.use(Share);  //分享公共组件
+Vue.use(TopBack); //返回公共组件
+Vue.use(Share); //分享公共组件
 Vue.use(VueCookies);
-Vue.use(iView);//使用iview组件
+Vue.use(iView); //使用iview组件
 Vue.use(wx);
 
 router.push('/index');
@@ -37,6 +37,8 @@ router.push('/index');
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 });

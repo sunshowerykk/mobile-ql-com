@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import main from '@/pages/main'
-import Login from '@/pages/login/Login'  //登录
-import Register from '@/pages/login/Register'  //注册
-import VerificationCode from '@/pages/login/VerificationCode'  //忘记密码
+import Login from '@/pages/login/Login' //登录
+import Register from '@/pages/login/Register' //注册
+import VerificationCode from '@/pages/login/VerificationCode' //忘记密码
 import home from '@/pages/main/home/index' //首页
 import SetMeal from '@/pages/main/package/SetMeal' //套餐
 import SetMealDetail from '@/pages/main/package/SetMealDetail' //套餐详情
 import ClassQuality from '@/pages/main/course/ClassQuality' //精品课
 import ClassShare from '@/pages/main/course/ClassShare' //精品课详情页
 import PublicClass from '@/pages/main/open/PublicClass' //公开课
-import Library from '@/pages/main/library/Library'  //图书
+import Library from '@/pages/main/library/Library' //图书
 import Notice from '@/components/Notice' //公告
-import LibraryDetail from '@/pages/main/library/LibraryDetail'  //图书详情
+import LibraryDetail from '@/pages/main/library/LibraryDetail' //图书详情
 import InformationList from '@/pages/main/information/informationList' //资讯列表
 import InformationDetail from '@/pages/main/information/informationDetail' //资讯详情
 import PayCenter from '@/pages/main/pay/PayCenter'  //支付中心
@@ -30,16 +30,15 @@ import MyPublicity from '@/pages/main/user/MyPublicity'//我的宣传页
 import MySet from '@/pages/main/user/MySet'//我的设置
 import QualityCourseVideo from '@/pages/main/course/QualityCourseVideo'//我的设置
 
-import MyGeneralize from '@/components/MyGeneralize'  //我的推广收益
-import Address from '@/components/Address'  //收货地址
+import MyGeneralize from '@/components/MyGeneralize' //我的推广收益
+import Address from '@/components/Address' //收货地址
 import EditInfo from '@/components/EditInfo' //绑定账号
-import OpenCoursePayCenter from '@/components/OpenCoursePayCenter'  //公开课购买
+import OpenCoursePayCenter from '@/components/OpenCoursePayCenter' //公开课购买
 
 Vue.use(Router)
 
 const router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/Login',
       name: 'Login',
       component: Login
@@ -58,8 +57,7 @@ const router = new Router({
       path: '/',
       name: 'main',
       component: main,
-      children: [
-        {
+      children: [{
           path: '/index',
           name: 'index',
           component: home
@@ -183,6 +181,10 @@ const router = new Router({
       path: '/TeacherCenter/',
       name: 'TeacherCenter',
       component: TeacherCenter
+    {
+      path: '/OpenCoursePayCenter/:id',
+      name: 'OpenCoursePayCenter',
+      component: OpenCoursePayCenter
     },
   ]
 })
@@ -289,23 +291,52 @@ router.beforeEach((to, from, next) => {
   // next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
   // A跳转到B，B页面停留在A页面的滚动位置；解决方法：将scrollTop设置为0
   window.scroll(0, 0);
-  // nextRoute: 设置需要路由守卫的路由集合
-  const nextRoute = ['home', 'good-list', 'good-detail', 'cart', 'profile'];
-  let isLogin = global.isLogin;  // 是否登录
+  // studentNextRoute: 设置学生角色需要路由守卫的路由集合
+  const studentNextRoute = ['good-list', 'good-detail', 'cart', 'profile'];
+  // teacherNextRoute: 设置教师角色需要路由守卫的路由集合
+  const teacherNextRoute = []
+  // marketerNextRoute: 设置市场角色需要路由守卫的路由集合
+  const marketerNextRoute = []
+  let isLogin = global.isLogin; // 是否登录
   // 未登录状态；当路由到nextRoute指定页时，跳转至login
-  if (nextRoute.indexOf(to.name) >= 0) {
-    if (!isLogin) {
-      console.log('what fuck');
-      router.push({ name: 'login' })
+  let role = global.$cookies.get("access_role");
+  if (role == 'student') {
+    if (studentNextRoute.indexOf(to.name) >= 0) {
+      if (!isLogin) {
+        router.push({
+          name: 'login'
+        })
+      }
     }
   }
+  if (role == 'teacher') {
+    if (teacherNextRoute.indexOf(to.name) >= 0) {
+      if (!isLogin) {
+        router.push({
+          name: 'login'
+        })
+      }
+    }
+  }
+  if (role.indexOf('marketer') > -1) {
+    if (marketerNextRoute.indexOf(to.name) >= 0) {
+      if (!isLogin) {
+        router.push({
+          name: 'login'
+        })
+      }
+    }
+  }
+
   // 已登录状态；当路由到login时，跳转至home
   if (to.name === 'login') {
     if (isLogin) {
-      router.push({ name: 'home' });
+      router.push({
+        name: 'home'
+      });
     }
   }
   next();
 });
 
-export default  router;
+export default router;

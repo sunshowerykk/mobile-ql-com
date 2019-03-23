@@ -291,7 +291,7 @@
             this.courseInfo.course = res.data.course;
             this.courseInfo.teacher = res.data.teacher;
             this.collect = res.data.course.iscollect;
-            console.log(this.courseInfo);
+            // console.log(this.courseInfo);
           }
         })
       },
@@ -304,9 +304,9 @@
                 this.flagArray['show' + i + j] = false;
               }
             }
-            console.log(this.flagArray);
+            // console.log(this.flagArray);
             this.pay = (res.data.ispay != 0);
-            console.log(res.data);
+            // console.log(res.data);
             // this.pay = true;
             // console.log(this.courseVideo.courseChapters);
           } else {
@@ -323,7 +323,7 @@
               this.courseHomework.course = res.data.course;
               this.courseHomework.homeworks = res.data.homeworks;
               this.courseHomework.submit_num = res.data.submit_num;
-              console.log(this.courseHomework);
+              // console.log(this.courseHomework);
             }
           })
         }else if (index == 3) {
