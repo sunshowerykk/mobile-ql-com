@@ -34,7 +34,9 @@
            }
          }
          .intro {
+            /*! autoprefixer: off */
             -webkit-box-orient: vertical;
+            /* autoprefixer: on */
             display: -webkit-box;
             overflow: hidden;
             text-overflow: ellipsis;
