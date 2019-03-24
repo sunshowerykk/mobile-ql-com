@@ -19,11 +19,11 @@
         <div class="notice-swiper-box">
           <swiper :options="swiperNotice" class="swiper-notice">
             <swiper-slide v-for="(notice, index) in notices" :key="index">
-              <router-link :to="notice.url">
+              <a :href="notice.url">
                 <div>{{ notice.theme }}
                   <!-- <span>活动时间：{{ notice.date }}</span> -->
                 </div>
-              </router-link>
+              </a>
             </swiper-slide>
           </swiper>
         </div>
@@ -165,6 +165,9 @@
                   </div>
                   <div class="info">
                     <h5>{{book.name}}</h5>
+                    <div class="intro">
+                      {{book.intro}}
+                    </div>
                     <div class="prise">
                       <strong>{{book.order_price}}预订价</strong>
                       <span><strike>￥{{book.price}}</strike>售价</span>

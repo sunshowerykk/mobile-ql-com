@@ -68,11 +68,6 @@ const router = new Router({
           component: SetMeal
         },
         {
-          path: '/SetMealDetail/:pid',
-          name: 'SetMealDetail',
-          component: SetMealDetail
-        },
-        {
           path: '/PublicClass',
           name: 'PublicClass',
           component: PublicClass
@@ -86,13 +81,20 @@ const router = new Router({
           path: '/ClassQuality',
           name: 'ClassQuality',
           component: ClassQuality
-        },
-        {
-          path: '/ClassShare/:id',
-          name: 'ClassShare',
-          component: ClassShare
         }
       ]
+    },
+    // 套餐详情
+    {
+      path: '/SetMealDetail/:pid',
+      name: 'SetMealDetail',
+      component: SetMealDetail
+    },
+    // 课程详情
+    {
+      path: '/ClassShare/:id',
+      name: 'ClassShare',
+      component: ClassShare
     },
     {
       path: '/InformationDetail/:id',

@@ -1,5 +1,10 @@
   .detailImg {
     position: relative;
+    .indexBanner {
+      img {
+        width: 100%;
+      }
+    }
   }
 
   .detailImg .share {
@@ -8,7 +13,8 @@
     @include icon12;
     // background: url(../assets/img/icon12.png) no-repeat center rgba(0, 0, 0, 0.5);
     position: absolute;
-    top: 0.2rem;
+    // top: 0.2rem;
+    top: -33px;
     right: 0.2rem;
     z-index: 10;
   }

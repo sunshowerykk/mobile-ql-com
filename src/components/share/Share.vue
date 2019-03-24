@@ -25,17 +25,34 @@
 
 <script>
 var wx = require("weixin-js-sdk");
+import service from '@/http/services/user.js'
 export default {
   name: "Share",
   props: ["share"],
+  data () {
+    return {
+      shareInfo: {
+        title: "分享有奖", // 分享标题
+        desc: "分享成功后即可获得价值100元的金币", // 分享描述
+        link: "https://mobile.kaoben.top/#/Register?invite=" + this.$cookies.get('userid'), // 分享链接，该链接域名必须与当前企业的可信域名一致
+        imgUrl: "https://kaoben.top/images/logo.png", // 分享图标
+        type: "", // 分享类型,music、video或link，不填默认为link
+        dataUrl: "", // 如果type是music或video，则要提供数据链接，默认为空
+      }
+    }
+  },
   mounted() {
-    wx.config({
-      debug: true, //开启调试模式
-      appId: "", //公众号唯一标示
-      timestamp: "", //必填，生成签名时间戳
-      nonceStr: "", //必填，生成签名的随即字符串
-      signature: "", //必填，签名
-      jsApiList: ["onMenuShareAppMessage", "onMenuShareTimeline"] //必填，需要使用的js接口列表
+    service.userService.getShareConfig().then(res => {
+      if (res.status === 200 && res.data.status === 0) {
+        wx.config({
+          debug: true, //开启调试模式
+          appId: res.data.config.appId, //公众号唯一标示
+          timestamp: res.data.config.timestamp, //必填，生成签名时间戳
+          nonceStr: res.data.config.nonceStr, //必填，生成签名的随即字符串
+          signature: res.data.config.signature, //必填，签名
+          jsApiList: ["onMenuShareAppMessage", "onMenuShareTimeline"] //必填，需要使用的js接口列表
+        });
+      }
     });
   },
   methods: {
@@ -43,14 +60,14 @@ export default {
       this.$emit("changeShare", 0);
     },
     //分享给朋友
-    onMenuShareAppMessage: function() {
+    onMenuShareAppMessage() {
       wx.onMenuShareAppMessage({
-        title: "", // 分享标题
-        desc: "", // 分享描述
-        link: "", // 分享链接，该链接域名必须与当前企业的可信域名一致
-        imgUrl: "", // 分享图标
-        type: "", // 分享类型,music、video或link，不填默认为link
-        dataUrl: "", // 如果type是music或video，则要提供数据链接，默认为空
+        title: this.shareInfo.title,
+        desc: this.shareInfo.desc,
+        link: this.shareInfo.link,
+        imgUrl: this.shareInfo.imgUrl,
+        type: "",
+        dataUrl: "",
         success: function() {
           // 用户确认分享后执行的回调函数
           alert("分享成功！");
@@ -62,11 +79,12 @@ export default {
       });
     },
     //分享到朋友圈
-    onMenuShareTimeline: function() {
+    onMenuShareTimeline() {
       wx.onMenuShareTimeline({
-        title: "", // 分享标题
-        link: "", // 分享链接，该链接域名必须与当前企业的可信域名一致
-        imgUrl: "", // 分享图标
+        title: this.shareInfo.title,
+        desc: this.shareInfo.desc,
+        link: this.shareInfo.link,
+        imgUrl: this.shareInfo.imgUrl,
         success: function() {
           // 用户确认分享后执行的回调函数
         },
@@ -75,9 +93,6 @@ export default {
         }
       });
     }
-  },
-  data() {
-    return {};
   }
 };
 </script>
@@ -122,7 +137,7 @@ export default {
   width: 100%;
   left: 0;
   background: #fff;
-  z-index: 99;
+  z-index: 100;
 }
 
 .courseshare h3 {

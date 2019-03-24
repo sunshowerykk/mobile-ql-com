@@ -18,27 +18,26 @@ export default {
         text: "",
         link: ""
       },
-      token: this.$cookies.get("access_token"),
-      hasToken: this.$cookies.isKey("access_token")
+      token: this.$cookies.get("access_token") || '',
     };
   },
   methods: {
     //判断是否登录
     getLogInfo: function() {
-      if (!this.token) {
-        this.head.text = "登录";
-        this.head.link = "/Login";
-      } else {
-        service_user.userService
-          .getSet({ "access-token": this.token })
-          .then(res => {
-            if (res.status === 200) {
-              this.head.text = "hi, " + res.data.username;
-              this.head.link = "/UserCenter";
-            }
-          });
+      // 判断是否是登录用户
+      service_user.userService
+        .isLogin({ "access-token": this.token })
+        .then(res => {
+          if (res.status === 200 && res.data.status === 0) {
+            this.head.text = "hi, " + res.data.user.username;
+            this.head.link = "/UserCenter";
+          } else {
+            this.$cookies.remove('access_token');
+            this.head.text = "登录";
+            this.head.link = "/Login";
+          }
+        });
       }
-    }
   },
   mounted() {
     this.getLogInfo();

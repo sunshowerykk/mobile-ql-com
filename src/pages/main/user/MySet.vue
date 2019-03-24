@@ -83,7 +83,7 @@
             this.fileUploadUrl += this.token;
           },
           exit: function () {
-            this.$cookies.set('access_token', "", -1);
+            this.$cookies.remove('access_token');
             this.$router.push({path: '/index'});
           },
           initSettings: function () {

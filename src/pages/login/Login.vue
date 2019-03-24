@@ -46,6 +46,7 @@ export default {
         if (res.status === 200 && res.data.status === 0) {
           this.$cookies.set("access_token", res.data.access_token);
           this.$cookies.set("access_role", res.data.role);
+          this.$cookies.set("userid", res.data.userid);
           const role = res.data.role;
           if (role) {
             if (role == "student") {

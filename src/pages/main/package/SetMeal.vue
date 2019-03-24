@@ -50,7 +50,6 @@
           service.packageService.packageList().then(res => {
             if (res.status === 200 && res.data.status == 0) {
               this.packageList = res.data.packages;
-              console.log(this.packageList);
             } else {
               alert('wrong!');
             }

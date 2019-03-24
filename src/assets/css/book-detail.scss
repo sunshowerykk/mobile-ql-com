@@ -1,6 +1,7 @@
 .book-detail {
   .img_txt_info {
     padding: 0.2rem;
+    position: relative;
   }
 
   .img_txt_info .pic {
@@ -17,11 +18,21 @@
     float: right;
     width: 60%;
     position: relative;
+    .prise {
+      margin-bottom: 0.1rem;
+    }
+    .intro {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+    }
   }
 
   .img_txt_info .txt p {
     font-size: 0.28rem;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.1rem;
     line-height: 0.45rem;
   }
 
@@ -36,15 +47,13 @@
     color: #999;
   }
 
-  .img_txt_info .txt .oppint {
+  .img_txt_info .oppint {
     position: absolute;
-    bottom: 0.05rem;
-    right: 0.1rem;
+    bottom: 20px;
+    right: 20px;
     display: inline-block;
     font-size: 0.22rem;
     padding: 0 0.1rem;
-    height: 0.3rem;
-    line-height: 0.3rem;
     border: 1px solid #DB2C1B;
     color: #DB2C1B;
     border-radius: 0.1rem;
@@ -88,8 +97,9 @@
 
   .introduction img {
     display: block;
-    width: 100%;
     margin: 0 auto 0.2rem;
+    width: 100% !important;
+    height: auto !important;
   }
 
   .alert_bg {
@@ -248,7 +258,7 @@
     width: 100%;
     left: 0;
     background: #fff;
-    z-index: 99;
+    z-index: 100;
   }
 
   .courseshare h3 {

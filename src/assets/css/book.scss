@@ -22,6 +22,7 @@
            margin-bottom: 0.3rem;
          }
          .prise {
+           margin-top: 10px;
            strong {
              font-size: 0.28rem;
              color: #dd2523;
@@ -31,6 +32,13 @@
              font-size: 0.24rem;
              color: #999;
            }
+         }
+         .intro {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
          }
        }
      }

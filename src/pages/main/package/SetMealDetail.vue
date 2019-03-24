@@ -1,14 +1,15 @@
 <!--套餐详情-->
 <template>
     <div class="font-box">
-      <!--<TopBack>-->
-        <!--<span slot="headerTxt">{{ packageDetail.package.name }}</span>-->
-      <!--</TopBack>-->
+      <TopBack>
+        <span slot="headerTxt">套餐详情</span>
+      </TopBack>
       <!--nav start-->
       <div class="detailImg">
         <div class="share" @click="showShare"></div>
-        <div  class="indexBanner top_0124" >
-          <div class="top">
+        <div  class="indexBanner" >
+          <img :src="packageDetail.package.home_pic">
+          <!-- <div class="top">
             <span>2019年</span>
             <strong><i></i>山东<i></i></strong>
             <span>专升本</span>
@@ -46,7 +47,7 @@
                 </div>
               </a>
             </li>
-          </ul>
+          </ul> -->
         </div>
       </div>
       <!--nav end-->
@@ -153,7 +154,6 @@
       created() {
         this.pid = this.$route.params.pid;
         this.user_token = this.$cookies.get('access_token');
-        console.log("pid",this.$route.params.pid);
       },
       components: {
         Tab,
@@ -177,7 +177,6 @@
         getPackageDetail() {
           service_user.userService.isLogin({'access-token': this.user_token ? this.user_token : ''}).then(res => {
             if (res.status === 200) {
-              console.log(res.data.message);
               if (res.data.message == '已登录') {
                 this.isLogin = true;
               } else {
@@ -192,8 +191,6 @@
               this.packageDetail.package = res.data.package;
               this.packageDetail.course = res.data.course;
               this.isPay = (res.data.ispay == 1);
-              console.log(this.packageDetail);
-              console.log(this.isPay);
             } else {
               alert('wrong!');
             }

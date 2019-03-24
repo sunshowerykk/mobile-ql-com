@@ -1,17 +1,19 @@
 <template>
   <div class="font-box bg">
-
+    <TopBack>
+      <span slot="headerTxt">课程详情</span>
+    </TopBack>
     <div class="detailImg" v-if="courseInfo">
-      <a class="goback" @click="goBack"></a>
+      <!-- <a class="goback" @click="goBack"></a> -->
       <a class="share" @click="shareFn"></a>
       <img :src="courseInfo.course.home_pic" class="img"  />
-      <div class="classname">
+      <!-- <div class="classname">
         <strong>{{ courseInfo.course.course_name }}</strong>
         <div class="school" >
           <span>{{ courseInfo.teacher[0].unit }}</span>
           <span>{{ courseInfo.teacher[0].teacher_name }} 等</span>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="course">
@@ -49,8 +51,8 @@
 
           <group title="" class="class-group">
 
-            <div v-for="Chapter, index_1 in courseVideo.courseChapters">
-              <div v-for="Section, index_2 in Chapter.courseSections">
+            <div v-for="(Chapter, index_1) in courseVideo.courseChapters" :key="Chapter.id">
+              <div v-for="(Section, index_2) in Chapter.courseSections" :key="Section.id">
                 <cell
                   class="cell-class"
                   :title="Chapter.name + ':' + Section.name"
@@ -64,7 +66,7 @@
                 <template v-if="flagArray['show' + index_1 + index_2]">
                   <dl class="class-item">
 
-                    <dd v-for="coursePoint in Section.courseSectionPoints">
+                    <dd v-for="coursePoint in Section.courseSectionPoints" :key="coursePoint.id">
                       <a href="#" @click="openCheck(Section.id, coursePoint.id, coursePoint.name)">
                         <div class="item clearfix">
                           <div class="left">
@@ -94,8 +96,8 @@
             </div>
             <div class="submitDltList">
               <ul>
-                <div v-for="chapter in courseHomework.course.courseChapters">
-                  <div v-for="section in chapter.courseSections">
+                <div v-for="chapter in courseHomework.course.courseChapters" :key="chapter.id">
+                  <div v-for="section in chapter.courseSections" :key="section.id">
                     <li v-if="section.homework != '' && section.homework != null">
                       <div class="item">
                         <h5>{{ chapter.name + ':  ' + section.name }}</h5>
@@ -118,7 +120,7 @@
                               </Upload>
                             </div>
                             <div v-if="section.userHomework.length != 0 && section.userHomework[0].status != 3">
-                              <div class="pic" v-for="pic in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })">
+                              <div class="pic" v-for="(pic, index) in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })" :key="index">
                                 <img :src="pic" alt="上传作业" />
                               </div>
                             </div>

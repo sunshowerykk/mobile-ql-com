@@ -6,7 +6,7 @@
         </div>
         <div class="list">
           <ul>
-            <li v-for="book in books">
+            <li v-for="book in books" :key="book.id">
               <router-link :to="{'name': 'LibraryDetail', params:{id: book.id}}">
                 <div class="inner clearfix">
                   <div class="img">
@@ -14,6 +14,9 @@
                   </div>
                   <div class="info">
                     <h5>{{book.name}}</h5>
+                    <div class="intro">
+                      {{book.intro}}
+                    </div>
                     <div class="prise">
                       <strong>{{book.order_price}}预订价</strong>
                       <span><strike>￥{{book.price}}</strike>售价</span>
@@ -42,8 +45,6 @@
         initbooklist: function () {
           service.bookService.list().then(res => {
             if (res.status === 200) {
-              // alert(res.data);
-              console.log(res.data);
               this.books=res.data;
             }
           })

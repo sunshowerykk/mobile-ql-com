@@ -97,11 +97,14 @@ const service_user = {
         TEMPLATE_GET('/personal/qrcode?access-token=' + data, '', resolve);
       })
     },
-    getWxAccessToken: (data) => {
+    getShareConfig: (data) => {
+      data = {
+        url: window.location.href
+      };
       return new Promise((resolve, reject) => {
-        TRMPLATE_GET('https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=id&corpsecret=secrect', data, resolve);
+        TEMPLATE_GET('/site/share-config', data, resolve);
       })
-    }
+    },
   }
 }
 

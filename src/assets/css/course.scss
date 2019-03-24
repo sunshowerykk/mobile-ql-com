@@ -42,6 +42,10 @@
           color: #fff;
           display: block;
           margin-bottom: 0.2rem;
+          padding-right: 1.5rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .classs {
           position: absolute;
@@ -61,6 +65,7 @@
       dd {
         float: left;
         margin-right: 0.2rem;
+        margin-bottom: 10px;
         img {
           width: 0.6rem;
           height: 0.6rem;

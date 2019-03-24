@@ -16,13 +16,16 @@
               <strong>￥{{book.order_price}}预订价</strong>
               <span><strike>{{book.price}}</strike>售价</span>
             </div>
-            <div class="oppint" @click="showReserve">我要预订</div>
+            <div class="intro">
+              {{book.intro}}
+            </div>
           </div>
+          <div class="oppint" @click="showReserve">我要预订</div>
         </div>
       </div>
       <div class="introduction">
         <h5><span>简介</span></h5>
-        {{book.intro}}
+        <div v-html="book.des"></div>
       </div>
 
       <!--弹出层 背景-->
