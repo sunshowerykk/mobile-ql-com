@@ -68,6 +68,7 @@
 
                     <dd v-for="coursePoint in Section.courseSectionPoints" :key="coursePoint.id">
                       <a href="#" @click="openCheck(Section.id, coursePoint.id, coursePoint.name)">
+                        <!--<video class="video" id="video" :src="coursePoint.video_url" :poster="courseVideo.list_pic" controls="controls" :autoplay="false" v-show="videoShow"></video>-->
                         <div class="item clearfix">
                           <div class="left">
                             <span class="type">视频</span>
@@ -246,6 +247,7 @@
         flag: false,
         isLogin: false,
         uploadUrl: 'http://api.ql.com/personal/homework-upload?access-token=',
+        videoShow: false
       }
     },
 

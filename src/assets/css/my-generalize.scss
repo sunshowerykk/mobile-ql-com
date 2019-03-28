@@ -1,0 +1,40 @@
+.incomeDetail .incomeList ul li {
+  padding: 0.2rem;
+  position: relative;
+  border-bottom: 1px solid #ECECEC;
+}
+
+.incomeDetail .incomeList ul li img {
+  vertical-align: top;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 1rem;
+  margin-right: 0.2rem;
+}
+
+.incomeDetail .incomeList ul li strong {
+  font-size: 0.28rem;
+  color: #333;
+  display: inline-block;
+  line-height: 0.8rem;
+}
+
+.incomeDetail .incomeList ul li span {
+  font-size: 0.24rem;
+  color: #666;
+  margin: 0 0.2rem;
+  display: inline-block;
+  line-height: 0.8rem;
+}
+
+.incomeDetail .incomeList ul li span.time {
+  position: absolute;
+  margin: 0;
+  top: 0.25rem;
+  right: 0.2rem;
+}
+
+.seltTime {
+  padding: 0.2rem;
+  background: #DB2C1B;
+}

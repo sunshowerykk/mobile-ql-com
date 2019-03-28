@@ -26,13 +26,16 @@ import MyGold from '@/pages/main/user/MyGold'//我的金币
 import MyOrder from '@/pages/main/user/MyOrder'//我的订单
 import MyCollect from '@/pages/main/user/MyCollect'//我的收藏
 import MyEarnings from '@/pages/main/user/MyEarnings'//我的收益
+import MyGeneralize from '@/pages/main/user/MyGeneralize'//收益明细
+import EditInfo from '@/pages/main/user/EditInfo'//绑定账号
 import MyPublicity from '@/pages/main/user/MyPublicity'//我的宣传页
 import MySet from '@/pages/main/user/MySet'//我的设置
-import QualityCourseVideo from '@/pages/main/course/QualityCourseVideo'//我的设置
+import QualityCourseVideo from '@/pages/main/course/QualityCourseVideo'//视频播放页
 
-import MyGeneralize from '@/components/MyGeneralize' //我的推广收益
+// 市场端组件引入
+import MarketEarnings from '@/pages/marketer/MarketEarnings'
+
 import Address from '@/components/Address' //收货地址
-import EditInfo from '@/components/EditInfo' //绑定账号
 import OpenCoursePayCenter from '@/components/OpenCoursePayCenter' //公开课购买
 
 Vue.use(Router)
@@ -157,6 +160,16 @@ const router = new Router({
       component: MyEarnings
     },
     {
+      path: '/MyGeneralize/',
+      name: 'MyGeneralize',
+      component: MyGeneralize
+    },
+    {
+      path: '/EditInfo/',
+      name: 'EditInfo',
+      component: EditInfo
+    },
+    {
       path: '/MyPublicity/',
       name: 'MyPublicity',
       component: MyPublicity
@@ -176,6 +189,11 @@ const router = new Router({
       path: '/MarketerCenter/',
       name: 'MarketerCenter',
       component: MarketerCenter
+    },
+    {
+      path: '/MarketEarnings/',
+      name: 'MarketEarnings',
+      component: MarketEarnings
     },
     // 教师端
     {
