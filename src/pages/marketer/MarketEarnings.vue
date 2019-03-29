@@ -40,7 +40,7 @@
       </group>
     </div>
 
-    <div class="incomeLst">
+    <div class="incomeLst" v-show="income === 0">
       <span style="margin-left: 140px">您暂时还没有收益哦~加油吧！</span>
     </div>
 
@@ -49,18 +49,18 @@
         <li>
           <div class="item">
             <h5>时间</h5>
-            <span v-for="incomMonth in monthincome">{{incomMonth.month}}</span>
+            <span v-for="incomMonth in monthIncome">{{incomMonth.month}}</span>
 
           </div>
           <div class="item">
             <h5>业绩</h5>
-            <span v-for="incomMonth in monthincome">{{incomMonth.income}}</span>
+            <span v-for="incomMonth in monthIncome">{{incomMonth.income}}</span>
           </div>
         </li>
         <li>
           <div class="item" >
             <h5>佣金</h5>
-            <span v-for="incomMonth in monthincome">{{incomMonth.myincome}}</span>
+            <span v-for="incomMonth in monthIncome">{{incomMonth.salary}}</span>
           </div>
           <!--<div class="item" >-->
             <!--<h5>状态</h5>-->
@@ -79,7 +79,8 @@
 </template>
 
 <script>
-  import service_user from '@/http/services/user.js'
+  import service_user from '@/http/services/user'
+  import service_marketer from '@/http/services/marketer'
   import { Datetime, Group } from 'vux'
     export default {
         name: "MarketEarnings",
@@ -90,13 +91,17 @@
             access_token: '',
             income : '',
             settlement: '',
-            monthincome:'',
+            monthIncome:'',
           }
       },
       components: {
         Datetime,
         Group
       },
+      created() {
+        this.access_token = this.$cookies.get("access_token");
+      },
+
       methods:{
         log (str1, str2 = '') {
           console.log(str1, str2)
@@ -125,25 +130,28 @@
           })
         },
         init() {
-          service_user.userService.income({'access-token': this.access_token}).then(res => {
-            if (res.status === 200) {
+          service_marketer.marketerService.income({'access-token': this.access_token}).then(res => {
+            if (res.status === 200 && res.data.status == 0) {
               this.income = res.data.income;
               this.settlement = res.data.settlement;
-              console.log(this.income.income);
+              console.log(res.data);
+            } else {
+              this.$Message.warning(res.data.message);
             }
           })
         },
         initMonthCheck() {
-          service_user.userService.incomeMonth({'access-token': this.access_token}).then(res => {
-            if (res.status === 200) {
-              this.monthincome = res.data;
-              console.log(this.monthincome)
+          service_marketer.marketerService.monthIncome({'access-token': this.access_token}).then(res => {
+            if (res.status === 200 && res.data.status == 0) {
+              this.monthIncome = res.data.my_income;
+              console.log(this.monthIncome)
+            } else {
+              this.$Message.warning(res.data.message);
             }
           })
         },
       },
       mounted() {
-          this.access_token = this.$cookies.get("access_token");
           this.init();
           this.initMonthCheck();
       }
