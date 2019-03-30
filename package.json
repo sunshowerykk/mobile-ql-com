@@ -2,7 +2,7 @@
   "name": "douxx",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "siyecao <750959305@qq.com>",
+  "author": "zhangwenfeng <771569533@qq.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "element-ui": "^2.7.0",
     "iview": "^3.3.0",
     "qs": "^6.6.0",
     "vue": "^2.5.2",
@@ -29,6 +30,7 @@
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-jest": "^21.0.2",
     "babel-loader": "^7.1.1",
+    "babel-plugin-component": "^1.1.1",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-import": "^1.11.0",
     "babel-plugin-syntax-jsx": "^6.18.0",

@@ -14,6 +14,12 @@ const service_marketer = {
       })
     },
 
+    addSubordinate: (data, token) => {
+      console.log(data)
+      return new Promise((resolve, reject) => {
+        TEMPLATE_Form_POST('/market/add-marketer?access-token='+token, data, resolve)
+      })
+    }
   }
 }
 

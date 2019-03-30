@@ -15,7 +15,7 @@
           <ul>
             <li><router-link to="/Message" class="user-center-item">消息中心<i class="num"></i></router-link></li>
             <li><router-link to="/MyPublicity" class="user-center-item">我的宣传页</router-link></li>
-            <li><router-link to="/MarketerCenterCenter" class="user-center-item">下级管理</router-link></li>
+            <li><router-link to="/SubordinateList" class="user-center-item">下级管理</router-link></li>
             <li><router-link to="/MarketEarnings" class="user-center-item">推广收益</router-link></li>
             <li><router-link to="/MySet" class="user-center-item">设置</router-link></li>
           </ul>

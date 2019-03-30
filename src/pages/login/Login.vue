@@ -3,7 +3,7 @@
       <TopBack>
         <span slot="headerTxt">登录</span>
       </TopBack>
-      <div class="loginform">
+      <div class="loginform" v-loading="loading">
         <div class="form">
           <ul>
             <li>
@@ -36,17 +36,21 @@ export default {
       loginForm: {
         phone: "",
         password: ""
-      }
+      },
+      loading: false
     };
   },
 
   methods: {
     handleLogin: function() {
+      this.loading = true;
       userService.userService.signIn(this.loginForm).then(res => {
         if (res.status === 200 && res.data.status === 0) {
+          this.loading = false;
           this.$cookies.set("access_token", res.data.access_token);
           this.$cookies.set("access_role", res.data.role);
           this.$cookies.set("userid", res.data.userid);
+          this.$cookies.set("isLogin", true);
           const role = res.data.role;
           if (role) {
             if (role == "student") {
@@ -62,6 +66,7 @@ export default {
             this.$router.push({ path: "/index" });
           }
         } else {
+          this.loading = false;
           this.$Message.error(res.data.msg);
         }
       });
