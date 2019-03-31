@@ -15,9 +15,28 @@ const service_marketer = {
     },
 
     addSubordinate: (data, token) => {
-      console.log(data)
       return new Promise((resolve, reject) => {
         TEMPLATE_Form_POST('/market/add-marketer?access-token='+token, data, resolve)
+      })
+    },
+    subordinateList: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/market/marketer-list', data, resolve)
+      })
+    },
+    getMarketer: (data)  => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/market/marketer-one', data, resolve)
+      })
+    },
+    updateMarketer: (token, data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_Form_POST('/market/update-marketer?access-token='+token, data, resolve)
+      })
+    },
+    delSubordinate: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/market/del-subordinate', data, resolve)
       })
     }
   }

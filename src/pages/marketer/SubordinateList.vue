@@ -8,7 +8,7 @@
         <div class="info">
           <p>
             <label>姓名</label>
-            <span>{{item.name}}</span>
+            <span>{{item.username}}</span>
           </p>
           <p>
             <label>电话</label>
@@ -16,11 +16,11 @@
           </p>
           <p>
             <label>级别</label>
-            <span>{{item.type}}</span>
+            <span>{{item.role}}</span>
           </p>
         </div>
         <div class="operate">
-          <Button size="small" class="edit" @click="editSubordinate()">编辑</Button>
+          <Button size="small" class="edit" @click="editSubordinate(item.id)">编辑</Button>
           <Button size="small" class="delete" @click="deleteSubordinate(item.id)">删除</Button>
         </div>
       </div>
@@ -35,49 +35,50 @@
     name: "SubordinateList",
     data () {
       return {
-        subordinateData: [
-          {
-            id: 1,
-            name: '张翼德',
-            phone: '18811717989',
-            type: '一级代理'
-          },
-          {
-            id: 2,
-            name: '张小吴',
-            phone: '18811717989',
-            type: '一级代理'
-          },
-          {
-            id: 3,
-            name: '李兰兰',
-            phone: '18811717989',
-            type: '一级代理'
-          },
-          {
-            id: 4,
-            name: '李老师',
-            phone: '18811717989',
-            type: '一级代理'
-          },
-        ]
+        subordinateData: [],
+        role: ''
       }
     },
+    mounted () {
+      service_marketer.marketerService.subordinateList({
+        'access-token': this.$cookies.get('access_token')
+      }).then(res => {
+        if (res.status === 200 && res.data.status === 0) {
+          this.subordinateData = res.data.list;
+          this.role = res.data.roleName;
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      })
+    },
     methods: {
-      deleteSubordinate() {
+      deleteSubordinate(id) {
         this.$confirm('是否确认删除?', '删除提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$Message.success('删除成功');
+          service_marketer.marketerService.delSubordinate({
+            'access-token': this.$cookies.get('access_token'),
+            userid: id
+          }).then(res => {
+            if (res.status === 200 && res.data.status === 0) {
+              this.$router.go(0);
+              this.$Message.success('删除成功');
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          })
         }).catch(() => {});
       },
       addSubordinate () {
         this.$router.push('AddSubordinate');
       },
-      editSubordinate () {
-        this.$router.push('EditSubordinate');
+      editSubordinate (id) {
+        this.$router.push({
+          name: 'EditSubordinate',
+          params: {id: id}
+        });
       }
     }
   }

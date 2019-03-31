@@ -223,7 +223,7 @@ const router = new Router({
     },
     // 市场专员-修改下级
     {
-      path: '/EditSubordinate/',
+      path: '/EditSubordinate/:id',
       name: 'EditSubordinate',
       component: EditSubordinate
     },
