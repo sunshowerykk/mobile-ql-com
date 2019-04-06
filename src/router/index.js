@@ -254,7 +254,7 @@ router.beforeEach((to, from, next) => {
   // A跳转到B，B页面停留在A页面的滚动位置；解决方法：将scrollTop设置为0
   window.scroll(0, 0);
   // studentNextRoute: 设置学生角色需要路由守卫的路由集合
-  const studentNextRoute = ['UserCenter', 'MyClass', 'MyClassDetail', 'MyGold', 'MyOrder', 'MyCollect', 'MyEarnings', 'MyGeneralize'];
+  const studentNextRoute = ['UserCenter', 'MyClass', 'MyClassDetail', 'MyGold', 'MyOrder', 'MyCollect', 'MyEarnings', 'MyGeneralize', 'PayCenter'];
   // teacherNextRoute: 设置教师角色需要路由守卫的路由集合
   const teacherNextRoute = []
   // marketerNextRoute: 设置市场角色需要路由守卫的路由集合
@@ -298,7 +298,7 @@ router.beforeEach((to, from, next) => {
       });
       return false;
     }
-  } else if (studentNextRoute.includes(to.name) || teacherNextRoute.includes(to.name) || marketerNextRoute.includes(to.name)) {
+  } else if (teacherNextRoute.includes(to.name) || marketerNextRoute.includes(to.name)) {
     router.push({
       name: 'index'
     });
@@ -308,7 +308,7 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'Login') {
     if (isLogin) {
       router.push({
-        name: 'home'
+        name: 'index'
       });
       return false;
     }

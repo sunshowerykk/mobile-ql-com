@@ -84,6 +84,9 @@
           },
           exit: function () {
             this.$cookies.remove('access_token');
+            this.$cookies.remove('isLogin');
+            this.$cookies.remove('access_role');
+            this.$cookies.remove('userid');
             this.$router.push({path: '/index'});
           },
           initSettings: function () {

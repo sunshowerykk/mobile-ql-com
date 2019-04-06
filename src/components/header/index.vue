@@ -18,7 +18,7 @@ export default {
         text: "",
         link: ""
       },
-      token: this.$cookies.get("access_token") || '',
+      token: this.$cookies.get('access_token') || '',
     };
   },
   methods: {

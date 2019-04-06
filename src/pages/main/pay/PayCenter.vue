@@ -1,5 +1,5 @@
 <template>
-  <div class="font-box bg">
+  <div class="font-box bg" v-loading="loading">
     <TopBack>
       <span slot="headerTxt">{{ setAddressFlag ? '收货地址' : '结算中心' }}</span>
     </TopBack>
@@ -47,7 +47,7 @@
 
       <div class="chooseLst">
         <ul>
-          <li v-for="book, index in books">
+          <li v-for="(book, index) in books" :key="index">
             <div class="item clearfix">
               <div class="inpt">
                 <input type="checkbox" class="chek" :value="book.id"
@@ -81,7 +81,7 @@
 
     </div>
 
-    <div class="alert_bg alert_bg1" v-show="payModal" @click="hideModal"></div>
+    <div class="alert_bg alert_bg1" v-show="payModal"></div>
     <div class="alert_cont1" v-show="payModal">
       <div class="tit">
         <h3>在线支付</h3>
@@ -90,17 +90,30 @@
         </span>
       </div>
       <h5>选择支付方式</h5>
+      <!-- 1支付宝 2 微信 -->
       <ul>
-        <li>
+        <!-- <li>
           <img src="../../../assets/img/img29.png"  />
           <label>支付宝</label>
-          <span class="input"><input type="radio" name="radio"  class="radio" checked="checked" /></span>
+          <span class="input">
+            <input type="radio"
+              name="radio" 
+              class="radio"
+              value="1"
+              @change="changePayType(1)"/></span>
 
-        </li>
+        </li> -->
         <li>
           <img src="../../../assets/img/img30.png"  />
           <label>微信</label>
-          <span class="input"><input type="radio" name="radio"  class="radio"  /></span>
+          <span class="input">
+            <input type="radio"
+              name="radio"
+              class="radio"
+              checked="checked"
+              value="2"
+              @change="changePayType(2)"/>
+          </span>
         </li>
       </ul>
       <div class="btnMod">
@@ -125,7 +138,7 @@
               </li>
               <li>
                 <label><i>*</i>收货人地址</label>
-                <textarea placeholder="请填写宿舍地址"class="text tera" v-model="user_info.address" ></textarea>
+                <textarea placeholder="请填写宿舍地址" class="text tera" v-model="user_info.address" ></textarea>
               </li>
             </ul>
           </form>
@@ -169,7 +182,12 @@ export default {
       },
       checkedValue: [],
       answer: [],
-      order_sn:''
+      order_sn:'',
+      payType: 2, // 默认微信支付
+      loading: false,
+      payConfig: {
+        appid: ''
+      }
     };
   },
   methods: {
@@ -206,6 +224,9 @@ export default {
     goPay() {
       this.payModal = true;
     },
+    changePayType(type) {
+      this.payType = type;
+    },
     hideModal() {
       this.payModal = false;
     },
@@ -229,7 +250,6 @@ export default {
           }
         });
     },
-
     getPackageInfo() {
       service_course.courseService
         .packageOrder({
@@ -270,10 +290,36 @@ export default {
         this.address_flag = false;
       }
     },
+    // 确认付款
+    callpay() {
+      if (typeof WeixinJSBridge == "undefined") {
+		    if (document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+          } else if (document.attachEvent) {
+              document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+              document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+          }
+      } else {
+          this.jsApiCall();
+      }
+    },
+    //调用微信JS api 支付
+	  // jsApiCall() {
+    //   WeixinJSBridge.invoke(
+    //     'getBrandWCPayRequest',
+    //     <?php echo $jsApiParameters; ?>,
+    //     function(res){
+    //       WeixinJSBridge.log(res.err_msg);
+    //       alert(res.err_code+res.err_desc+res.err_msg);
+    //     }
+    //   );
+    // }
+    // 确认订单
     confirmOrder() {
       if (this.answer.length > this.course_count) {
         this.$Message.warning("只可选择" + this.course_count + "本图书！");
       } else {
+        this.loading = true;
         service_course.courseService
           .confirmOrder({
             "access-token": this.$cookies.get("access_token"),
@@ -306,29 +352,42 @@ export default {
             } else {
               this.$Message.warning(res.data.message);
             }
+            this.loading = false;
           });
       }
     },
-    confirmPay() {
-      const order_sn = this.order_sn
+    getAppid() {
       service_course.courseService
-        .confirmPay({
+        .getAppid({
           "access-token": this.$cookies.get("access_token"),
-          "order_sn":this.order_sn,
-          "code":123,
-          "coupon_id":-1,
-          "use_coin":0,
         })
         .then(res => {
-          if (res.status === 200 && res.data.code === 0) {
-            console.log(res.data)
+          if (res.status === 200 && res.data.status === 0) {
+            this.payConfig.appid = res.data.appid
           }
           else{
-            console.log(res.data.message)
             this.$Message.info(res.data.message);
           }
-        })
-        ;
+        });
+    },
+    // 确认支付
+    confirmPay() {
+      let redirectURI = encodeURIComponent(window.location.href)     // url需要encode
+      window.location = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.payConfig.appid + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_base&state=WXPaySTATE#wechat_redirect'
+      // service_course.courseService
+      //   .confirmPay({
+      //     "access-token": this.$cookies.get("access_token"),
+      //     "order_sn":this.order_sn
+      //   })
+      //   .then(res => {
+      //     if (res.status === 200) {
+      //       console.log(res.data)
+      //     }
+      //     else{
+      //       console.log(res.data.message)
+      //       this.$Message.info(res.data.message);
+      //     }
+      //   });
     }
   },
   mounted: function() {
@@ -338,6 +397,9 @@ export default {
       this.getPackageInfo();
       this.$Message.info("套餐！，等待完善！");
     }
+
+    // 获取appid
+    this.getAppid();
   }
 };
 </script>

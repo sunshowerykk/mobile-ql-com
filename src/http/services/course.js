@@ -2,8 +2,8 @@ import {TEMPLATE_Form_POST, TEMPLATE_GET, TEMPLATE_POST} from './index'
 
 const service_course = {
   courseService: {
-    courseList: ({}) => {
-      return new Promise((resolve, data, reject) => {
+    courseList: (data) => {
+      return new Promise((resolve, reject) => {
         TEMPLATE_GET('/course/list', data, resolve)
       })
     },
@@ -31,7 +31,11 @@ const service_course = {
         TEMPLATE_GET('/course/package-order', data, resolve)
       })
     },
-
+    getAppid: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/h5order/get-appid', data, resolve)
+      })
+    },
     confirmOrder: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/order/confirm-order', data, resolve)
@@ -39,7 +43,7 @@ const service_course = {
     },
     confirmPay: (data) => {
       return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/order/pay', data, resolve)
+        TEMPLATE_GET('/h5order/get-js-api-param', data, resolve)
       })
     },
     bookOrder: (data) => {
