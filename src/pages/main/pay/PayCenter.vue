@@ -411,7 +411,10 @@ export default {
       this.$Message.info("套餐！，等待完善！");
     }
     // 获取appid
-    this.getAppid();
+    this.getCodeState();
+    if (!this.payConfig.code) {
+      this.getAppid();
+    }
   }
 };
 </script>
