@@ -364,6 +364,8 @@ export default {
         .then(res => {
           if (res.status === 200 && res.data.status === 0) {
             this.payConfig.appid = res.data.appid
+            let redirectURI = encodeURIComponent(window.location.href)     // url需要encode
+            window.location = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.payConfig.appid + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_base&state=WXPaySTATE#wechat_redirect'
           }
           else{
             this.$Message.info(res.data.message);
@@ -372,22 +374,33 @@ export default {
     },
     // 确认支付
     confirmPay() {
-      let redirectURI = encodeURIComponent(window.location.href)     // url需要encode
-      window.location = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.payConfig.appid + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_base&state=WXPaySTATE#wechat_redirect'
-      // service_course.courseService
-      //   .confirmPay({
-      //     "access-token": this.$cookies.get("access_token"),
-      //     "order_sn":this.order_sn
-      //   })
-      //   .then(res => {
-      //     if (res.status === 200) {
-      //       console.log(res.data)
-      //     }
-      //     else{
-      //       console.log(res.data.message)
-      //       this.$Message.info(res.data.message);
-      //     }
-      //   });
+      this.getCodeState();
+      if (!this.payConfig.code) {
+        this.$Message.warning('参数错误，请稍后刷新页面重试');
+        return;
+      }
+      this.loading = true;
+      service_course.courseService
+        .confirmPay({
+          "access-token": this.$cookies.get("access_token"),
+          "order_sn": this.order_sn,
+          "code": this.payConfig.code
+        })
+        .then(res => {
+          if (res.status === 200 && res.data.status === 0) {
+            console.log(res.data)
+          } else {
+            this.$Message.error(res.data.message);
+          }
+          this.loading = false;
+        });
+    },
+    // 获取code 和 state
+    getCodeState() {
+      let paramsArr = window.location.search.substr(1).split('&');
+      paramsArr.forEach(item => {
+        this.payConfig[item.split('=')[0]] = item.split('=')[1];
+      });
     }
   },
   mounted: function() {
@@ -397,7 +410,6 @@ export default {
       this.getPackageInfo();
       this.$Message.info("套餐！，等待完善！");
     }
-
     // 获取appid
     this.getAppid();
   }
