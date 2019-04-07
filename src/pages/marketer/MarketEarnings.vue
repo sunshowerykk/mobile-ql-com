@@ -14,7 +14,7 @@
         <span>{{this.settlement}}</span>
       </li>
     </ul>
-    <router-link to="/MyGeneralize" class="er-btn">明细查询</router-link>
+    <router-link :to="{'name': 'MarketGeneralize', params:{month: 'all'}}" class="er-btn">明细查询</router-link>
 
     <div class="ear_get-time-box">
       <group title="" class="ear_time-group">
@@ -54,7 +54,10 @@
           </div>
           <div class="item">
             <h5>业绩</h5>
-            <span v-for="incomMonth in monthIncome">{{incomMonth.income}}</span>
+            <span v-for="incomMonth in monthIncome">
+              {{incomMonth.income}}
+              <a href="#">明细</a>
+            </span>
           </div>
         </li>
         <li>
@@ -62,11 +65,10 @@
             <h5>佣金</h5>
             <span v-for="incomMonth in monthIncome">{{incomMonth.salary}}</span>
           </div>
-          <!--<div class="item" >-->
-            <!--<h5>状态</h5>-->
-            <!--<span>已结算</span>-->
-            <!--<span>未结算</span>-->
-          <!--</div>-->
+          <div class="item" >
+            <h5>状态</h5>
+            <span v-for="incomMonth in monthIncome">未结算</span>
+          </div>
         </li>
       </ul>
     </div>

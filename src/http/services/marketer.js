@@ -7,7 +7,6 @@ const service_marketer = {
         TEMPLATE_GET('/market/income', data, resolve)
       })
     },
-
     monthIncome: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/market/month-income', data, resolve)
@@ -38,7 +37,17 @@ const service_marketer = {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/market/del-subordinate', data, resolve)
       })
-    }
+    },
+    directIncome: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/market/direct-income', data, resolve)
+      })
+    },
+    indirectIncome: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/market/indirect-income', data, resolve)
+      })
+    },
   }
 }
 
