@@ -46,6 +46,11 @@ const service_course = {
         TEMPLATE_GET('/h5order/get-js-api-param', data, resolve)
       })
     },
+    wxcheckorder: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/h5order/wxcheckorder', data, resolve)
+      })
+    },
     bookOrder: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/order/book-order', data, resolve)

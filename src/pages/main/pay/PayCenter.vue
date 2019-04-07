@@ -309,9 +309,25 @@ export default {
         'getBrandWCPayRequest',
         this.jsApiParameters,
         function(res){
-          debugger;
-          alert('hahhah');
-          alert(res);
+          if (res && res.err_msg &&  res.err_msg == "get_brand_wcpay_request：ok") {
+            // 支付成功 更改支付状态
+            service_course.courseService
+            .wxcheckorder({
+              "access-token": this.$cookies.get("access_token"),
+              'out_trade_no': this.order_sn
+            })
+            .then(res => {
+              if (res.status === 200 && res.data.trade_state === "SUCCESS") {
+                this.$Message.success("支付成功，即将跳转到订单列表页...");
+                setTimeout(() => {
+                  this.$router.push('MyOrder');
+                }, 3000);
+              }
+              else {
+                this.$Message.error("支付失败，请稍后再试");
+              }
+            });
+          }
         }
       );
     },
