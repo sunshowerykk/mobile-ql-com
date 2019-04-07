@@ -33,6 +33,7 @@ export default {
             this.head.link = "/UserCenter";
           } else {
             this.$cookies.remove('access_token');
+            this.$cookies.remove('isLogin');
             this.head.text = "登录";
             this.head.link = "/Login";
           }

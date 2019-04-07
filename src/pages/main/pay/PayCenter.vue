@@ -293,27 +293,27 @@ export default {
     // 确认付款
     callpay() {
       if (typeof WeixinJSBridge == "undefined") {
-		    if (document.addEventListener ){
-		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    if (document.addEventListener) {
+		        document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
           } else if (document.attachEvent) {
-              document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
-              document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+              document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
+              document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
           }
       } else {
           this.jsApiCall();
       }
     },
     //调用微信JS api 支付
-	  // jsApiCall() {
-    //   WeixinJSBridge.invoke(
-    //     'getBrandWCPayRequest',
-    //     <?php echo $jsApiParameters; ?>,
-    //     function(res){
-    //       WeixinJSBridge.log(res.err_msg);
-    //       alert(res.err_code+res.err_desc+res.err_msg);
-    //     }
-    //   );
-    // }
+	  jsApiCall() {
+      WeixinJSBridge.invoke(
+        'getBrandWCPayRequest',
+        this.jsApiParameters,
+        function(res){
+          WeixinJSBridge.log(res.err_msg);
+          alert(res.err_code+res.err_desc+res.err_msg);
+        }
+      );
+    },
     // 确认订单
     confirmOrder() {
       if (this.answer.length > this.course_count) {
@@ -379,6 +379,13 @@ export default {
         this.$Message.warning('参数错误，请稍后刷新页面重试');
         return;
       }
+      // let res = {};
+      // res.data = {"status":0,"jsApiParameters":"{\"appId\":\"wxa9123996375fbbe7\",\"nonceStr\":\"tphsi41h2jdm6utx696hh6aa80t5n9kf\",\"package\":\"prepay_id=wx07094224150021cfe16c61103824019948\",\"signType\":\"HMAC-SHA256\",\"timeStamp\":\"1554601344\",\"paySign\":\"6ACB2E0499CD071AEB10BDA291C2B9D66BEF83090FC22BC7621FF0DC0030D45C\"}"};
+      // if (res.data.status === 0) {
+      //   this.jsApiParameters = JSON.parse(res.data.jsApiParameters);
+      //   debugger;
+      //   this.callpay();
+      // }
       this.loading = true;
       service_course.courseService
         .confirmPay({
@@ -388,7 +395,8 @@ export default {
         })
         .then(res => {
           if (res.status === 200 && res.data.status === 0) {
-            console.log(res.data)
+            this.jsApiParameters = JSON.parse(res.data.jsApiParameters);
+            this.callpay();
           } else {
             this.$Message.error(res.data.message);
           }
