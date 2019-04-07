@@ -309,8 +309,9 @@ export default {
         'getBrandWCPayRequest',
         this.jsApiParameters,
         function(res){
-          WeixinJSBridge.log(res.err_msg);
-          alert(res.err_code+res.err_desc+res.err_msg);
+          debugger;
+          alert('hahhah');
+          alert(res);
         }
       );
     },
@@ -363,8 +364,8 @@ export default {
         })
         .then(res => {
           if (res.status === 200 && res.data.status === 0) {
-            this.payConfig.appid = res.data.appid
-            let redirectURI = encodeURIComponent(window.location.href)     // url需要encode
+            this.payConfig.appid = res.data.appid;
+            let redirectURI = encodeURIComponent(window.location.href);     // url需要encode
             window.location = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.payConfig.appid + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_base&state=WXPaySTATE#wechat_redirect'
           }
           else{
@@ -379,13 +380,6 @@ export default {
         this.$Message.warning('参数错误，请稍后刷新页面重试');
         return;
       }
-      // let res = {};
-      // res.data = {"status":0,"jsApiParameters":"{\"appId\":\"wxa9123996375fbbe7\",\"nonceStr\":\"tphsi41h2jdm6utx696hh6aa80t5n9kf\",\"package\":\"prepay_id=wx07094224150021cfe16c61103824019948\",\"signType\":\"HMAC-SHA256\",\"timeStamp\":\"1554601344\",\"paySign\":\"6ACB2E0499CD071AEB10BDA291C2B9D66BEF83090FC22BC7621FF0DC0030D45C\"}"};
-      // if (res.data.status === 0) {
-      //   this.jsApiParameters = JSON.parse(res.data.jsApiParameters);
-      //   debugger;
-      //   this.callpay();
-      // }
       this.loading = true;
       service_course.courseService
         .confirmPay({
