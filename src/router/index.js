@@ -37,6 +37,7 @@ import MarketEarnings from '@/pages/marketer/MarketEarnings' // 收益
 import SubordinateList from '@/pages/marketer/SubordinateList' // 下级管理
 import AddSubordinate from '@/pages/marketer/AddSubordinate' // 添加下级
 import EditSubordinate from '@/pages/marketer/EditSubordinate' // 修改下级
+import MarketGeneralize from '@/pages/marketer/MarketGeneralize' // 市场端收益明细
 
 import Address from '@/components/Address' //收货地址
 import OpenCoursePayCenter from '@/components/OpenCoursePayCenter' //公开课购买
@@ -208,6 +209,13 @@ const router = new Router({
       path: '/MarketEarnings/',
       name: 'MarketEarnings',
       component: MarketEarnings
+    },
+
+    // 市场专员-收益
+    {
+      path: '/MarketGeneralize/:month',
+      name: 'MarketGeneralize',
+      component: MarketGeneralize
     },
     // 市场专员-下级管理列表
     {
