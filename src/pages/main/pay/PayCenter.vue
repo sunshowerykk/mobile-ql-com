@@ -312,6 +312,7 @@ export default {
         function (res) {
           if (res.err_msg == "get_brand_wcpay_request:ok") {
             // 支付成功 更改支付状态
+            self.$router.push('/MyOrder');
             self.wxcheckorder();
           }
         }

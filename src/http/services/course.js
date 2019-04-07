@@ -47,7 +47,6 @@ const service_course = {
       })
     },
     wxcheckorder: (data) => {
-      alert(data);
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/h5order/wxcheckorder', data, resolve)
       })
