@@ -319,7 +319,7 @@ export default {
     },
     // 更改订单状态
     wxcheckorder () {
-      alert('come in');
+      alert('order_sn=' + this.order_sn);
       service_course.courseService
         .wxcheckorder({
           'out_trade_no': this.order_sn
