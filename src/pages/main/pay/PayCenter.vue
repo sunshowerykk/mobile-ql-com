@@ -310,7 +310,6 @@ export default {
         this.jsApiParameters,
         function(res){
           if (res.err_msg == "get_brand_wcpay_request:ok") {
-            alert('comein');
             // 支付成功 更改支付状态
             service_course.courseService
             .wxcheckorder({
@@ -318,13 +317,13 @@ export default {
               'out_trade_no': this.order_sn
             })
             .then(res => {
+              res.data = JSON.parse(res.data);
               if (res.status === 200 && res.data.trade_state === "SUCCESS") {
                 this.$Message.success("支付成功，即将跳转到订单列表页...");
                 setTimeout(() => {
-                  this.$router.push('MyOrder');
+                  this.$router.push('/MyOrder');
                 }, 3000);
-              }
-              else {
+              } else {
                 this.$Message.error("支付失败，请稍后再试");
               }
             });
@@ -429,7 +428,7 @@ export default {
       this.getPackageInfo();
       this.$Message.info("套餐！，等待完善！");
     }
-    // 获取appid
+    //获取appid
     this.getCodeState();
     if (!this.payConfig.code) {
       this.getAppid();
