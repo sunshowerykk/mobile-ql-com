@@ -16,6 +16,7 @@ import LibraryDetail from '@/pages/main/library/LibraryDetail' //图书详情
 import InformationList from '@/pages/main/information/informationList' //资讯列表
 import InformationDetail from '@/pages/main/information/informationDetail' //资讯详情
 import PayCenter from '@/pages/main/pay/PayCenter'  //支付中心
+import PayOk from '@/pages/main/pay/PayOk'  //支付成功
 import UserCenter from '@/pages/main/user/UserCenter'   // 个人中心
 import TeacherCenter from '@/pages/teacher/UserCenter' //教师个人中心
 import MyClass from '@/pages/main/user/MyClass'   // 我的课程
@@ -121,6 +122,11 @@ const router = new Router({
       path: '/PayCenter/:type/:id',
       name: 'PayCenter',
       component: PayCenter
+    },
+    {
+      path: '/PayOk/:id',
+      name: 'PayOk',
+      component: PayOk
     },
     {
       path: '/UserCenter/',

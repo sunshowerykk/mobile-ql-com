@@ -312,7 +312,6 @@ export default {
         function (res) {
           if (res.err_msg == "get_brand_wcpay_request:ok") {
             // 支付成功 更改支付状态
-            self.$router.push('/MyOrder');
             self.wxcheckorder();
           }
         }
@@ -320,13 +319,12 @@ export default {
     },
     // 更改订单状态
     wxcheckorder () {
-      alert('order_sn=' + this.order_sn);
       service_course.courseService
         .wxcheckorder({
+          "access-token": this.$cookies.get("access_token"),
           'out_trade_no': this.order_sn
         })
         .then(res => {
-          alert(res);
           res.data = JSON.parse(res.data);
           if (res.status === 200 && res.data.trade_state === "SUCCESS") {
             this.$Notice.success({
