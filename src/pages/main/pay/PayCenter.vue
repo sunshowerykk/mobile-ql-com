@@ -308,31 +308,37 @@ export default {
       let self = this;
       WeixinJSBridge.invoke(
         'getBrandWCPayRequest',
-        this.jsApiParameters,
+        self.jsApiParameters,
         function (res) {
           if (res.err_msg == "get_brand_wcpay_request:ok") {
             // 支付成功 更改支付状态
-            service_course.courseService
-            .wxcheckorder({
-              'out_trade_no': self.order_sn
-            })
-            .then(res => {
-              res.data = JSON.parse(res.data);
-              if (res.status === 200 && res.data.trade_state === "SUCCESS") {
-                self.$Notice.success({
-                    title: '支付成功提醒',
-                    desc: '支付成功，3s后跳转到订单列表页...'
-                });
-                setTimeout(() => {
-                  self.$router.push('/MyOrder');
-                }, 3000);
-              } else {
-                self.$Message.error("支付失败，请稍后再试");
-              }
-            });
+            self.wxcheckorder();
           }
         }
       );
+    },
+    // 更改订单状态
+    wxcheckorder () {
+      alert('come in');
+      service_course.courseService
+        .wxcheckorder({
+          'out_trade_no': this.order_sn
+        })
+        .then(res => {
+          alert(res);
+          res.data = JSON.parse(res.data);
+          if (res.status === 200 && res.data.trade_state === "SUCCESS") {
+            this.$Notice.success({
+                title: '支付成功提醒',
+                desc: '支付成功，3s后跳转到订单列表页...'
+            });
+            setTimeout(() => {
+              this.$router.push('/MyOrder');
+            }, 3000);
+          } else {
+            this.$Message.error("支付失败，请稍后再试");
+          }
+        });
     },
     // 确认订单
     confirmOrder() {
