@@ -310,7 +310,7 @@ export default {
         this.jsApiParameters,
         function(res){
           if (res.err_msg == "get_brand_wcpay_request:ok") {
-            alert('comein');
+            this.$router.push('/MyOrder');
             // 支付成功 更改支付状态
             service_course.courseService
             .wxcheckorder({
@@ -319,7 +319,6 @@ export default {
             .then(res => {
               res.data = JSON.parse(res.data);
               if (res.status === 200 && res.data.trade_state === "SUCCESS") {
-                alert('1');
                 this.$Notice.success({
                     title: '支付成功提醒',
                     desc: '支付成功，3s后跳转到订单列表页...'
@@ -328,7 +327,6 @@ export default {
                   this.$router.push('/MyOrder');
                 }, 3000);
               } else {
-                alert('2');
                 this.$Message.error("支付失败，请稍后再试");
               }
             });
