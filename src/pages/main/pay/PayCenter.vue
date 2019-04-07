@@ -309,8 +309,7 @@ export default {
         'getBrandWCPayRequest',
         this.jsApiParameters,
         function(res){
-          alert(res.err_msg == 'get_brand_wcpay_request:ok');
-          if (res && res.err_msg && res.err_msg == "get_brand_wcpay_request:ok") {
+          if (res.err_msg == "get_brand_wcpay_request:ok") {
             alert('comein');
             // 支付成功 更改支付状态
             service_course.courseService
