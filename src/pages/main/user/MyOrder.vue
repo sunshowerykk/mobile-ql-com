@@ -15,7 +15,7 @@
         <div class="orderList">
           <ul>
 
-            <li v-for="order in finishedOrders">
+            <li v-for="(order, index) in finishedOrders" :key="index">
               <a href="#">
                 <div class="item clearfix">
                   <div class="pic">
@@ -38,7 +38,7 @@
       <div v-if="indexActive === 1" key="1">
         <div class="orderList">
           <ul>
-            <li v-for="order in unfinishedOrders">
+            <li v-for="(order, index) in unfinishedOrders" :key="index">
               <a href="#">
                 <div class="item clearfix">
                   <div class="pic">
@@ -83,19 +83,12 @@
       getOrderInfo() {
         service.personalService.orderList({'access-token': this.$cookies.get('access_token')}).then(res => {
           if (res.status === 200) {
-            let index1 = 0;
-            let index2 = 0
-            for (let i = 0; i < res.data.order_info.length; i++) {
-              if (res.data.order_info[i].pay_status === 2) {
-                this.finishedOrders[index1] = res.data.order_info[i];
-                index1++;
-              } else if (res.data.order_info[i].pay_status === 0) {
-                this.unfinishedOrders[index2] = res.data.order_info[i];
-                index2++;
-              }
-            }
-            console.log(this.finishedOrders);
-            console.log(this.unfinishedOrders);
+            this.finishedOrders = res.data.order_info.filter((item) => {
+              return item.pay_status === 2;
+            });
+            this.unfinishedOrders = res.data.order_info.filter((item) => {
+              return item.pay_status === 0;
+            });
           }
         })
       }

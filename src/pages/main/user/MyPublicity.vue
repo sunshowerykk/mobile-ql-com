@@ -20,7 +20,7 @@
             </ul>
           </div>
           <div class="wema">
-            <img :src="this.qrcode"  />
+            <img :src="this.qrcode"/>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
 <script>
     import service_user from '@/http/services/user.js'
     export default {
-        name: "Publicity",
+      name: "Publicity",
       data(){
           return{
             share: false,
@@ -60,7 +60,9 @@
           service_user.userService.getQrcode(this.token).then(res => {
             if (res.status === 200) {
               this.qrcode = res.data;
-              console.log(this.qrcode);
+              console.log({
+                qrcode: this.qrcode
+              });
             }
           })
         },
