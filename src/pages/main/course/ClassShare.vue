@@ -1,5 +1,5 @@
 <template>
-  <div class="font-box bg">
+  <div class="font-box bg" v-loading="loading">
     <TopBack>
       <span slot="headerTxt">课程详情</span>
     </TopBack>
@@ -247,7 +247,8 @@
         flag: false,
         isLogin: false,
         uploadUrl: 'http://api.ql.com/personal/homework-upload?access-token=',
-        videoShow: false
+        videoShow: false,
+        loading: true
       }
     },
 
@@ -295,6 +296,7 @@
             this.courseInfo.course = res.data.course;
             this.courseInfo.teacher = res.data.teacher;
             this.collect = res.data.course.iscollect;
+            this.loading = false;
             // console.log(this.courseInfo);
           }
         })
@@ -369,6 +371,7 @@
                                               'course_id': this.courseid, 'section_id': section_id,
                                               'point_id': point_id}).then(res => {
 
+            console.log(res.data.pic);
             if (res.data.status === 0) {
               this.$Message.info(res.data.message);
               this.$router.push({path: '/Login'});
@@ -376,7 +379,7 @@
               this.$Message.warning(res.data.message);
             } else {
               this.$Message.success(res.data.message);
-              this.$router.push({name: 'QualityCourseVideo', params:{title: title, video_url: res.data.url}});
+              this.$router.push({name: 'QualityCourseVideo', params:{title: title, video_url: res.data.url, pic: res.data.pic}});
             }
         })
       },

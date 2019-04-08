@@ -1,5 +1,5 @@
 <template>
-    <div class="home-container">
+    <div class="home-container" v-loading="loading">
       <!--轮播图-->
       <swiper :options="swiperOption" class="swiper-container">
         <swiper-slide v-for="(slide, index) in ads" :key="index">
@@ -259,7 +259,9 @@
           // 推荐图书
           books: [],
           // 最近在学
-          recentStudy: {}
+          recentStudy: {},
+          // 加载动画
+          loading: true
         }
       },
       methods: {
@@ -273,6 +275,7 @@
               this.courses = res.data.data.courses;
               this.opens = res.data.data.opens;
               this.books = res.data.data.books;
+              this.loading = false;
               if(this.token && this.recent) {
                 this.recentStudy = this.recent
               }

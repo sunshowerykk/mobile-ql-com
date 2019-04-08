@@ -268,11 +268,11 @@ router.beforeEach((to, from, next) => {
   // A跳转到B，B页面停留在A页面的滚动位置；解决方法：将scrollTop设置为0
   window.scroll(0, 0);
   // studentNextRoute: 设置学生角色需要路由守卫的路由集合
-  const studentNextRoute = ['UserCenter', 'MyClass', 'MyClassDetail', 'MyGold', 'MyOrder', 'MyCollect', 'MyEarnings', 'MyGeneralize', 'PayCenter'];
+  const studentNextRoute = ['/UserCenter', '/MyClass', '/MyClassDetail', '/MyGold', '/MyOrder', '/MyCollect', '/MyEarnings', '/MyGeneralize', '/PayCenter'];
   // teacherNextRoute: 设置教师角色需要路由守卫的路由集合
   const teacherNextRoute = []
   // marketerNextRoute: 设置市场角色需要路由守卫的路由集合
-  const marketerNextRoute = ['MarketerCenter', 'MarketEarnings', 'SubordinateList', 'AddSubordinate', 'EditSubordinate']
+  const marketerNextRoute = ['/MarketerCenter', '/MarketEarnings', '/SubordinateList', '/AddSubordinate', '/EditSubordinate']
   let isLogin = global.$cookies.get('isLogin'); // 是否登录
   // 未登录状态；当路由到nextRoute指定页时，跳转至login
   let role = global.$cookies.get("access_role");

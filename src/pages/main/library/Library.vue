@@ -1,5 +1,5 @@
 <template>
-    <div class="font-box">
+    <div class="font-box" v-loading="loading">
       <div class="setMeal recommdBooks">
         <div class="tit">
           <h3>推荐图书</h3>
@@ -37,7 +37,8 @@
         name: "Library",
       data() {
           return {
-            books:''
+            books:'',
+            loading: true
           }
       },
 
@@ -46,6 +47,7 @@
           service.bookService.list().then(res => {
             if (res.status === 200) {
               this.books=res.data;
+              this.loading = false;
             }
           })
         },

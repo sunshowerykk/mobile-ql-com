@@ -1,6 +1,6 @@
 <!--公开课-->
 <template>
-    <div>
+    <div v-loading="loading">
       <div class="setMeal publicClass">
         <div class="tit">
           <h3>升本公开课</h3>
@@ -56,7 +56,8 @@ export default {
       course_url: "",
       showVideo: false,
       buycourse: false,
-      classes: [{}]
+      classes: [{}],
+      loading: true
     };
   },
   methods: {
@@ -79,6 +80,7 @@ export default {
       service.publicClassService.list().then(res => {
         if (res.status === 200) {
           this.classes = res.data;
+          this.loading = false;
         }
       });
     },

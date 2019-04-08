@@ -1,6 +1,6 @@
 <!--精品课-->
 <template>
-    <div>
+    <div v-loading="loading">
       <div class="setMeal exCourse">
         <div class="tit">
           <h3>精品课程</h3>
@@ -39,7 +39,8 @@
       name: "ClassQuality",
       data() {
         return {
-          courseList: ''
+          courseList: '',
+          loading: true
         }
       },
 
@@ -48,6 +49,7 @@
           service.courseService.courseList({}).then(res => {
             if (res.status === 200) {
               this.courseList = res.data;
+              this.loading = false;
             }
           })
         }

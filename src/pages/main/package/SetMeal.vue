@@ -1,6 +1,6 @@
 <!--套餐-->
 <template>
-    <div class="font-box">
+    <div class="font-box" v-loading="loading">
       <div class="setMeal">
         <div class="tit">
           <h3>VIP套餐</h3>
@@ -40,7 +40,8 @@
       name: "set_meal",
       data() {
          return {
-           packageList: ''
+           packageList: '',
+           loading: true
          }
       },
 
@@ -50,6 +51,7 @@
           service.packageService.packageList().then(res => {
             if (res.status === 200 && res.data.status == 0) {
               this.packageList = res.data.packages;
+              this.loading = false;
             } else {
               alert('wrong!');
             }

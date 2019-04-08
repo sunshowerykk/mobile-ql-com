@@ -1,5 +1,5 @@
 <template>
-    <div class="font-box book-detail">
+    <div class="font-box book-detail" v-loading="loading">
       <TopBack>
         <span slot="headerTxt">{{book.name}}</span>
         <span slot="share" class="share" @click="showShare"></span>
@@ -104,7 +104,8 @@
               phone:'',
               address:'',
               access_token:'',
-            }
+            },
+            loading: true
           }
       },
       warning () {
@@ -147,6 +148,7 @@
               this.book = res.data;
               this.orderform.book_name = res.data.name;
               this.orderform.access_token = this.$cookies.get('access_token');
+              this.loading = false;
             }
           })
         },

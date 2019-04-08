@@ -1,5 +1,5 @@
 <template>
-  <div class="index-content information">
+  <div class="index-content information"  v-loading="loading">
     <TopBack>
       <span slot="headerTxt">资讯列表</span>
     </TopBack>
@@ -24,7 +24,8 @@
     name: "InformationList",
     data () {
       return {
-        information: []
+        information: [],
+        loading: true
       }
     },
     methods:{
@@ -32,6 +33,7 @@
         service.informationService.list().then(res => {
           if (res.status === 200) {
             this.information = res.data;
+            this.loading = false;
           }
         })
       },

@@ -1,5 +1,5 @@
 <template>
-  <div class="subordinate-list">
+  <div class="subordinate-list"  v-loading="loading">
     <TopBack>
       <span slot="headerTxt">下级管理</span>
     </TopBack>
@@ -36,7 +36,8 @@
     data () {
       return {
         subordinateData: [],
-        role: ''
+        role: '',
+        loading: true
       }
     },
     mounted () {
@@ -46,6 +47,7 @@
         if (res.status === 200 && res.data.status === 0) {
           this.subordinateData = res.data.list;
           this.role = res.data.roleName;
+          this.loading = false;
         } else {
           this.$Message.error(res.data.message);
         }

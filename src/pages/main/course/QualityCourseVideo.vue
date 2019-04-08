@@ -8,7 +8,7 @@
 
     <div class="viedoCont">
       <div class="cont">
-        <video class="video" poster="@/assets/img/img31.jpg" id="video" controls>
+        <video class="video" :poster="pic" id="video" controls>
           <source :src="video_url" type="video/mp4">抱歉，你的浏览器不能查看该视频
         </video>
       </div>
@@ -26,14 +26,15 @@
         id: 0,
         share: false,
         video_url:'',
-        title: ''
+        title: '',
+        pic: ''
       }
     },
     created() {
       this.video_url = this.$route.params.video_url;
       this.title = this.$route.params.title;
-      console.log(this.title);
-      console.log(this.video_url);
+      this.pic = this.$route.params.pic;
+      console.log(this.pic);
     },
     methods:{
       changeShare(msg){

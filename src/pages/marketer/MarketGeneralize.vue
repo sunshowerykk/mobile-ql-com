@@ -8,9 +8,10 @@
       <group title="" class="generalize-title">
         <datetime
           class="generalize-sel-date"
-          v-model="value1"
+          v-model="month"
           @on-change="change"
           title=""
+          disabled="true"
           @on-cancel="log('cancel')"
           @on-confirm="onConfirm"
           @on-hide="log('hide', $event)"></datetime>
@@ -36,6 +37,10 @@
             </li>
           </ul>
         </div>
+
+        <div v-if="direct_income.length === 0">
+          <span>您暂时没有这部分收益</span>
+        </div>
       </div>
 
       <div class="incomeDetail" v-if="indexActive === 1" key="1">
@@ -49,6 +54,9 @@
               <span class="time">{{income.pay_time}}</span>
             </li>
           </ul>
+        </div>
+        <div v-if="indirect_income.length === 0">
+          <span>您暂时没有这部分收益</span>
         </div>
       </div>
     </transition>
@@ -65,7 +73,7 @@
       name: "MarketGeneralize",
       data(){
           return{
-            value1: '2019-01',
+            value1: '',
             direct_income : '',
             indirect_income: '',
             show : true,
@@ -118,25 +126,47 @@
           console.log(str1, str2)
         },
         init() {
-          service_marketer.marketerService.directIncome({'access-token': this.access_token, 'month': this.month})
-            .then(res => {
-              if (res.status === 200 && res.data.status === 0) {
-                this.direct_income = res.data.direct_income;
-              } else {
-                this.$Message.warning(res.data.message);
-              }
-            })
+          if (this.month == 'all') {
+            service_marketer.marketerService.directIncome({'access-token': this.access_token, 'month': this.month})
+              .then(res => {
+                if (res.status === 200 && res.data.status === 0) {
+                  this.direct_income = res.data.direct_income;
+                } else {
+                  this.$Message.warning(res.data.message);
+                }
+              })
+          } else {
+            service_marketer.marketerService.monthDirectIncome({'access-token': this.access_token, 'month': this.month})
+              .then(res => {
+                if (res.status === 200 && res.data.status === 0) {
+                  this.direct_income = res.data.direct_income;
+                } else {
+                  this.$Message.warning(res.data.message);
+                }
+              })
+          }
         },
         getIndirectIncome() {
-          service_marketer.marketerService.indirectIncome({'access-token': this.access_token, 'month': this.month})
-            .then(res => {
-              if (res.status === 200 && res.data.status === 0) {
-                this.indirect_income = res.data.indirect_income;
-                console.log(this.indirect_income);
-              } else {
-                this.$Message.warning(res.data.message);
-              }
-            })
+          if (this.month == 'all') {
+            service_marketer.marketerService.indirectIncome({'access-token': this.access_token, 'month': this.month})
+              .then(res => {
+                if (res.status === 200 && res.data.status === 0) {
+                  this.indirect_income = res.data.indirect_income;
+                } else {
+                  this.$Message.warning(res.data.message);
+                }
+              })
+          } else {
+            service_marketer.marketerService.monthIndirectIncome({'access-token': this.access_token, 'month': this.month})
+              .then(res => {
+                if (res.status === 200 && res.data.status === 0) {
+                  this.indirect_income = res.data.indirect_income;
+                } else {
+                  this.$Message.warning(res.data.message);
+                }
+              })
+          }
+
         }
       },
       mounted() {

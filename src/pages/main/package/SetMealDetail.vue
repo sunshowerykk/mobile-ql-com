@@ -1,6 +1,6 @@
 <!--套餐详情-->
 <template>
-    <div class="font-box">
+    <div class="font-box" v-loading="loading">
       <TopBack>
         <span slot="headerTxt">套餐详情</span>
       </TopBack>
@@ -148,7 +148,8 @@
           },
           collect: false,
           user_token: '',
-          isLogin: false
+          isLogin: false,
+          loading: true
         }
       },
       created() {
@@ -191,6 +192,7 @@
               this.packageDetail.package = res.data.package;
               this.packageDetail.course = res.data.course;
               this.isPay = (res.data.ispay == 1);
+              this.loading = false;
             } else {
               alert('wrong!');
             }

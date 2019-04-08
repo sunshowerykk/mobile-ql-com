@@ -16,10 +16,11 @@
     </ul>
     <router-link :to="{'name': 'MarketGeneralize', params:{month: 'all'}}" class="er-btn">明细查询</router-link>
 
-    <div class="ear_get-time-box">
+    <div class="ear_get-time-box" v-loading="loading">
       <group title="" class="ear_time-group">
         <datetime
           v-model="value1"
+          format="YYYY-MM"
           @on-change="change"
           title=""
           @on-cancel="log('cancel')"
@@ -32,6 +33,7 @@
       <group title="" class="ear_time-group">
         <datetime
           v-model="value2"
+          format="YYYY-MM"
           @on-change="change2"
           title=""
           @on-cancel="log2('cancel')"
@@ -40,38 +42,45 @@
       </group>
     </div>
 
-    <div class="incomeLst" v-show="income === 0">
-      <span style="margin-left: 140px">您暂时还没有收益哦~加油吧！</span>
+    <div class="incomeLst" v-show="income === 0 || monthIncome.length === 0">
+      <span style="margin-left: 140px">您在当前所选时间区间暂时还没有收益哦~加油吧！</span>
     </div>
 
-    <div class="incomeLst" v-show="income != 0">
-      <ul class="clearfix" >
-        <li>
-          <div class="item">
-            <h5>时间</h5>
-            <span v-for="incomMonth in monthIncome">{{incomMonth.month}}</span>
+    <!--<div class="incomeLst" v-show="income != 0 && monthIncome.length != 0">-->
+      <!--<ul class="clearfix" >-->
+        <!--<li>-->
+          <!--<div class="item">-->
+            <!--<h5>时间</h5>-->
+            <!--<span v-for="incomMonth in monthIncome">{{incomMonth.month}}</span>-->
 
-          </div>
-          <div class="item">
-            <h5>业绩</h5>
-            <span v-for="incomMonth in monthIncome">
-              {{incomMonth.income}}
-              <a href="#">明细</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div class="item" >
-            <h5>佣金</h5>
-            <span v-for="incomMonth in monthIncome">{{incomMonth.salary}}</span>
-          </div>
-          <div class="item" >
-            <h5>状态</h5>
-            <span v-for="incomMonth in monthIncome">未结算</span>
-          </div>
-        </li>
-      </ul>
-    </div>
+          <!--</div>-->
+          <!--<div class="item">-->
+            <!--<h5>业绩</h5>-->
+            <!--<span v-for="incomMonth in monthIncome">-->
+              <!--{{incomMonth.income}}-->
+              <!--<a :onclick="toGeneralize">（详情）</a>-->
+            <!--</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="item" >-->
+            <!--<h5>佣金</h5>-->
+            <!--<span v-for="incomMonth in monthIncome">{{incomMonth.salary}}</span>-->
+          <!--</div>-->
+          <!--<div class="item" >-->
+            <!--<h5>状态</h5>-->
+            <!--<span v-for="incomMonth in monthIncome">未结算</span>-->
+          <!--</div>-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</div>-->
+
+    <Table border :columns="title" :data="monthIncome" v-if="monthIncome.length > 0" size="small">
+      <template slot-scope="{ row, index }" slot="action">
+        <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">明细</Button>
+      </template>
+    </Table>
+
 
     <div class="seltAccount">
       <input placeholder="结算账号" class="text"  />
@@ -88,12 +97,42 @@
         name: "MarketEarnings",
       data(){
           return{
-            value1: '2018-11-12',
-            value2: '2019-11-12',
+            value1: '起始月份',
+            value2: '结束月份',
             access_token: '',
             income : '',
             settlement: '',
             monthIncome:'',
+            loading: true,
+            title: [
+              {
+                title: '月份',
+                key: 'month',
+                sortable: true
+              },
+              {
+                title: '业绩',
+                key: 'income',
+                sortable: true
+              },
+              {
+                title: '提成',
+                key: 'salary',
+                width: '80px',
+                sortable: true
+              },
+              {
+                title: '状态',
+                key: 'status',
+                width: '75px'
+              },
+              {
+                title: '操作',
+                slot: 'action',
+                width: '75px',
+                align: 'center'
+              }
+            ],
           }
       },
       components: {
@@ -123,11 +162,12 @@
           console.log('current value', this.value2)
         },
         change2 (value) {
-          console.log('伍浩伟 ', value)
-          service_user.userService.incomeMonthCheck({'access-token': this.access_token,'date' :this.value1,'date2' : this.value2}).then(res => {
+          this.loading = true;
+          service_marketer.marketerService.selectMonthIncome({'access-token': this.access_token,'start_month' :this.value1,'end_month' : this.value2}).then(res => {
             if (res.status === 200) {
-              this.monthincome = res.data;
-               console.log(this.monthincome)
+              this.monthIncome = res.data.my_income;
+              this.loading = false;
+              console.log(this.monthincome);
             }
           })
         },
@@ -146,12 +186,18 @@
           service_marketer.marketerService.monthIncome({'access-token': this.access_token}).then(res => {
             if (res.status === 200 && res.data.status == 0) {
               this.monthIncome = res.data.my_income;
+              this.loading = false;
               console.log(this.monthIncome)
             } else {
               this.$Message.warning(res.data.message);
             }
           })
         },
+        show(index) {
+          this.$Message.info(this.monthIncome[index].month);
+          this.$router.push({name: 'MarketGeneralize', params:{month: this.monthIncome[index].month}});
+        }
+
       },
       mounted() {
           this.init();

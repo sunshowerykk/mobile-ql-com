@@ -13,6 +13,12 @@ const service_marketer = {
       })
     },
 
+    selectMonthIncome: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/market/select-month-income', data, resolve)
+      })
+    },
+
     addSubordinate: (data, token) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_Form_POST('/market/add-marketer?access-token='+token, data, resolve)
@@ -43,11 +49,26 @@ const service_marketer = {
         TEMPLATE_GET('/market/direct-income', data, resolve)
       })
     },
+
+    monthDirectIncome: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/market/month-direct-income', data, resolve)
+      })
+    },
+
     indirectIncome: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/market/indirect-income', data, resolve)
       })
     },
+
+    monthIndirectIncome: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/market/month-indirect-income', data, resolve)
+      })
+    },
+
+
   }
 }
 
