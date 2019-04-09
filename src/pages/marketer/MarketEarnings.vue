@@ -46,35 +46,6 @@
       <span style="margin-left: 140px">您在当前所选时间区间暂时还没有收益哦~加油吧！</span>
     </div>
 
-    <!--<div class="incomeLst" v-show="income != 0 && monthIncome.length != 0">-->
-      <!--<ul class="clearfix" >-->
-        <!--<li>-->
-          <!--<div class="item">-->
-            <!--<h5>时间</h5>-->
-            <!--<span v-for="incomMonth in monthIncome">{{incomMonth.month}}</span>-->
-
-          <!--</div>-->
-          <!--<div class="item">-->
-            <!--<h5>业绩</h5>-->
-            <!--<span v-for="incomMonth in monthIncome">-->
-              <!--{{incomMonth.income}}-->
-              <!--<a :onclick="toGeneralize">（详情）</a>-->
-            <!--</span>-->
-          <!--</div>-->
-        <!--</li>-->
-        <!--<li>-->
-          <!--<div class="item" >-->
-            <!--<h5>佣金</h5>-->
-            <!--<span v-for="incomMonth in monthIncome">{{incomMonth.salary}}</span>-->
-          <!--</div>-->
-          <!--<div class="item" >-->
-            <!--<h5>状态</h5>-->
-            <!--<span v-for="incomMonth in monthIncome">未结算</span>-->
-          <!--</div>-->
-        <!--</li>-->
-      <!--</ul>-->
-    <!--</div>-->
-
     <Table border :columns="title" :data="monthIncome" v-if="monthIncome.length > 0" size="small">
       <template slot-scope="{ row, index }" slot="action">
         <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">明细</Button>
@@ -83,8 +54,7 @@
 
 
     <div class="seltAccount">
-      <input placeholder="结算账号" class="text"  />
-      <router-link to="/EditInfo" class="tip">绑定结算账号才可提现<i></i></router-link>
+      <router-link to="/EditInfo" class="tip">绑定支付宝账号才可提现<i></i></router-link>
     </div>
   </div>
 </template>
@@ -194,8 +164,11 @@
           })
         },
         show(index) {
-          this.$Message.info(this.monthIncome[index].month);
-          this.$router.push({name: 'MarketGeneralize', params:{month: this.monthIncome[index].month}});
+          // this.$Message.info(this.monthIncome[index].month);
+          this.$router.push({name: 'MarketGeneralize',
+                             params:{month: this.monthIncome[index].month,
+                                     status: this.monthIncome[index].status,
+                                     salary: this.monthIncome[index].salary}});
         }
 
       },
