@@ -14,7 +14,7 @@
         <span>{{this.settlement}}</span>
       </li>
     </ul>
-    <router-link :to="{'name': 'MarketGeneralize', params:{month: 'all'}}" class="er-btn">明细查询</router-link>
+    <router-link :to="{'name': 'TeacherGeneralize', params:{month: 'all'}}" class="er-btn">明细查询</router-link>
 
     <div class="ear_get-time-box" v-loading="loading">
       <group title="" class="ear_time-group">
@@ -55,11 +55,11 @@
 </template>
 
 <script>
-  import service_user from '@/http/services/user'
+  import service_teacher from '@/http/services/teacher'
   import service_marketer from '@/http/services/marketer'
   import { Datetime, Group } from 'vux'
     export default {
-        name: "MarketEarnings",
+        name: "TeacherEarnings",
       data(){
           return{
             value1: '起始月份',
@@ -127,11 +127,10 @@
           })
         },
         init() {
-          service_marketer.marketerService.income({'access-token': this.access_token}).then(res => {
+          service_teacher.teacherService.income({'access-token': this.access_token}).then(res => {
             if (res.status === 200 && res.data.status == 0) {
               this.income = res.data.income;
               this.settlement = res.data.settlement;
-              console.log(res.data);
             } else {
               this.$Message.warning(res.data.message);
             }
@@ -150,7 +149,7 @@
         },
         show(index) {
           // this.$Message.info(this.monthIncome[index].month);
-          this.$router.push({name: 'MarketGeneralize',
+          this.$router.push({name: 'TeacherGeneralize',
                              params:{month: this.monthIncome[index].month,
                                      status: this.monthIncome[index].status,
                                      salary: this.monthIncome[index].salary
