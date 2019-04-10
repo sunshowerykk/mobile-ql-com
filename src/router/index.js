@@ -18,7 +18,6 @@ import InformationDetail from '@/pages/main/information/informationDetail' //资
 import PayCenter from '@/pages/main/pay/PayCenter'  //支付中心
 import PayOk from '@/pages/main/pay/PayOk'  //支付成功
 import UserCenter from '@/pages/main/user/UserCenter'   // 个人中心
-import TeacherCenter from '@/pages/teacher/UserCenter' //教师个人中心
 import MyClass from '@/pages/main/user/MyClass'   // 我的课程
 import MyClassDetail from '@/pages/main/user/MyClassDetail'   // 我的课程详情
 import Message from '@/pages/main/user/Message'//消息中心
@@ -39,6 +38,11 @@ import SubordinateList from '@/pages/marketer/SubordinateList' // 下级管理
 import AddSubordinate from '@/pages/marketer/AddSubordinate' // 添加下级
 import EditSubordinate from '@/pages/marketer/EditSubordinate' // 修改下级
 import MarketGeneralize from '@/pages/marketer/MarketGeneralize' // 市场端收益明细
+
+// 教师端组件引入
+import TeacherCenter from '@/pages/teacher/TeacherCenter' //教师个人中心
+import TeacherEarnings from '@/pages/teacher/TeacherEarnings' //教师收益
+import TeacherGeneralize from '@/pages/teacher/TeacherGeneralize' //教师收益明细
 
 import Address from '@/components/Address' //收货地址
 import OpenCoursePayCenter from '@/components/OpenCoursePayCenter' //公开课购买
@@ -245,7 +249,21 @@ const router = new Router({
     {
       path: '/TeacherCenter/',
       name: 'TeacherCenter',
-      component: TeacherCenter},
+      component: TeacherCenter
+    },
+    {
+      path: '/TeacherEarnings/',
+      name: 'TeacherEarnings',
+      component: TeacherEarnings
+    },
+    {
+      path: '/TeacherGeneralize/:month',
+      name: 'TeacherGeneralize',
+      component: TeacherGeneralize
+    },
+
+
+
     {
       path: '/OpenCoursePayCenter/:id',
       name: 'OpenCoursePayCenter',

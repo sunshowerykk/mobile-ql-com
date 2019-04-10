@@ -13,9 +13,8 @@
         <div class="menuLst">
           <ul>
             <li><router-link to="/Message" class="user-center-item">消息中心<i class="num"></i></router-link></li>
-            <li><router-link to="/MyGold" class="user-center-item">课程收益</router-link></li>
             <li><router-link to="/MyPublicity" class="user-center-item">我的宣传页</router-link></li>
-            <li><router-link to="/MyEarnings" class="user-center-item">推广收益</router-link></li>
+            <li><router-link to="/TeacherEarnings" class="user-center-item">我的收益</router-link></li>
             <li><router-link to="/MySet" class="user-center-item">设置</router-link></li>
           </ul>
         </div>
@@ -26,7 +25,7 @@
 <script>
     import service_user from '@/http/services/user'
     export default {
-        name: "UserCenter",
+        name: "TeacherCenter",
         data() {
           //获取头像
           return {
