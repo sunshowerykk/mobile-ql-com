@@ -68,12 +68,6 @@ const service_marketer = {
       })
     },
 
-    withdrawConfirm: (data) => {
-      return new Promise((resolve, reject) => {
-        TEMPLATE_GET('/withdraw/withdraw-confirm', data, resolve)
-      })
-    },
-
   }
 }
 

@@ -9,59 +9,37 @@
         <datetime
           class="generalize-sel-date"
           v-model="month"
-          @on-change="change"
           title=""
           disabled="true"
           @on-cancel="log('cancel')"
           @on-confirm="onConfirm"
-          @on-hide="log('hide', $event)"></datetime>
+          @on-hide="log('hide', $event)">
+        </datetime>
       </group>
     </div>
 
-    <tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box">
-      <tab-item selected @on-item-click="onItemClick">直接收益</tab-item>
-      <tab-item @on-item-click="onItemClick">间接收益</tab-item>
-    </tab>
-
-    <transition name="fade" mode="out-in">
-
-      <div class="incomeDetail" v-if="indexActive === 0" key="0">
-        <div class="incomeList">
-          <ul v-if="show">
-            <li v-for="income in direct_income" >
-              <img :src="income.pic"  />
-              <strong class="name"> {{income.consignee}}</strong>
-              <span class="source">{{income.status}}</span>
-              <span class="money">{{income.income}}元</span>
-              <span class="time">{{income.pay_time}}</span>
-            </li>
-          </ul>
-        </div>
-
-        <div v-if="direct_income.length === 0">
-          <span>您暂时没有这部分收益</span>
-        </div>
+    <div class="incomeDetail">
+      <div class="incomeList">
+        <ul v-if="show">
+          <li v-for="income in income_detail" >
+            <img :src="income.pic"  />
+            <strong class="name"> {{income.consignee}}</strong>
+            <span class="source">{{income.status}}</span>
+            <span class="money">{{income.income}}元</span>
+            <span class="time">{{income.pay_time}}</span>
+          </li>
+        </ul>
       </div>
+    </div>
 
-      <div class="incomeDetail" v-if="indexActive === 1" key="1">
-        <div class="incomeList">
-          <ul v-if="show">
-            <li v-for="income in indirect_income" >
-              <img :src="income.pic"  />
-              <strong class="name"> {{income.consignee}}</strong>
-              <span class="source">{{income.status}}</span>
-              <span class="money">{{income.income}}元</span>
-              <span class="time">{{income.pay_time}}</span>
-            </li>
-          </ul>
-        </div>
-        <div v-if="indirect_income.length === 0">
-          <span>您暂时没有这部分收益</span>
-        </div>
-      </div>
-    </transition>
-
-    <Button class="confirmButton" type="warning" size="large" :disabled="statusConfirm" @click="modalFlag = !modalFlag" long>
+    <Button
+      class="confirmButton"
+      type="warning"
+      v-show="month != 'all'"
+      size="large"
+      :disabled="statusConfirm"
+      @click="modalFlag = !modalFlag"
+      long>
       {{statusConfirm ? '已确认结算' : '确认收益'}}
     </Button>
 
@@ -77,7 +55,8 @@
 </template>
 
 <script>
-  import service_marketer from '@/http/services/marketer.js'
+  import service_teacher from '@/http/services/teacher.js'
+  import service_withdraw from '@/http/services/withdraw.js'
   import { Datetime, Group, Tab, TabItem} from 'vux'
     export default {
       name: "TeacherGeneralize",
@@ -85,8 +64,7 @@
       data(){
           return{
             value1: '',
-            direct_income : '',
-            indirect_income: '',
+            income_detail: '',
             show : true,
             access_token :'',
             indexActive: 0,
@@ -110,91 +88,52 @@
       },
       methods:{
 
-        onItemClick(index){
-          this.indexActive = index;
-          if (index === 1) {
-            this.getIndirectIncome();
-          }
-        },
-
-        change (value) {
-          this.show=false,
-          console.log('change', value)
-          console.log("change!!")
-          service_user.userService.incomeCheck({'date': this.value1, 'access-token': this.access_token}).then(res => {
-            if (res.status === 200) {
-              console.log(res.data);
-              this.incomes = res.data;
-              if(!(JSON.stringify(res.data)==0)) {
-                this.show = true;
-              }
-            }
-          })
-        },
-
         onConfirm (val) {
           console.log('on-confirm arg', val)
           console.log('current value', this.value1)
         },
 
-        //
-        log (str1, str2 = '') {
-          console.log(str1, str2)
-        },
         init() {
           if (this.month == 'all') {
-            service_marketer.marketerService.directIncome({'access-token': this.access_token, 'month': this.month})
-              .then(res => {
-                if (res.status === 200 && res.data.status === 0) {
-                  this.direct_income = res.data.direct_income;
-                } else {
-                  this.$Message.warning(res.data.message);
-                }
-              })
-          } else {
-            service_marketer.marketerService.monthDirectIncome({'access-token': this.access_token, 'month': this.month})
-              .then(res => {
-                if (res.status === 200 && res.data.status === 0) {
-                  this.direct_income = res.data.direct_income;
-                } else {
-                  this.$Message.warning(res.data.message);
-                }
-              })
-          }
-        },
-        getIndirectIncome() {
-          if (this.month == 'all') {
-            service_marketer.marketerService.indirectIncome({'access-token': this.access_token, 'month': this.month})
-              .then(res => {
-                if (res.status === 200 && res.data.status === 0) {
-                  this.indirect_income = res.data.indirect_income;
-                } else {
-                  this.$Message.warning(res.data.message);
-                }
-              })
-          } else {
-            service_marketer.marketerService.monthIndirectIncome({'access-token': this.access_token, 'month': this.month})
-              .then(res => {
-                if (res.status === 200 && res.data.status === 0) {
-                  this.indirect_income = res.data.indirect_income;
-                } else {
-                  this.$Message.warning(res.data.message);
-                }
-              })
-          }
-
-        },
-
-        confirmWithdraw() {
-          service_marketer.marketerService.withdrawConfirm({
-            'access-token': this.access_token, 'month': this.month, 'salary': this.salary}).then(res => {
+            service_teacher.teacherService.incomeDetail({'access-token': this.access_token}).then(res => {
               if (res.status === 200 && res.data.status === 0) {
-                this.$Message.success(res.data.message);
-                this.$router.push({name: 'TeacherEarnings'});
+                this.income_detail = res.data.income_detail;
+                console.log(this.income_detail);
               } else {
                 this.$Message.warning(res.data.message);
               }
-          })
+            })
+          } else {
+            service_teacher.teacherService
+              .selectIncomeDetail({'access-token': this.access_token, 'month': this.month}).then(res => {
+              if (res.status === 200 && res.data.status === 0) {
+                this.income_detail = res.data.income_detail;
+              } else {
+                this.$Message.warning(res.data.message);
+              }
+            })
+          }
+        },
+        confirmWithdraw() {
+          var date = new Date();
+          var cur_year = date .getFullYear();
+          var cur_month = date.getMonth() + 1;
+          if (cur_month < 10) {
+            cur_month = '0' + cur_month;
+          }
+          if ((cur_year + '-' + cur_month) === this.month) {
+            this.$Message.info('为确保您的收益，请下月再结算！');
+          } else {
+            service_withdraw.withdrawService.withdrawConfirm({
+              'access-token': this.access_token, 'month': this.month, 'salary': this.salary}).then(res => {
+                if (res.status === 200 && res.data.status === 0) {
+                  this.$Message.success(res.data.message);
+                  this.$router.push({name: 'TeacherEarnings'});
+                } else {
+                  this.$Message.warning(res.data.message);
+                }
+            })
+          }
         },
 
         cancelConfirm() {

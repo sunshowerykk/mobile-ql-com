@@ -288,7 +288,7 @@ router.beforeEach((to, from, next) => {
   // studentNextRoute: 设置学生角色需要路由守卫的路由集合
   const studentNextRoute = ['/UserCenter', '/MyClass', '/MyClassDetail', '/MyGold', '/MyOrder', '/MyCollect', '/MyEarnings', '/MyGeneralize', '/PayCenter'];
   // teacherNextRoute: 设置教师角色需要路由守卫的路由集合
-  const teacherNextRoute = []
+  const teacherNextRoute = ['/UserCenter',  '/TeacherEarnings', 'TeacherGeneralize']
   // marketerNextRoute: 设置市场角色需要路由守卫的路由集合
   const marketerNextRoute = ['/MarketerCenter', '/MarketEarnings', '/SubordinateList', '/AddSubordinate', '/EditSubordinate']
   let isLogin = global.$cookies.get('isLogin'); // 是否登录

@@ -61,7 +61,14 @@
       </div>
     </transition>
 
-    <Button class="confirmButton" type="warning" size="large" :disabled="statusConfirm" @click="modalFlag = !modalFlag" long>
+    <Button
+      class="confirmButton"
+      v-show="month != 'all'"
+      type="warning"
+      size="large"
+      :disabled="statusConfirm"
+      @click="modalFlag = !modalFlag"
+      long>
       {{statusConfirm ? '已确认结算' : '确认收益'}}
     </Button>
 
@@ -78,6 +85,7 @@
 
 <script>
   import service_marketer from '@/http/services/marketer.js'
+  import service_withdraw from '@/http/services/withdraw.js'
   import { Datetime, Group, Tab, TabItem} from 'vux'
     export default {
       name: "MarketGeneralize",
@@ -186,15 +194,25 @@
         },
 
         confirmWithdraw() {
-          service_marketer.marketerService.withdrawConfirm({
-            'access-token': this.access_token, 'month': this.month, 'salary': this.salary}).then(res => {
+          var date = new Date();
+          var cur_year = date .getFullYear();
+          var cur_month = date.getMonth() + 1;
+          if (cur_month < 10) {
+            cur_month = '0' + cur_month;
+          }
+          if ((cur_year + '-' + cur_month) === this.month)  {
+            this.$Message.info('为确保您的收益，请下月再结算！');
+          } else {
+            service_withdraw.withdrawService.withdrawConfirm({
+              'access-token': this.access_token, 'month': this.month, 'salary': this.salary}).then(res => {
               if (res.status === 200 && res.data.status === 0) {
                 this.$Message.success(res.data.message);
                 this.$router.push({name: 'MarketEarnings'});
               } else {
                 this.$Message.warning(res.data.message);
               }
-          })
+            })
+          }
         },
 
         cancelConfirm() {

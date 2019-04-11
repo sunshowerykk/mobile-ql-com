@@ -118,7 +118,7 @@
         onConfirm2 (val) {
           console.log('on-confirm arg', val)
           this.loading = true;
-          service_marketer.marketerService.selectMonthIncome({'access-token': this.access_token,'start_month' :this.value1,'end_month' : this.value2}).then(res => {
+          service_teacher.teacherService.selectMonthIncome({'access-token': this.access_token,'start_month' :this.value1,'end_month' : this.value2}).then(res => {
             if (res.status === 200) {
               this.monthIncome = res.data.my_income;
               this.loading = false;
@@ -137,7 +137,7 @@
           })
         },
         initMonthCheck() {
-          service_marketer.marketerService.monthIncome({'access-token': this.access_token}).then(res => {
+          service_teacher.teacherService.monthIncome({'access-token': this.access_token}).then(res => {
             if (res.status === 200 && res.data.status == 0) {
               this.monthIncome = res.data.my_income;
               this.loading = false;
