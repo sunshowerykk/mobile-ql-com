@@ -21,6 +21,7 @@ import UserCenter from '@/pages/main/user/UserCenter'   // 个人中心
 import MyClass from '@/pages/main/user/MyClass'   // 我的课程
 import MyClassDetail from '@/pages/main/user/MyClassDetail'   // 我的课程详情
 import Message from '@/pages/main/user/Message'//消息中心
+import MessageDetail from '@/pages/main/user/MessageDetail'//消息详情
 import MyGold from '@/pages/main/user/MyGold'//我的金币
 import MyOrder from '@/pages/main/user/MyOrder'//我的订单
 import MyCollect from '@/pages/main/user/MyCollect'//我的收藏
@@ -32,7 +33,7 @@ import MySet from '@/pages/main/user/MySet'//我的设置
 import QualityCourseVideo from '@/pages/main/course/QualityCourseVideo'//视频播放页
 
 // 市场端组件引入
-import MarketerCenter from '@/pages/marketer/UserCenter' //个人中心
+import MarketerCenter from '@/pages/marketer/MarketerCenter' //个人中心
 import MarketEarnings from '@/pages/marketer/MarketEarnings' // 收益
 import SubordinateList from '@/pages/marketer/SubordinateList' // 下级管理
 import AddSubordinate from '@/pages/marketer/AddSubordinate' // 添加下级
@@ -142,6 +143,11 @@ const router = new Router({
       path: '/Message/',
       name: 'Message',
       component: Message
+    },
+    {
+      path: '/MessageDetail/:read_id',
+      name: 'MessageDetail',
+      component: MessageDetail
     },
     {
       path: '/MyClass/',

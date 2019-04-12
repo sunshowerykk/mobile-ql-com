@@ -13,7 +13,10 @@
         </div>
         <div class="menuLst">
           <ul>
-            <li><router-link to="/Message" class="user-center-item">消息中心<i class="num"></i></router-link></li>
+            <li><router-link to="/Message" class="user-center-item">
+              消息中心
+              <Badge :count="message_num"></Badge>
+            </router-link></li>
             <li><router-link to="/MyPublicity" class="user-center-item">我的宣传页</router-link></li>
             <li><router-link to="/SubordinateList" class="user-center-item">下级管理</router-link></li>
             <li><router-link to="/MarketEarnings" class="user-center-item">推广收益</router-link></li>
@@ -27,7 +30,7 @@
 <script>
     import service_user from '@/http/services/user'
     export default {
-        name: "UserCenter",
+        name: "MarketerCenter",
         data() {
           //获取头像
           return {
@@ -35,6 +38,7 @@
               picture: '',
               username: ''
             },
+            message_num: 0,
             token: '',
             duration: ''
           }
@@ -47,6 +51,7 @@
             service_user.userService.getSet({'access-token': this.token}).then(res => {
             if (res.status === 200) {
               this.userinfo = res.data;
+              this.message_num = parseInt(res.data.message_num);
               console.log(this.userinfo);
             }
           })

@@ -4,13 +4,18 @@
         <span slot="headerTxt">消息中心</span>
       </TopBack>
 
-      <div class="newsList" v-for = "msg in messages" :key="msg.id">
+      <div v-if="messages.length === 0" v-loading="loading">
+        您暂时没有消息~
+      </div>
+
+      <div class="newsList" v-loading="loading" v-if="messages.length != 0">
         <ul>
-          <li>
-            <a href="#">
-              <h5 v-html="msg.content">{{ msg.content }}</h5>
+          <li  v-for = "msg in messages" :key="msg.id">
+            <router-link :to="{ name: 'MessageDetail',params: { read_id: msg.id }}">
+              <Tag color="error" v-if="msg.status === 0">new</Tag>
+              <h5 v-html="msg.title">{{ msg.title }}</h5>
               <span class="time">{{ msg.get_time }}</span>
-            </a>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -24,7 +29,8 @@
         data() {
           return {
             messages: '',
-            token : ''
+            token : '',
+            loading: true
           }
         },
         methods: {
@@ -35,6 +41,7 @@
             service_user.userService.getMessage(this.token).then(res => {
             if (res.status === 200) {
               this.messages = res.data;
+              this.loading = false;
               console.log(this.messages);
             }
           })
