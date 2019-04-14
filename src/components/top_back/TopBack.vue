@@ -14,10 +14,12 @@
 
 <script>
     export default {
-        name: "TopBack",
+      name: "TopBack",
       methods:{
-          back(){
-            this.$router.back(-1);
+          back() {
+            alert(123);
+            // this.$router.back(-1);
+            window.history.back(-1);
           }
       }
     }
