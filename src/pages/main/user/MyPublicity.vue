@@ -2,7 +2,7 @@
   <div class="font-box">
     <TopBack>
       <span slot="headerTxt">都想学</span>
-      <span slot="share" class="share" @click="showShare"></span>
+      <!-- <span slot="share" class="share" @click="showShare"></span> -->
     </TopBack>
     <div class="preach">
       <div class="pic">
@@ -60,9 +60,6 @@
           service_user.userService.getQrcode(this.token).then(res => {
             if (res.status === 200) {
               this.qrcode = res.data;
-              console.log({
-                qrcode: this.qrcode
-              });
             }
           })
         },
