@@ -270,7 +270,6 @@
             }
           })
         } else if (index == 3) {
-          alert('come in');
           window.location.href="https://exam.kaoben.top/index.php?r=login/ajaxlogin&from=qa&access-token=" + this.$cookies.get('access_token');
         }
       },
