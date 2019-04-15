@@ -51,6 +51,7 @@ import OpenCoursePayCenter from '@/components/OpenCoursePayCenter' //公开课�
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [{
       path: '/Login',
       name: 'Login',

@@ -17,9 +17,7 @@
       name: "TopBack",
       methods:{
           back() {
-            alert(123);
-            // this.$router.back(-1);
-            window.history.back(-1);
+            this.$router.back(-1);
           }
       }
     }
