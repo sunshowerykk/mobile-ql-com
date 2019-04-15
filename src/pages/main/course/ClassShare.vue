@@ -338,23 +338,22 @@
               this.courseTest.examnum = res.data.examnum;
               this.courseTest.examuser = res.data.examuser;
               this.courseTest.list = res.data.list;
-              // console.log(this.courseTest);
             }
           })
+        } else if (index == 4) {
+          window.location.href="https://exam.kaoben.top/index.php?r=login/ajaxlogin&from=qa&access-token=" + this.$cookies.get('access_token');
         }
         this.indexActive = index;
       },
       upDownControl(index1, index2) {
         this.flagArray['show' + index1 + index2] = !this.flagArray['show' + index1 + index2]
         this.flag = this.flagArray['show' + index1 + index2];
-        // console.log(this.flagArray);
         return this.flag;
       },
       collectionCourse() {
         this.collect = !this.collect;
         service.personalService.collectionCourse({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}) .then(res => {
           if (res.status === 200 && res.data.status === 0) {
-            // console.log('操作成功' + this.collect);
             if (this.collect == true) {
               this.$Message.success('收藏成功！');
             } else {
