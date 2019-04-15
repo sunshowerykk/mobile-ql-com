@@ -47,10 +47,10 @@ export default {
       userService.userService.signIn(this.loginForm).then(res => {
         if (res.status === 200 && res.data.status === 0) {
           this.loading = false;
-          this.$cookies.set("access_token", res.data.access_token);
-          this.$cookies.set("access_role", res.data.role);
-          this.$cookies.set("userid", res.data.userid);
-          this.$cookies.set("isLogin", true);
+          this.$cookies.set("access_token", res.data.access_token, 60*60*24);
+          this.$cookies.set("access_role", res.data.role, 60*60*24);
+          this.$cookies.set("userid", res.data.userid, 60*60*24);
+          this.$cookies.set("isLogin", true, 60*60*24);
           const role = res.data.role;
           if (role) {
             if (role == "student") {

@@ -97,6 +97,11 @@ $root_url: '../img';
   background-image: url('#{$root_url}/icon19.png');
   background-size: 0.25rem 0.25rem;
 }
+@mixin icon-username {
+  @include bg;
+  background-image: url('#{$root_url}/icon-username.png');
+  background-size: 0.25rem 0.25rem;
+}
 @mixin icon21 {
   @include bg;
   background-image: url('#{$root_url}/icon21.png');

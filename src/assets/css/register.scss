@@ -64,6 +64,10 @@
   @include icon19;
 }
 
+.registerform .form ul li .username {
+  @include icon-username;
+}
+
 .registerform .form ul li .pwd {
   @include icon21;
 }
