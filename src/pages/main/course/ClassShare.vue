@@ -41,7 +41,9 @@
             <div class="tab-pal">
               <div class="courseLst">
                 <h3>简介</h3>
-                <div class="main" v-html="courseInfo.course.intro"></div>
+                <div class="main" v-html="courseInfo.course.intro">
+                  {{ courseInfo.course.intro }}
+                </div>
               </div>
             </div>
           </div>

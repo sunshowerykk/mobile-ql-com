@@ -66,7 +66,9 @@
             <div class="tab-pal">
               <div class="courseLst">
                 <h3>简介</h3>
-                <div class="main" v-html="packageDetail.package.intro"></div>
+                <div class="main" v-html="packageDetail.package.des">
+                  {{ packageDetail.package.des }}
+                </div>
               </div>
             </div>
           </div>
