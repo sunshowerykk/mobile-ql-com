@@ -33,13 +33,13 @@
                   name="headimg"
                   :on-success="uploadSuccess"
                   :on-error="uploadError"
-                  :format="['jpg']"
+                  :format="['jpg','jpeg','png']"
                   :max-size='7024'
                   :on-format-error="formatError"
                   :action="fileUploadUrl"
                   style="display: inline-block;width:58px;">
+                  <img class="avatar" :src="this.settings.picture">
                   <Button icon="ios-cloud-upload-outline">上传头像</Button>
-                  <img :src="this.settings.picture">
                 </Upload>
               </div>
             </li>
@@ -94,29 +94,26 @@
             if (res.status === 200) {
               this.settings = res.data;
               this.settings.picture = res.data.picture;
-              console.log(this.settings);
             }
           })
           },
           update: function () {
             service_user.userService.changeSet(this.settings, this.token).then(res => {
             if (res.status === 200) {
-              console.log('成功修改')
+              this.$Message.success('成功修改');
             }
           })
           },
           uploadSuccess: function (res, file) {
             if(res.status == 0) {
               this.settings.picture = res.url;
-              console.log('shangchuan ' + this.settings.picture);
-              console.log('成功上传头像')
             }
           },
           uploadError: function (error,file) {
-            console.log('上传头像失败')
+            this.$Message.error('上传头像失败');
           },
           formatError: function () {
-            console.log('请选择正确格式')
+            this.$Message.warning('请选择正确格式');
           }
         },
         mounted: function () {
