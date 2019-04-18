@@ -1,5 +1,5 @@
 <template>
-  <div class="font-box bg" v-loading="loading">
+  <div class="font-box bg class-share" v-loading="loading">
     <TopBack>
       <span slot="headerTxt">课程详情</span>
     </TopBack>

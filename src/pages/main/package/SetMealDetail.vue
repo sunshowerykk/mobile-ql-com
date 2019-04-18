@@ -1,6 +1,6 @@
 <!--套餐详情-->
 <template>
-    <div class="font-box" v-loading="loading">
+    <div class="font-box set-meal-detail" v-loading="loading">
       <TopBack>
         <span slot="headerTxt">套餐详情</span>
       </TopBack>
