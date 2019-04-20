@@ -92,8 +92,8 @@
 .class-item .time {
   display: inline-block;
   padding: 0 0.1rem;
-  height: 0.3rem;
-  line-height: 0.3rem;
+  height: 20px;
+  line-height: 20px;
   font-size: 0.24rem;
   color: #666;
   border: 1px solid #ccc;
@@ -102,13 +102,13 @@
 }
 .class-item .time i {
   display: inline-block;
-  width: 0.25rem;
-  height: 0.25rem;
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
   background: url(../../assets/img/icon25.png) no-repeat center;
   background-size: 0.25rem 0.25rem;
   margin-right: 0.1rem;
   vertical-align: top;
-  margin-top: 0.04rem;
 }
 .class-item li.my_divon h5 {
   background: url(../../assets/img/upBtn.png) no-repeat 97% #f5f5f5;
@@ -242,4 +242,10 @@
 }
 .submitDltList .test .un {
   color: #000;
+}
+
+.ivu-collapse>.ivu-collapse-item>.ivu-collapse-header {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

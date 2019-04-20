@@ -62,8 +62,8 @@
         } else if (!this.registerForm.username) {
           this.$Message.warning('用户名不能为空');
           return false;
-        } else if (!this.registerForm.password) {
-          this.$Message.warning('密码不能为空');
+        } else if (this.registerForm.password.length < 6) {
+          this.$Message.warning('密码不能低于6位');
           return false;
         }
         this.loading = true;
@@ -71,7 +71,7 @@
           if(res.status === 200 && res.data.status === 0) {
             this.$router.push({ path: "/login" });
           } else {
-            this.$Message.error('验证失败，请稍后再试');
+            this.$Message.error(res.data.message);
           }
           this.loading = false;
         })

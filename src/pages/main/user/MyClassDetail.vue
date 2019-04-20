@@ -1,5 +1,5 @@
 <template>
-  <div class="font-box">
+  <div class="font-box myclass-detail" v-loading="loading">
     <TopBack>
       <span slot="headerTxt">{{ courseVideo.course.course_name }}</span>
     </TopBack>
@@ -32,44 +32,35 @@
     </sticky>
 
     <transition name="fade" mode="out-in">
-      <div v-if="indexActive == 0" key="0">
-
-        <group title="" class="class-group">
-          <div v-for="Chapter, index_1 in courseVideo.course.courseChapters">
-            <div v-for="Section, index_2 in Chapter.courseSections">
-              <cell
-                class="cell-class"
-                :title="Chapter.name + ':' + Section.name"
-                :key="index_1 + index_2"
-                is-link
-                :border-intent="false"
-                :arrow-direction="flag ? 'up' : 'down'"
-                @click.native="flag = upDownControl(index_1, index_2)"
-              ></cell>
-              <template v-if="flagArray['show' + index_1 + index_2]">
-                <dl class="class-item">
-
-                  <dd v-for="coursePoint in Section.courseSectionPoints">
-                    <a href="#" @click="openCheck(Section.id, coursePoint.id, coursePoint.name)">
-                      <div class="item clearfix">
-                        <div class="left">
-                          <span class="type">视频</span>
-                          <span class="name">{{coursePoint.name}}</span>
+      <div v-if="indexActive == 0" key="0" class="video-list">
+        <Collapse v-model="showChapter" accordion simple>
+          <Panel v-for="chapter in courseVideo.course.courseChapters" :key="chapter.id" 
+            :name="chapter.id">
+            {{chapter.name}}
+            <div slot="content">
+              <Collapse v-model="showSection" simple>
+                <Panel v-for="section in chapter.courseSections" :key="section.id"
+                  :name="section.id">
+                  {{section.name}}
+                  <div slot="content">
+                    <Collapse v-model="showPoint">
+                      <Panel v-for="coursePoint in section.courseSectionPoints" :key="coursePoint.id"
+                        :name="coursePoint.id">
+                        {{coursePoint.name}}
+                        <div slot="content">
+                          <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
+                            <span class="already">已学0%</span>
+                            <span class="time"><i></i>{{ coursePoint.duration }}</span>
+                          </div>
                         </div>
-                        <div class="right">
-                          <span class="already">已学0%</span>
-                          <span class="time"><i></i>{{ coursePoint.duration }}</span>
-                        </div>
-                      </div>
-                    </a>
-                  </dd>
-
-                </dl>
-              </template>
+                      </Panel>
+                    </Collapse>
+                  </div>
+                </Panel>
+              </Collapse>
             </div>
-          </div>
-
-        </group>
+          </Panel>
+        </Collapse>
       </div>
 
       <div v-else-if="indexActive == 1" key="1">
@@ -131,7 +122,7 @@
           </div>
           <div class="submitDltList">
             <ul>
-              <li v-for="test, index in courseTest.list">
+              <li v-for="(test, index) in courseTest.list" :key="test.id">
                 <div class="item">
                   <h5>第{{ index+1 }}单元<span>{{ test.chapterName }}</span></h5>
                   <div class="test">
@@ -145,59 +136,17 @@
           </div>
         </div>
       </div>
-
-      <div v-else-if="indexActive == 3" key="3">
-        <div class="tab-pal">
-          <div class="workDetail">
-            <span>应考<strong class="must">18</strong>次，已通关<strong class="real">12</strong>次</span>
-          </div>
-          <div class="submitDltList">
-            <ul>
-              <li>
-                <div class="item">
-                  <h5>第一单元<span>计算机应用</span></h5>
-                  <div class="test">
-                    <strong>计算机网络及应用基础</strong>
-                    <a href="#" class="look">查看答卷</a>
-                    <span class="tip">已通关</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item">
-                  <h5>第一单元<span>计算机应用</span></h5>
-                  <div class="test">
-                    <strong>计算机网络及应用基础</strong>
-                    <a href="#" class="look">查看答卷</a>
-                    <span class="tip">已通关</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item">
-                  <h5>第一单元<span>计算机应用</span></h5>
-                  <div class="test">
-                    <strong>计算机网络及应用基础</strong>
-                    <a href="#" class="look">进入测试</a>
-                    <span class="tip un">未通关</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item">
-                  <h5>第一单元<span>计算机应用</span></h5>
-                  <div class="test">
-                    <strong>计算机网络及应用基础</strong>
-                    <a href="#" class="look">查看答卷</a>
-                    <span class="tip un">未通关</span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </transition>
+
+    <div class="viedoCont" v-show="videoData.isAuth">
+      <div class="cont">
+        <div class="close-video-btn">
+          <img src="../../../assets/img/close-video-btn.png"  @click="hideModal" >
+        </div>
+        <video class="video" id="video" :src="videoData.video_url" :poster="videoData.pic" controls="controls" autoplay>
+        </video>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -234,11 +183,19 @@
         flagArray: [],
         flag: false,
         uploadUrl: 'http://api.ql.com/personal/homework-upload?access-token=',
+        showPoint: '',
+        showChapter: '',
+        showSection: '',
+        videoData: {
+          pic: '',
+          video_url: '',
+          isAuth: false
+        },
+        loading: false
       }
     },
     created() {
       this.id = this.$route.params.id;
-      console.log("id",this.id);
       this.uploadUrl = this.uploadUrl + this.$cookies.get('access_token');
     },
     components: {
@@ -249,7 +206,14 @@
       Sticky
     },
     methods:{
-      onItemClick(index){
+      hideModal() {
+        this.videoData.isAuth = false;
+        this.videoData.video_url = '';
+      },
+      onItemClick(index) {
+        if (this.indexActive === index) {
+          return false;
+        }
         this.indexActive = index;
         if (index == 1) {
           service.personalService.courseHomework({'access-token': this.$cookies.get('access_token'), 'course_id': this.id}).then(res => {
@@ -257,7 +221,6 @@
               this.courseHomework.course = res.data.course;
               this.courseHomework.homeworks = res.data.homeworks;
               this.courseHomework.submit_num = res.data.submit_num;
-              console.log(this.courseHomework);
             }
           })
         } else if (index == 2) {
@@ -266,7 +229,6 @@
               this.courseTest.examnum = res.data.examnum;
               this.courseTest.examuser = res.data.examuser;
               this.courseTest.list = res.data.list;
-              console.log(this.courseTest);
             }
           })
         } else if (index == 3) {
@@ -283,7 +245,6 @@
                 this.flagArray['show' + i + j] = false;
               }
             }
-            console.log(this.courseVideo);
           }
         })
       },
@@ -294,19 +255,23 @@
         return this.flag;
       },
       openCheck(section_id, point_id, title) {
-        service_course.courseService.check({'access-token': this.$cookies.get('access_token') ? this.$cookies.get('access_token') : '',
+        this.loading = true;
+        service_course.courseService.check({
+          'access-token': this.$cookies.get('access_token') ? this.$cookies.get('access_token') : '',
           'course_id': this.id, 'section_id': section_id,
-          'point_id': point_id}).then(res => {
-
+          'point_id': point_id
+          }).then(res => {
           if (res.data.status === 0) {
             this.$Message.info(res.data.message);
             this.$router.push({path: '/Login'});
           } else if (res.data.status === 3) {
             this.$Message.warning(res.data.message);
           } else {
-            this.$Message.success(res.data.message);
-            this.$router.push({name: 'QualityCourseVideo', params:{title: title, video_url: res.data.url}});
+            this.videoData.pic = res.data.pic;
+            this.videoData.video_url = res.data.url;
+            this.videoData.isAuth = true;
           }
+          this.loading = false;
         })
       },
 

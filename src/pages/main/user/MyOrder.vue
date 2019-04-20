@@ -10,27 +10,22 @@
     </tab>
 
     <transition name="fade" mode="out-in">
-
       <div v-if="indexActive === 0" key="0">
         <div class="orderList">
           <ul>
-
             <li v-for="(order, index) in finishedOrders" :key="index">
-              <a href="#">
-                <div class="item clearfix">
-                  <div class="pic">
-                    <img :src="order.goods_pic.list_pic"  />
-                  </div>
-                  <div class="txt">
-                    <h5>{{ order.goods_name }}</h5>
-                    <span><b>￥{{ order.goods_amount }}</b></span>
-                    <strike>￥{{ order.market_price }}</strike>
-                    <span class="time">{{order.add_time}}</span>
-                  </div>
+              <div class="item clearfix" @click="gotoCourse(order)">
+                <div class="pic">
+                  <img :src="order.goods_pic.list_pic" />
                 </div>
-              </a>
+                <div class="txt">
+                  <h5>{{ order.goods_name }}</h5>
+                  <span><b>￥{{ order.goods_amount }}</b></span>
+                  <strike>￥{{ order.market_price }}</strike>
+                  <span class="time">{{order.add_time}}</span>
+                </div>
+              </div>
             </li>
-
           </ul>
         </div>
       </div>
@@ -65,8 +60,8 @@
   import service from "@/http/services/personal";
   export default {
     name: "MyOrder",
-    data(){
-      return{
+    data () {
+      return {
         indexActive: 0,
         finishedOrders: [],
         unfinishedOrders: []
@@ -79,6 +74,13 @@
     methods:{
       onItemClick(index){
         this.indexActive = index;
+      },
+      gotoCourse(order) {
+        if (order.type === 'course') {
+          this.$router.push({name: 'ClassShare', params: {id: order.id}});
+        } else if(order.type === 'course_package') {
+          this.$router.push({name: 'SetMealDetail', params: {pid: order.id}});
+        }
       },
       getOrderInfo() {
         service.personalService.orderList({'access-token': this.$cookies.get('access_token')}).then(res => {

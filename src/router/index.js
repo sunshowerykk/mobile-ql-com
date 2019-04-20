@@ -287,18 +287,27 @@ router.beforeEach((to, from, next) => {
     })
     return false;
   }
+  let isLogin = global.$cookies.get('isLogin'); // 是否登录
+  // 已登录状态；当路由到login时，跳转至home
+  if (to.name === 'Login') {
+    if (isLogin) {
+      router.push({
+        name: 'index'
+      });
+      return false;
+    }
+  }
   // to: Route: 即将要进入的目标 路由对象
   // from: Route: 当前导航正要离开的路由
   // next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
   // A跳转到B，B页面停留在A页面的滚动位置；解决方法：将scrollTop设置为0
   window.scroll(0, 0);
   // studentNextRoute: 设置学生角色需要路由守卫的路由集合
-  const studentNextRoute = ['/UserCenter', '/MyClass', '/MyClassDetail', '/MyGold', '/MyOrder', '/MyCollect', '/MyEarnings', '/MyGeneralize', '/PayCenter'];
+  const studentNextRoute = ['UserCenter', 'MyClass', 'MyClassDetail', 'MyGold', 'MyOrder', 'MyCollect', 'MyEarnings', 'MyGeneralize', 'PayCenter'];
   // teacherNextRoute: 设置教师角色需要路由守卫的路由集合
-  const teacherNextRoute = ['/UserCenter',  '/TeacherEarnings', 'TeacherGeneralize']
+  const teacherNextRoute = ['TeacherCenter',  'TeacherEarnings', 'TeacherGeneralize']
   // marketerNextRoute: 设置市场角色需要路由守卫的路由集合
-  const marketerNextRoute = ['/MarketerCenter', '/MarketEarnings', '/SubordinateList', '/AddSubordinate', '/EditSubordinate']
-  let isLogin = global.$cookies.get('isLogin'); // 是否登录
+  const marketerNextRoute = ['MarketerCenter', 'MarketEarnings', 'SubordinateList', 'AddSubordinate', 'EditSubordinate']
   // 未登录状态；当路由到nextRoute指定页时，跳转至login
   let role = global.$cookies.get("access_role");
   if (studentNextRoute.includes(to.name) || teacherNextRoute.includes(to.name) || marketerNextRoute.includes(to.name)) {
@@ -342,15 +351,6 @@ router.beforeEach((to, from, next) => {
       name: 'index'
     });
     return false;
-  }
-  // 已登录状态；当路由到login时，跳转至home
-  if (to.name === 'Login') {
-    if (isLogin) {
-      router.push({
-        name: 'index'
-      });
-      return false;
-    }
   }
   next();
 });

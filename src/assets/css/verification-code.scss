@@ -40,7 +40,7 @@
     background: none;
     border: none;
     font-size: 0.26rem;
-    color: #cacaca;
+    color: #696666;
     height: 0.88rem;
     cursor: pointer;
   }
@@ -58,7 +58,10 @@
     border: none;
     border-radius: 0.1rem;
   }
-
+  .loginform .otherLogin {
+    display: flex;
+    justify-content: space-between;
+  }
   .loginform .otherLogin a {
     font-size: 0.24rem;
     color: #666;

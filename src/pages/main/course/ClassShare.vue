@@ -17,13 +17,6 @@
     </div>
 
     <div class="course">
-      <!--&lt;!&ndash;tabs&ndash;&gt;-->
-      <!--<tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box" v-if="!pay">-->
-      <!--<tab-item selected @on-item-click="onItemClick">课程介绍</tab-item>-->
-      <!--<tab-item @on-item-click="onItemClick">视频</tab-item>-->
-      <!--</tab>-->
-
-
       <sticky>
         <tab active-color="#DB2C1B" default-color="#333333" :line-width="2" class="class-detail-tab-box">
           <tab-item selected @on-item-click="onItemClick">简介</tab-item>
@@ -48,46 +41,34 @@
         </div>
 
         <div v-if="indexActive == 1" key="1">
-
-          <group title="" class="class-group">
-
-            <div v-for="(Chapter, index_1) in courseVideo.courseChapters" :key="Chapter.id">
-              <div v-for="(Section, index_2) in Chapter.courseSections" :key="Section.id">
-                <cell
-                  class="cell-class"
-                  :title="Chapter.name + ':' + Section.name"
-                  :key="index_1 + index_2"
-                  is-link
-                  :border-intent="false"
-                  :arrow-direction="flag ? 'up' : 'down'"
-                  @click.native="flag = upDownControl(index_1, index_2)"
-                ></cell>
-
-                <template v-if="flagArray['show' + index_1 + index_2]">
-                  <dl class="class-item">
-
-                    <dd v-for="coursePoint in Section.courseSectionPoints" :key="coursePoint.id">
-                      <a href="#" @click="openCheck(Section.id, coursePoint.id, coursePoint.name)">
-                        <!--<video class="video" id="video" :src="coursePoint.video_url" :poster="courseVideo.list_pic" controls="controls" :autoplay="false" v-show="videoShow"></video>-->
-                        <div class="item clearfix">
-                          <div class="left">
-                            <span class="type">视频</span>
-                            <span class="name">{{coursePoint.name}}</span>
+          <Collapse v-model="showChapter" accordion simple>
+            <Panel v-for="chapter in courseVideo.courseChapters" :key="chapter.id" 
+              :name="chapter.id">
+              {{chapter.name}}
+              <div slot="content">
+                <Collapse v-model="showSection" simple>
+                  <Panel v-for="section in chapter.courseSections" :key="section.id"
+                    :name="section.id">
+                    {{section.name}}
+                    <div slot="content">
+                      <Collapse v-model="showPoint">
+                        <Panel v-for="coursePoint in section.courseSectionPoints" :key="coursePoint.id"
+                          :name="coursePoint.id">
+                          {{coursePoint.name}}
+                          <div slot="content">
+                            <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
+                              <span class="already">已学0%</span>
+                              <span class="time"><i></i>{{ coursePoint.duration }}</span>
+                            </div>
                           </div>
-                          <div class="right">
-                            <span class="already" v-if="pay">已学0%</span>
-                            <span class="time"><i></i>{{ coursePoint.duration }}</span>
-                          </div>
-                        </div>
-                      </a>
-                    </dd>
-
-                  </dl>
-                </template>
+                        </Panel>
+                      </Collapse>
+                    </div>
+                  </Panel>
+                </Collapse>
               </div>
-            </div>
-
-          </group>
+            </Panel>
+          </Collapse>
         </div>
 
         <div v-else-if="indexActive == 2" key="2">
@@ -150,7 +131,7 @@
             </div>
             <div class="submitDltList">
               <ul>
-                <li v-for="test, index in courseTest.list">
+                <li v-for="(test, index) in courseTest.list" :key="test.id">
                   <div class="item">
                     <h5>第{{ index+1 }}单元<span>{{ test.chapterName }}</span></h5>
                     <div class="test">
@@ -209,6 +190,17 @@
         </div>
       </div>
     </div>
+
+    <div class="viedoCont" v-show="videoData.isAuth">
+      <div class="cont">
+        <div class="close-video-btn">
+          <img src="../../../assets/img/close-video-btn.png"  @click="hideModal" >
+        </div>
+        <video class="video" id="video" :src="videoData.video_url" :poster="videoData.pic" controls="controls" autoplay>
+        </video>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -248,7 +240,15 @@
         isLogin: false,
         uploadUrl: 'http://api.ql.com/personal/homework-upload?access-token=',
         videoShow: false,
-        loading: true
+        loading: true,
+        showPoint: '',
+        showChapter: '',
+        showSection: '',
+        videoData: {
+          pic: '',
+          video_url: '',
+          isAuth: false
+        }
       }
     },
 
@@ -269,6 +269,10 @@
       this.getInfo();
     },
     methods:{
+      hideModal() {
+        this.videoData.isAuth = false;
+        this.videoData.video_url = '';
+      },
       shareFn(){
         this.share = 1;
       },
@@ -287,7 +291,6 @@
               this.isLogin = false;
               this.pay = false;
             }
-            // console.log(this.isLogin);
           }
         })
         service_course.courseService.courseShare({'courseid': this.courseid, 'access-token': this.$cookies.get('access_token')}).then(res => {
@@ -297,7 +300,6 @@
             this.courseInfo.teacher = res.data.teacher;
             this.collect = res.data.course.iscollect;
             this.loading = false;
-            // console.log(this.courseInfo);
           }
         })
       },
@@ -310,11 +312,7 @@
                 this.flagArray['show' + i + j] = false;
               }
             }
-            // console.log(this.flagArray);
             this.pay = (res.data.ispay != 0);
-            // console.log(res.data);
-            // this.pay = true;
-            // console.log(this.courseVideo.courseChapters);
           } else {
             alert('something wrong!');
           }
@@ -329,7 +327,6 @@
               this.courseHomework.course = res.data.course;
               this.courseHomework.homeworks = res.data.homeworks;
               this.courseHomework.submit_num = res.data.submit_num;
-              // console.log(this.courseHomework);
             }
           })
         }else if (index == 3) {
@@ -360,26 +357,29 @@
               this.$Message.success('已取消收藏！');
             }
           } else {
-            console.log(res.data.message + this.collect);
+            this.$Message.error(res.data.message);
           }
         })
       },
 
       openCheck(section_id, point_id, title) {
-        service_course.courseService.check({'access-token': this.$cookies.get('access_token') ? this.$cookies.get('access_token') : '',
-                                              'course_id': this.courseid, 'section_id': section_id,
-                                              'point_id': point_id}).then(res => {
-
-            console.log(res.data.pic);
+        this.loading = true;
+        service_course.courseService.check({
+          'access-token': this.$cookies.get('access_token') ? this.$cookies.get('access_token') : '',
+          'course_id': this.courseid, 'section_id': section_id,
+          'point_id': point_id
+          }).then(res => {
             if (res.data.status === 0) {
               this.$Message.info(res.data.message);
               this.$router.push({path: '/Login'});
             } else if (res.data.status === 3) {
               this.$Message.warning(res.data.message);
             } else {
-              this.$Message.success(res.data.message);
-              this.$router.push({name: 'QualityCourseVideo', params:{title: title, video_url: res.data.url, pic: res.data.pic}});
+              this.videoData.pic = res.data.pic;
+              this.videoData.video_url = res.data.url;
+              this.videoData.isAuth = true;
             }
+            this.loading = false;
         })
       },
 
