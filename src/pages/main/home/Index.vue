@@ -3,9 +3,9 @@
       <!--轮播图-->
       <swiper :options="swiperOption" class="swiper-container">
         <swiper-slide v-for="(slide, index) in ads" :key="index">
-          <router-link :to="slide.url">
+          <a :href="slide.url">
             <img :src="slide.img" alt="slide.title">
-          </router-link>
+          </a>
         </swiper-slide>
         <div class="swiper-pagination banner-swiper" slot="pagination"></div>
       </swiper>
