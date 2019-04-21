@@ -106,7 +106,14 @@
                         <h5>{{ chapter.name + ':  ' + section.name }}</h5>
                         <div class="workName clearfix">
                           <span class="fl">作业</span>
-                          <strong class="fr" v-html="section.homework"></strong>
+                          <strong class="fr" v-html="section.homework" @click="homework_detail = true"></strong>
+                          <Modal
+                            v-model="homework_detail"
+                            title="作业详情"
+                            @on-ok=""
+                            @on-cancel="">
+                            <p v-html="section.homework"></p>
+                          </Modal>
                         </div>
                         <div class="submitDlt clearfix">
                           <span class="fl">提交</span>
@@ -250,7 +257,8 @@
         isLogin: false,
         uploadUrl: 'http://api.ql.com/personal/homework-upload?access-token=',
         videoShow: false,
-        loading: true
+        loading: true,
+        homework_detail: false
       }
     },
 
