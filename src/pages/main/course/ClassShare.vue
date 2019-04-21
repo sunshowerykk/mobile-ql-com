@@ -200,10 +200,8 @@
         </video>
       </div>
     </div>
-
   </div>
 </template>
-
 <script>
   import { Tab, TabItem, Sticky, Cell, Group } from 'vux'
   import  service_course from '@/http/services/course.js'
