@@ -17,6 +17,7 @@
               <Badge :count="message_num"></Badge>
             </router-link></li>
             <li><router-link to="/MyPublicity" class="user-center-item">我的宣传页</router-link></li>
+            <li><router-link to="/TeacherClass" class="user-center-item">我的授课</router-link></li>
             <li><router-link to="/TeacherEarnings" class="user-center-item">我的收益</router-link></li>
             <li><router-link to="/MySet" class="user-center-item">设置</router-link></li>
           </ul>

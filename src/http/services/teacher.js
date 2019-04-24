@@ -27,6 +27,11 @@ const service_teacher = {
         TEMPLATE_GET('/teacher/select-income-detail', data, resolve)
       })
     },
+    getTeacherClass: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/teacher/teacher-class', data, resolve)
+      })
+    },
   }
 }
 

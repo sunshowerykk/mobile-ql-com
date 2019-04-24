@@ -44,7 +44,7 @@
 
         <div v-if="indexActive == 1" key="1">
           <Collapse v-model="showChapter" accordion simple>
-            <Panel v-for="chapter in courseVideo.courseChapters" :key="chapter.id" 
+            <Panel v-for="chapter in courseVideo.courseChapters" :key="chapter.id"
               :name="chapter.id">
               {{chapter.name}}
               <div slot="content">
@@ -61,6 +61,7 @@
                             <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
                               <span class="already">已学0%</span>
                               <span class="time"><i></i>{{ coursePoint.duration }}</span>
+                              <span v-if="coursePoint.paid_free === '0'" style="float: right; color: red">免费</span>
                             </div>
                           </div>
                         </Panel>
@@ -103,10 +104,11 @@
                               <Upload
                                 name="homeworkImg"
                                 :format="['jpg','jpeg','png']"
-                                :max-size="7024"
+                                :max-size="5120"
                                 :action="uploadUrl + '&section_id=' + section.id + '&course_id=' + id"
                                 :on-success="uploadSuccess"
-                                :on-error="uploadError">
+                                :on-error="uploadError"
+                                :on-exceeded-size="outSize">
                                 <i-button type="info" icon="ios-cloud-upload-outline">上传作业</i-button>
                               </Upload>
                             </div>
@@ -401,6 +403,9 @@
       },
       uploadError(res, file) {
         this.$Message.error('上传失败！');
+      },
+      outSize(res, file) {
+        this.$Message.info('最大上传5M的图片呦！');
       }
     },
   }
