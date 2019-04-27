@@ -6,10 +6,10 @@
 
     <div class="orderDetail orderDetail_1" v-if="!setAddressFlag">
 
-      <div class="admininfo" v-if="address_flag">
+      <div class="admininfo">
         <div class="cont edit">
           <div class="fr" @click="setAddressFlag = !setAddressFlag">
-            <strong>编辑收货地址</strong>
+            <strong>编辑收货信息</strong>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="tips">
-        <strong>选择赠品</strong><span>(未购买图书者请选择图书，已选择图书者请选择金币用于答疑)</span>
+        <strong>赠品</strong><span>(付款成功后，您可获得以下所有赠品，请填写/修改收货信息)</span>
       </div>
 
       <div class="chooseLst">
@@ -50,9 +50,9 @@
           <li v-for="(book, index) in books" :key="index">
             <div class="item clearfix">
               <div class="inpt">
-                <input type="checkbox" class="chek" :value="book.id"
-                       name="checkbox" @click="handleSelect(index,book.id)"
-                       :checked="items[index]" />
+                <!--<input type="checkbox" class="chek" :value="book.id"-->
+                       <!--name="checkbox" @click="handleSelect(index,book.id)"-->
+                       <!--:checked="items[index]" />-->
               </div>
               <div class="fr imgChoose">
                 <img :src="book.pictrue"  />
@@ -97,7 +97,7 @@
           <label>支付宝</label>
           <span class="input">
             <input type="radio"
-              name="radio" 
+              name="radio"
               class="radio"
               value="1"
               @change="changePayType(1)"/></span>
@@ -173,6 +173,7 @@ export default {
       type: "",
       course_count: 1,
       items: [],
+      gift_books: [],
       address_flag: false,
       setAddressFlag: false,
       user_info: {
@@ -246,6 +247,7 @@ export default {
             this.user_info.address = res.data.user_info.address;
             for (var i = 0; i < this.books.length; i++) {
               this.items[i] = false;
+              this.gift_books[i] = this.books[i].id;
             }
           }
         });
@@ -266,6 +268,7 @@ export default {
             this.user_info.address = res.data.user_info.address;
             for (var i = 0; i < this.books.length; i++) {
               this.items[i] = false;
+              this.gift_books[i] = this.books[i].id;
             }
           }
         });
@@ -296,7 +299,7 @@ export default {
 		    if (document.addEventListener) {
 		        document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
           } else if (document.attachEvent) {
-              document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
+              document.attachEvent('WeixinJSBridgeReady', this.jsApiCall);
               document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
           }
       } else {
@@ -345,40 +348,28 @@ export default {
         this.$Message.warning("只可选择" + this.course_count + "本图书！");
       } else {
         this.loading = true;
-        service_course.courseService
-          .confirmOrder({
+        if (this.user_info.username == '' || this.user_info.phone == '' || this.user_info.address == '') {
+          this.$Message.warning('请完善收货信息！');
+        } else {
+          console.log('gift:' + this.gift_books)
+          service_course.courseService.confirmOrder({
             "access-token": this.$cookies.get("access_token"),
-            course_id: this.id,
-            type: this.type
-          })
-          .then(res => {
+            "course_id": this.id,
+            "type": this.type,
+            "username": this.user_info.username,
+            "phone": this.user_info.phone,
+            "address": this.user_info.address,
+            "gift_books": this.gift_books
+          }).then(res => {
             if (res.status === 200 && res.data.code === 0) {
-              if (this.answer.length > 0) {
-                service_course.courseService
-                  .bookOrder({
-                    "access-token": this.$cookies.get("access_token"),
-                    book_id: this.answer,
-                    username: this.user_info.username,
-                    phone: this.user_info.phone,
-                    address: this.user_info.address
-                  })
-                  .then(res => {
-                    if (res.status === 200 && res.data.code === 0) {
-                      this.$Message.success("赠品图书选择成功！");
-                      this.payModal = true;
-                    } else {
-                      this.$Message.warning("出错了！");
-                    }
-                  });
-              } else {
-                this.payModal = true;
-              }
+              this.$Message.info('订单已生成，请尽快付款');
               this.order_sn = res.data.order_sn
             } else {
               this.$Message.warning(res.data.message);
             }
             this.loading = false;
           });
+        }
       }
     },
     getAppid() {
@@ -434,7 +425,6 @@ export default {
       this.getCourseInfo();
     } else if (this.type == "package") {
       this.getPackageInfo();
-      this.$Message.info("套餐！，等待完善！");
     }
     //获取appid
     this.getCodeState();

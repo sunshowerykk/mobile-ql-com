@@ -108,11 +108,9 @@
                             </div>
                           </div>
                           <span class="tip">{{ section.userHomework.length === 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
-                          <router-link
-                            :to="{'name': 'QualityCourseVideo', params:{title: chapter.name + ':  ' + section.name + '-习题讲解', video_url: section.explain_video_url}}"
-                            class="viedo">
+                          <span class="viedo" @click="homeworkExplain(section.explain_video_url)">
                             视频讲解
-                          </router-link>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -283,6 +281,12 @@
           }
           this.loading = false;
         })
+      },
+
+      // 视频讲解
+      homeworkExplain(url) {
+        this.videoData.video_url = url;
+        this.videoData.isAuth = true;
       },
 
       uploadSuccess(res, file) {
