@@ -166,7 +166,7 @@
         <div class="left">
           <ul class="clearfix">
             <li>
-              <a href="javascript:;">
+              <a href="https://2.molinsoft.com//mobileChat.jsp?xtid=119255&customerId=faf280da6a2ce808016a3e6caeeb072e">
                 <i class="consult"></i>
                 <span>咨询</span>
               </a>
