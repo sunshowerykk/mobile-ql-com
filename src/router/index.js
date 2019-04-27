@@ -44,6 +44,7 @@ import MarketGeneralize from '@/pages/marketer/MarketGeneralize' // 市场端收
 import TeacherCenter from '@/pages/teacher/TeacherCenter' //教师个人中心
 import TeacherEarnings from '@/pages/teacher/TeacherEarnings' //教师收益
 import TeacherGeneralize from '@/pages/teacher/TeacherGeneralize' //教师收益明细
+import TeacherClass from '@/pages/teacher/TeacherClass' //教师收益明细
 
 import Address from '@/components/Address' //收货地址
 import OpenCoursePayCenter from '@/components/OpenCoursePayCenter' //公开课购买
@@ -267,6 +268,11 @@ const router = new Router({
       path: '/TeacherGeneralize/:month',
       name: 'TeacherGeneralize',
       component: TeacherGeneralize
+    },
+    {
+      path: '/TeacherClass',
+      name: 'TeacherClass',
+      component: TeacherClass
     },
 
 

@@ -34,8 +34,9 @@
                   :on-success="uploadSuccess"
                   :on-error="uploadError"
                   :format="['jpg','jpeg','png']"
-                  :max-size='7024'
+                  :max-size='5120'
                   :on-format-error="formatError"
+                  :on-exceeded-size="outSize"
                   :action="fileUploadUrl"
                   style="display: inline-block;width:58px;">
                   <img class="avatar" :src="this.settings.picture">
@@ -114,6 +115,9 @@
           },
           formatError: function () {
             this.$Message.warning('请选择正确格式');
+          },
+          outSize(res, file) {
+            this.$Message.info('最大上传5M的图片呦！');
           }
         },
         mounted: function () {
