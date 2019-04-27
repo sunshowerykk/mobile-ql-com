@@ -1,10 +1,10 @@
 <template>
-  <div class="font-box">
+  <div class="font-box my-publicity">
     <TopBack>
       <span slot="headerTxt">都想学</span>
       <!-- <span slot="share" class="share" @click="showShare"></span> -->
     </TopBack>
-    <div class="preach" ref="downloadContent">
+    <div class="preach" ref="downloadContent" v-show="!hasImg">
       <div class="pic">
         <a href="#"><img src="../../../assets/img/img27.png"  /></a>
       </div>
@@ -30,10 +30,13 @@
               </div>-->
     </div>
 
+    <div class="save-img" v-show="hasImg">
+      <img :src="downImg" />
+    </div>
+
     <share v-if="share" :share="share" @changeShare="changeShare($event)" ></share>
 
-    <Button type="primary" class="download" @click="toImage()">下载宣传页</Button>
-    <a ref="downloadTrigger" v-show="false" :href= "downImg" download="宣传页" class="download download-a" id="download-a">下载宣传页</a>
+    <Button type="primary" class="download" @click="toImage()">{{downloadText}}</Button>
 
   </div>
 </template>
@@ -48,7 +51,9 @@
             share: false,
             qrcode: '',
             token: '',
-            downImg: 'javascript:void(0)'
+            downImg: '',
+            downloadText: '生成宣传页',
+            hasImg: false
           }
       },
       methods:{
@@ -69,16 +74,18 @@
           })
         },
         toImage: function () {
+          if (this.hasImg) {
+            return false;
+          }
           html2canvas(this.$refs.downloadContent,{
             backgroundColor: null
           }).then((canvas) => {
             let dataURL = canvas.toDataURL("image/png");
             if (dataURL) {
+              this.$Message.success('成功生成宣传页');
               this.downImg = dataURL;
-              setTimeout(() => {
-                this.$refs.downloadTrigger.click();
-                this.$Message.success('下载成功');
-              }, 100)
+              this.downloadText = '长按保存宣传页';
+              this.hasImg = true;
             }
           });
         }
