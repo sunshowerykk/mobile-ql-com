@@ -295,7 +295,7 @@ router.beforeEach((to, from, next) => {
   }
   let isLogin = global.$cookies.get('isLogin'); // 是否登录
   // 已登录状态；当路由到login时，跳转至home
-  if (to.name === 'Login') {
+  if (to.name === 'Login' || to.name === 'Register') {
     if (isLogin) {
       router.push({
         name: 'index'

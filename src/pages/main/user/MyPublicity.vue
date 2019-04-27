@@ -4,7 +4,7 @@
       <span slot="headerTxt">都想学</span>
       <!-- <span slot="share" class="share" @click="showShare"></span> -->
     </TopBack>
-    <div class="preach">
+    <div class="preach" ref="downloadContent">
       <div class="pic">
         <a href="#"><img src="../../../assets/img/img27.png"  /></a>
       </div>
@@ -32,11 +32,15 @@
 
     <share v-if="share" :share="share" @changeShare="changeShare($event)" ></share>
 
+    <Button type="primary" class="download" @click="toImage()">下载宣传页</Button>
+    <a ref="downloadTrigger" v-show="false" :href= "downImg" download="宣传页" class="download download-a" id="download-a">下载宣传页</a>
+
   </div>
 </template>
 
 <script>
-    import service_user from '@/http/services/user.js'
+    import service_user from '@/http/services/user.js';
+    import html2canvas from 'html2canvas';
     export default {
       name: "Publicity",
       data(){
@@ -44,6 +48,7 @@
             share: false,
             qrcode: '',
             token: '',
+            downImg: 'javascript:void(0)'
           }
       },
       methods:{
@@ -63,6 +68,20 @@
             }
           })
         },
+        toImage: function () {
+          html2canvas(this.$refs.downloadContent,{
+            backgroundColor: null
+          }).then((canvas) => {
+            let dataURL = canvas.toDataURL("image/png");
+            if (dataURL) {
+              this.downImg = dataURL;
+              setTimeout(() => {
+                this.$refs.downloadTrigger.click();
+                this.$Message.success('下载成功');
+              }, 100)
+            }
+          });
+        }
       },
      mounted() {
        this.getCookie();
