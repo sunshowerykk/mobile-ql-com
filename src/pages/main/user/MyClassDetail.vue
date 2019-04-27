@@ -191,7 +191,7 @@
         },
         flagArray: [],
         flag: false,
-        uploadUrl: 'http://api.ql.com/personal/homework-upload?access-token=',
+        uploadUrl: 'https://api.kaoben.top/personal/homework-upload?access-token=',
         showPoint: '',
         showChapter: '',
         showSection: '',

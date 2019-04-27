@@ -75,7 +75,7 @@
               picture: ''
             },
             token: '',
-            fileUploadUrl:'http://api.ql.com/personal/update-headimg?access-token='
+            fileUploadUrl:'https://api.kaoben.top/personal/update-headimg?access-token='
           }
         },
         methods: {
