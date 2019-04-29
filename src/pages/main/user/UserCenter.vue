@@ -23,7 +23,7 @@
             <li><router-link to="/MyClass" class="user-center-item">我的课程</router-link></li>
             <li><router-link to="/MyOrder" class="user-center-item">我的订单</router-link></li>
             <li><router-link to="/MyPublicity" class="user-center-item">我的宣传页</router-link></li>
-            <li><router-link to="/MyEarnings" class="user-center-item">推广收益</router-link></li>
+            <!--<li><router-link to="/MyEarnings" class="user-center-item">推广收益</router-link></li>-->
             <li><router-link to="/MyGold" class="user-center-item">我的金币</router-link></li>
             <li><router-link to="/MyCollect" class="user-center-item">我的收藏</router-link></li>
             <li><router-link to="/MySet" class="user-center-item">设置</router-link></li>

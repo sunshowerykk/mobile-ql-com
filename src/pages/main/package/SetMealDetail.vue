@@ -6,7 +6,7 @@
       </TopBack>
       <!--nav start-->
       <div class="detailImg">
-        <div class="share" @click="showShare"></div>
+        <!--<div class="share" @click="showShare"></div>-->
         <div  class="indexBanner" >
           <img :src="packageDetail.package.home_pic">
           <!-- <div class="top">

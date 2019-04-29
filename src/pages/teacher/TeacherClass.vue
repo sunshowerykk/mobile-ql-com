@@ -14,17 +14,19 @@
       <div class="lst" v-show="courseList.length != 0">
         <ul>
           <li v-for="course in courseList">
-            <div class="item clearfix">
-              <div class="pic">
-                <img :src="course.list_pic"  />
+            <router-link :to="{name: 'ClassShare',params:{id: course.id}}">
+              <div class="item clearfix">
+                <div class="pic">
+                  <img :src="course.list_pic"  />
+                </div>
+                <div class="txt">
+                  <h5>{{ course.course_name }}</h5>
+                  <span>{{ course.teacher }}</span>
+                  <strong v-if="course.type === 1">已更新{{ course.classrooms }}集</strong>
+                  <strong v-if="course.type === 2">公开课</strong>
+                </div>
               </div>
-              <div class="txt">
-                <h5>{{ course.course_name }}</h5>
-                <span>{{ course.teacher }}</span>
-                <strong v-if="course.type === 1">已更新{{ course.classrooms }}集</strong>
-                <strong v-if="course.type === 2">公开课</strong>
-              </div>
-            </div>
+            </router-link>
           </li>
         </ul>
       </div>

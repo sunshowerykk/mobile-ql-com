@@ -51,7 +51,7 @@
                           <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
                             <span class="already">已学0%</span>
                             <span class="time"><i></i>{{ coursePoint.duration }}</span>
-                            <span v-if="coursePoint.paid_free === '0'" style="float: right; color: red">免费</span>
+                            <span v-if="coursePoint.paid_free === '0'" style="float: right; color: red">试看</span>
                           </div>
                         </div>
                       </Panel>
@@ -104,11 +104,18 @@
                           </div>
                           <div v-if="section.userHomework.length != 0 && section.userHomework[0].status != 3">
                             <div class="pic" v-for="pic in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })">
-                              <img :src="pic" alt="上传作业" />
+                              <img :src="pic" alt="上传作业" @click="homework_show = !homework_show" />
+                              <Modal
+                                v-model="homework_show"
+                                title="作业展示"
+                                @on-ok=""
+                                @on-cancel="">
+                                <img :src="pic" alt="错误" width="480px" height="250px" />
+                              </Modal>
                             </div>
                           </div>
                           <span class="tip">{{ section.userHomework.length === 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
-                          <span class="viedo" @click="homeworkExplain(section.explain_video_url)">
+                          <span class="viedo" @click="homeworkExplain(section.explain_video_url, section.userHomework[0].status)">
                             视频讲解
                           </span>
                         </div>
@@ -199,7 +206,8 @@
           isAuth: false
         },
         loading: false,
-        homework_detail: false
+        homework_detail: false,
+        homework_show: false
       }
     },
     created() {
@@ -284,9 +292,14 @@
       },
 
       // 视频讲解
-      homeworkExplain(url) {
-        this.videoData.video_url = url;
-        this.videoData.isAuth = true;
+      homeworkExplain(url, status) {
+        if (status === 2) {
+          this.videoData.video_url = url;
+          this.videoData.isAuth = true;
+        } else {
+          this.$Message.info('作业审核通过后才可观看讲解~');
+        }
+
       },
 
       uploadSuccess(res, file) {
