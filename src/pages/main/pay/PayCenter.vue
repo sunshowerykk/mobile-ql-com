@@ -245,6 +245,7 @@ export default {
             this.user_info.username = res.data.user_info.username;
             this.user_info.phone = res.data.user_info.phone;
             this.user_info.address = res.data.user_info.address;
+            console.log('书：' + this.books);
             for (var i = 0; i < this.books.length; i++) {
               this.items[i] = false;
               this.gift_books[i] = this.books[i].id;
@@ -348,7 +349,8 @@ export default {
         this.$Message.warning("只可选择" + this.course_count + "本图书！");
       } else {
         this.loading = true;
-        if (this.user_info.username == '' || this.user_info.phone == '' || this.user_info.address == '') {
+        if (this.user_info.username == '' || this.user_info.phone == '' ||
+            this.user_info.address == '' || this.user_info.address == null || this.user_info.phone == null) {
           this.$Message.warning('请完善收货信息！');
         } else {
           console.log('gift:' + this.gift_books)

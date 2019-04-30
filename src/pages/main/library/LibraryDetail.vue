@@ -2,7 +2,7 @@
     <div class="font-box book-detail" v-loading="loading">
       <TopBack>
         <span slot="headerTxt">{{book.name}}</span>
-        <span slot="share" class="share" @click="showShare"></span>
+        <!--<span slot="share" class="share" @click="showShare"></span>-->
       </TopBack>
 
       <div class="img_txt_info">
