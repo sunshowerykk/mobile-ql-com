@@ -40,7 +40,6 @@ export default {
       loading: false
     };
   },
-
   methods: {
     handleLogin: function() {
       this.loading = true;
@@ -54,6 +53,9 @@ export default {
           const role = res.data.role;
           if (role) {
             if (role == "student") {
+              if (this.$route.query && this.$route.query.from && this.$route.query.from === 'qa') {
+                window.location.href="https://exam.kaoben.top/index.php?r=login/ajaxlogin&from=qa&access-token=" + res.data.access_token;
+              }
               this.$router.push({ path: "/index" });
             } else if (role == "teacher") {
               //角色是教师,跳教师首页
