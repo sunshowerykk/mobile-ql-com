@@ -21,26 +21,23 @@
       <tab-item @on-item-click="onItemClick">间接收益</tab-item>
     </tab>
 
-    <transition name="fade" mode="out-in">
-
-      <div class="incomeDetail" v-if="indexActive === 0" key="0">
-        <div class="incomeList">
-          <Table :columns="directColumns" :data="directIncome"></Table>
-        </div>
-        <div v-if="directIncome.length === 0">
-          <span>您暂时没有这部分收益</span>
-        </div>
+    <div class="incomeDetail" v-if="indexActive === 0" key="0">
+      <div class="incomeList">
+        <Table :columns="directColumns" :data="directIncome"></Table>
       </div>
-
-      <div class="incomeDetail" v-if="indexActive === 1" key="1">
-        <div class="incomeList indirect">
-          <Table :columns="indirectColumns" :data="indirectIncome"></Table>
-        </div>
-        <div v-if="indirectIncome.length === 0">
-          <span>您暂时没有这部分收益</span>
-        </div>
+      <div v-if="directIncome.length === 0">
+        <span>您暂时没有这部分收益</span>
       </div>
-    </transition>
+    </div>
+
+    <div class="incomeDetail" v-if="indexActive === 1" key="1">
+      <div class="incomeList indirect">
+        <Table :columns="indirectColumns" :data="indirectIncome"></Table>
+      </div>
+      <div v-if="indirectIncome.length === 0">
+        <span>您暂时没有这部分收益</span>
+      </div>
+    </div>
 
     <Button
       class="confirmButton"
