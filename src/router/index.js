@@ -35,6 +35,7 @@ import QualityCourseVideo from '@/pages/main/course/QualityCourseVideo'//视频�
 // 市场端组件引入
 import MarketerCenter from '@/pages/marketer/MarketerCenter' //个人中心
 import MarketEarnings from '@/pages/marketer/MarketEarnings' // 收益
+import MyFile from '@/pages/marketer/MyFile' // 我的协议
 import SubordinateList from '@/pages/marketer/SubordinateList' // 下级管理
 import AddSubordinate from '@/pages/marketer/AddSubordinate' // 添加下级
 import EditSubordinate from '@/pages/marketer/EditSubordinate' // 修改下级
@@ -228,7 +229,12 @@ const router = new Router({
       name: 'MarketEarnings',
       component: MarketEarnings
     },
-
+    // 市场专员-收益
+    {
+      path: '/MyFile/',
+      name: 'MyFile',
+      component: MyFile
+    },
     // 市场专员-收益
     {
       path: '/MarketGeneralize/:month',

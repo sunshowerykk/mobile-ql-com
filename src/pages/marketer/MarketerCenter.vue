@@ -20,8 +20,19 @@
             <li><router-link to="/MyPublicity" class="user-center-item">我的宣传页</router-link></li>
             <li><router-link to="/SubordinateList" class="user-center-item">下级管理</router-link></li>
             <li><router-link to="/MarketEarnings" class="user-center-item">推广收益</router-link></li>
+            <li><span class="user-center-item" @click="showVideoFunc()">项目介绍</span></li>
+            <li><router-link to="/MyFile" class="user-center-item">我的协议</router-link></li>
             <li><router-link to="/MySet" class="user-center-item">设置</router-link></li>
           </ul>
+        </div>
+      </div>
+      <div class="viedoCont" v-if="showVideo">
+        <div class="cont">
+          <div class="close-video-btn">
+            <img src="../../assets/img/close-video-btn.png"  @click="hideModal" >
+          </div>
+          <video class="video" id="video" :src="project_url" controls="controls" autoplay>
+          </video>
         </div>
       </div>
     </div>
@@ -39,7 +50,9 @@
               username: ''
             },
             message_num: 0,
-            token: ''
+            token: '',
+            showVideo: false,
+            project_url: 'https://static-cdn.ticwear.com/cmww/statics/video/ticwatche-publish.mp4'
           }
         },
         methods: {
@@ -53,7 +66,13 @@
                 this.message_num = parseInt(res.data.message_num);
               }
             })
-          }
+          },
+          showVideoFunc() {
+            this.showVideo = true;
+          },
+          hideModal() {
+            this.showVideo = false;
+          },
         },
         mounted: function () {
           this.getCookie();
