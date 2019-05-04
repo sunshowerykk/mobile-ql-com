@@ -52,7 +52,7 @@
             message_num: 0,
             token: '',
             showVideo: false,
-            project_url: 'https://static-cdn.ticwear.com/cmww/statics/video/ticwatche-publish.mp4'
+            project_url: 'http://cdn.kaoben.top/video/propaganda.mp4'
           }
         },
         methods: {
