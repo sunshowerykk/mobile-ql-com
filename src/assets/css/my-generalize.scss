@@ -2,6 +2,7 @@
   padding: 0.2rem;
   position: relative;
   border-bottom: 1px solid #ECECEC;
+  display: flex;
 }
 
 .incomeDetail .incomeList ul li img {
@@ -17,8 +18,15 @@
   color: #333;
   display: inline-block;
   line-height: 0.8rem;
+  width: 60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
+.incomeDetail .incomeList.indirect ul li strong {
+  max-width: 200px;
+  min-width: 100px;
+}
 .incomeDetail .incomeList ul li span {
   font-size: 0.24rem;
   color: #666;
@@ -26,11 +34,14 @@
   display: inline-block;
   line-height: 0.8rem;
 }
+.incomeDetail .incomeList.indirect ul li span.money{
+  position: absolute;
+  right: 0.2rem;
+}
 
 .incomeDetail .incomeList ul li span.time {
   position: absolute;
   margin: 0;
-  top: 0.25rem;
   right: 0.2rem;
 }
 

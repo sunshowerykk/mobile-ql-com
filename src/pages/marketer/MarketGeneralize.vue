@@ -11,10 +11,8 @@
           v-model="month"
           @on-change="change"
           title=""
-          disabled="true"
-          @on-cancel="log('cancel')"
-          @on-confirm="onConfirm"
-          @on-hide="log('hide', $event)"></datetime>
+          disabled="true">
+        </datetime>
       </group>
     </div>
 
@@ -27,35 +25,18 @@
 
       <div class="incomeDetail" v-if="indexActive === 0" key="0">
         <div class="incomeList">
-          <ul v-if="show">
-            <li v-for="income in direct_income" >
-              <img :src="income.pic"  />
-              <strong class="name"> {{income.consignee}}</strong>
-              <span class="source">{{income.status}}</span>
-              <span class="money">{{income.income}}元</span>
-              <span class="time">{{income.pay_time}}</span>
-            </li>
-          </ul>
+          <Table :columns="directColumns" :data="directIncome"></Table>
         </div>
-
-        <div v-if="direct_income.length === 0">
+        <div v-if="directIncome.length === 0">
           <span>您暂时没有这部分收益</span>
         </div>
       </div>
 
       <div class="incomeDetail" v-if="indexActive === 1" key="1">
-        <div class="incomeList">
-          <ul v-if="show">
-            <li v-for="income in indirect_income" >
-              <img :src="income.pic"  />
-              <strong class="name"> {{income.consignee}}</strong>
-              <span class="source">{{income.status}}</span>
-              <span class="money">{{income.income}}元</span>
-              <span class="time">{{income.pay_time}}</span>
-            </li>
-          </ul>
+        <div class="incomeList indirect">
+          <Table :columns="indirectColumns" :data="indirectIncome"></Table>
         </div>
-        <div v-if="indirect_income.length === 0">
+        <div v-if="indirectIncome.length === 0">
           <span>您暂时没有这部分收益</span>
         </div>
       </div>
@@ -91,17 +72,44 @@
       name: "MarketGeneralize",
       inject: ['reload'],
       data(){
-          return{
+          return {
             value1: '',
-            direct_income : '',
-            indirect_income: '',
             show : true,
             access_token :'',
             indexActive: 0,
             month: '',
             statusConfirm: false,
             salary: 0,
-            modalFlag: false
+            modalFlag: false,
+            directIncome: [],
+            directColumns: [
+                {
+                    title: '姓名',
+                    key: 'consignee'
+                }, {
+                    title: '下单金额',
+                    key: 'order_amount'
+                }, {
+                    title: '提成',
+                    key: 'income'
+                }, {
+                    title: '下单时间',
+                    key: 'pay_time'
+                }
+            ],
+            indirectColumns: [
+                {
+                    title: '姓名',
+                    key: 'username'
+                }, {
+                    title: '总收益（元）',
+                    key: 'income'
+                }, {
+                    title: '提成（元）',
+                    key: 'tc'
+                }
+            ],
+            indirectIncome: []
           }
       },
       created() {
@@ -124,14 +132,10 @@
             this.getIndirectIncome();
           }
         },
-
         change (value) {
           this.show=false,
-          console.log('change', value)
-          console.log("change!!")
           service_user.userService.incomeCheck({'date': this.value1, 'access-token': this.access_token}).then(res => {
             if (res.status === 200) {
-              console.log(res.data);
               this.incomes = res.data;
               if(!(JSON.stringify(res.data)==0)) {
                 this.show = true;
@@ -139,22 +143,12 @@
             }
           })
         },
-
-        onConfirm (val) {
-          console.log('on-confirm arg', val)
-          console.log('current value', this.value1)
-        },
-
-        //
-        log (str1, str2 = '') {
-          console.log(str1, str2)
-        },
         init() {
           if (this.month == 'all') {
             service_marketer.marketerService.directIncome({'access-token': this.access_token, 'month': this.month})
               .then(res => {
                 if (res.status === 200 && res.data.status === 0) {
-                  this.direct_income = res.data.direct_income;
+                  this.directIncome = res.data.direct_income;
                 } else {
                   this.$Message.warning(res.data.message);
                 }
@@ -163,7 +157,7 @@
             service_marketer.marketerService.monthDirectIncome({'access-token': this.access_token, 'month': this.month})
               .then(res => {
                 if (res.status === 200 && res.data.status === 0) {
-                  this.direct_income = res.data.direct_income;
+                  this.directIncome = res.data.direct_income;
                 } else {
                   this.$Message.warning(res.data.message);
                 }
@@ -175,7 +169,7 @@
             service_marketer.marketerService.indirectIncome({'access-token': this.access_token, 'month': this.month})
               .then(res => {
                 if (res.status === 200 && res.data.status === 0) {
-                  this.indirect_income = res.data.indirect_income;
+                  this.indirectIncome = res.data.indirect_income;
                 } else {
                   this.$Message.warning(res.data.message);
                 }
@@ -184,7 +178,7 @@
             service_marketer.marketerService.monthIndirectIncome({'access-token': this.access_token, 'month': this.month})
               .then(res => {
                 if (res.status === 200 && res.data.status === 0) {
-                  this.indirect_income = res.data.indirect_income;
+                  this.indirectIncome = res.data.indirect_income;
                 } else {
                   this.$Message.warning(res.data.message);
                 }

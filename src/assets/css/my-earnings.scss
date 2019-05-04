@@ -80,13 +80,19 @@
   padding: 1rem 0;
   border-bottom: 1px solid #ECECEC;
   line-height: 0.4rem;
-}
-
-.incomeLst ul li {
-  float: left;
-  width: 50%;
   text-align: center;
-  overflow: hidden;
+  ul {
+    li {
+      float: left;
+      width: 50%;
+      text-align: center;
+      overflow: hidden;
+      strong {
+        color: #DB2C1B;
+        font-size: 0.18rem;
+      }
+    }
+  }
 }
 
 .incomeLst ul li .item {
@@ -103,11 +109,6 @@
 .incomeLst ul li span {
   display: block;
   font-size: 0.23rem;
-}
-
-.incomeLst ul li strong {
-  color: #DB2C1B;
-  font-size: 0.18rem;
 }
 
 .seltAccount {

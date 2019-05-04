@@ -39,8 +39,7 @@
               username: ''
             },
             message_num: 0,
-            token: '',
-            duration: ''
+            token: ''
           }
         },
         methods: {
@@ -49,26 +48,16 @@
           },
           getUserInfo: function () {
             service_user.userService.getSet({'access-token': this.token}).then(res => {
-            if (res.status === 200) {
-              this.userinfo = res.data;
-              this.message_num = parseInt(res.data.message_num);
-              console.log(this.userinfo);
-            }
-          })
-          },
-          getDuration: function () {
-            service_user.userService.getDuration({'access-token': this.token}).then(res => {
-            if (res.status === 200) {
-              this.duration = res.data;
-              console.log(this.duration);
-            }
-          })
+              if (res.status === 200) {
+                this.userinfo = res.data;
+                this.message_num = parseInt(res.data.message_num);
+              }
+            })
           }
         },
-          mounted: function () {
-            this.getCookie();
-            this.getUserInfo();
-            this.getDuration();
+        mounted: function () {
+          this.getCookie();
+          this.getUserInfo();
         }
     }
 </script>

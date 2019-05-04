@@ -19,29 +19,32 @@
     <div class="ear_get-time-box" v-loading="loading">
       <group title="" class="ear_time-group">
         <datetime
+          placeholder="起始月份"
           v-model="value1"
           format="YYYY-MM"
           title=""
-          @on-hide="log('hide', $event)"></datetime>
+          @on-confirm="onConfirm2">
+        </datetime>
       </group>
 
       <span></span>
 
       <group title="" class="ear_time-group">
         <datetime
+          placeholder="结束月份"
           v-model="value2"
           format="YYYY-MM"
           title=""
-          @on-confirm="onConfirm2"
-          @on-hide="log2('hide', $event)"></datetime>
+          @on-confirm="onConfirm2">
+        </datetime>
       </group>
     </div>
 
-    <div class="incomeLst" v-show="income === 0 || monthIncome.length === 0">
-      <span style="margin-left: 140px">您在当前所选时间区间暂时还没有收益哦~加油吧！</span>
+    <div class="incomeLst" v-show="income === 0 || monthIncomeSelect.length === 0">
+      <span>您在当前所选时间区间暂时还没有收益哦~加油吧！</span>
     </div>
 
-    <Table border :columns="title" :data="monthIncome" v-if="monthIncome.length > 0" size="small">
+    <Table border :columns="title" :data="monthIncomeSelect" v-if="monthIncomeSelect.length > 0" size="small">
       <template slot-scope="{ row, index }" slot="action">
         <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">明细</Button>
       </template>
@@ -62,12 +65,13 @@
         name: "MarketEarnings",
       data(){
           return{
-            value1: '起始月份',
-            value2: '结束月份',
+            value1: '',
+            value2: '',
             access_token: '',
             income : '',
             settlement: '',
             monthIncome:'',
+            monthIncomeSelect: '',
             loading: true,
             title: [
               {
@@ -76,14 +80,8 @@
                 sortable: true
               },
               {
-                title: '业绩',
-                key: 'income',
-                sortable: true
-              },
-              {
                 title: '提成',
-                key: 'salary',
-                width: '80px',
+                key: 'income',
                 sortable: true
               },
               {
@@ -109,29 +107,31 @@
       },
 
       methods:{
-        log (str1, str2 = '') {
-          console.log(str1, str2)
-        },
-        log2 (str1, str2 = '') {
-          console.log(str1, str2)
-        },
-        onConfirm2 (val) {
-          console.log('on-confirm arg', val)
-          this.loading = true;
-          service_marketer.marketerService.selectMonthIncome({'access-token': this.access_token,'start_month' :this.value1,'end_month' : this.value2}).then(res => {
-            if (res.status === 200) {
-              this.monthIncome = res.data.my_income;
-              this.loading = false;
-              console.log(this.monthincome);
+        onConfirm2 () {
+          let startTime = new Date(this.value1).getTime();
+          let endTime = new Date(this.value2).getTime();
+          this.monthIncomeSelect = this.monthIncome.filter((item) => {
+            let itemTime = new Date(item.month).getTime();
+            if (startTime && !endTime) {
+              if (itemTime >= startTime) {
+                return item;
+              }
+            } else if (!startTime && endTime) {
+              if (itemTime <= endTime) {
+                return item;
+              }
+            } else {
+              if (itemTime >= startTime && itemTime <= endTime) {
+                return item;
+              }
             }
-          })
+          });
         },
         init() {
           service_marketer.marketerService.income({'access-token': this.access_token}).then(res => {
             if (res.status === 200 && res.data.status == 0) {
               this.income = res.data.income;
               this.settlement = res.data.settlement;
-              console.log(res.data);
             } else {
               this.$Message.warning(res.data.message);
             }
@@ -141,20 +141,22 @@
           service_marketer.marketerService.monthIncome({'access-token': this.access_token}).then(res => {
             if (res.status === 200 && res.data.status == 0) {
               this.monthIncome = res.data.my_income;
+              this.monthIncomeSelect = this.monthIncome;
               this.loading = false;
-              console.log(this.monthIncome)
             } else {
               this.$Message.warning(res.data.message);
             }
           })
         },
         show(index) {
-          // this.$Message.info(this.monthIncome[index].month);
-          this.$router.push({name: 'MarketGeneralize',
-                             params:{month: this.monthIncome[index].month,
-                                     status: this.monthIncome[index].status,
-                                     salary: this.monthIncome[index].salary
-                                    }});
+          this.$router.push({
+            name: 'MarketGeneralize',
+            params: {
+              month: this.monthIncome[index].month,
+              status: this.monthIncome[index].status,
+              salary: this.monthIncome[index].salary
+            }
+          });
         }
 
       },

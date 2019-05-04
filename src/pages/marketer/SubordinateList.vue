@@ -4,6 +4,9 @@
       <span slot="headerTxt">下级管理</span>
     </TopBack>
     <div class="content">
+      <p class="no-result" v-if="subordinateData.length == 0">
+        暂无
+      </p>
       <div v-for="(item, index) in subordinateData" :key="index">
         <div class="info">
           <p>
@@ -14,9 +17,13 @@
             <label>电话</label>
             <span>{{item.phone}}</span>
           </p>
-          <p>
+          <!-- <p>
             <label>级别</label>
             <span>{{item.role}}</span>
+          </p> -->
+          <p>
+            <label>收益</label>
+            <span>{{item.income}}</span>
           </p>
         </div>
         <div class="operate">

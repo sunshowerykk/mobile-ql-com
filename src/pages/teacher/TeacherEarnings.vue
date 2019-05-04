@@ -38,7 +38,7 @@
     </div>
 
     <div class="incomeLst" v-show="income === 0 || monthIncome.length === 0">
-      <span style="margin-left: 140px">您在当前所选时间区间暂时还没有收益哦~加油吧！</span>
+      <span>您在当前所选时间区间暂时还没有收益哦~加油吧！</span>
     </div>
 
     <Table border :columns="title" :data="monthIncome" v-if="monthIncome.length > 0" size="small">

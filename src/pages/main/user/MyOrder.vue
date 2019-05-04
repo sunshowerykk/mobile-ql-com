@@ -34,8 +34,7 @@
         <div class="orderList">
           <ul>
             <li v-for="(order, index) in unfinishedOrders" :key="index">
-              <a href="#">
-                <div class="item clearfix">
+                <div class="item clearfix" @click="gotoPay(order)">
                   <div class="pic">
                     <img :src="order.goods_pic.list_pic"  />
                   </div>
@@ -46,7 +45,6 @@
                     <span class="time">{{ order.add_time }}</span>
                   </div>
                 </div>
-              </a>
             </li>
           </ul>
         </div>
@@ -81,6 +79,9 @@
         } else if(order.type === 'course_package') {
           this.$router.push({name: 'SetMealDetail', params: {pid: order.id}});
         }
+      },
+      gotoPay(order) {
+        this.$router.push({name: 'PayCenter', params:{type: order.type, id: order.id}});
       },
       getOrderInfo() {
         service.personalService.orderList({'access-token': this.$cookies.get('access_token')}).then(res => {
