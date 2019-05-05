@@ -146,7 +146,7 @@
       </div>
 
       <div class="botFixbtn">
-        <button class="btn" @click="setAddressFlag = false">保存</button>
+        <button class="btn" @click="setAddressFlag = !setAddressFlag">保存</button>
       </div>
 
     </div>
