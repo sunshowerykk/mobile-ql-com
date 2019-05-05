@@ -4,7 +4,7 @@
       <span slot="headerTxt">{{ setAddressFlag ? '收货地址' : '结算中心' }}</span>
     </TopBack>
 
-    <div class="orderDetail orderDetail_1" v-if="!setAddressFlag">
+    <div class="orderDetail orderDetail_1" v-show="!setAddressFlag">
 
       <div class="admininfo">
         <div class="cont edit">
@@ -122,7 +122,7 @@
     </div>
 
     <!--收货地址设置-->
-    <div v-if="setAddressFlag">
+    <div v-show="setAddressFlag">
 
       <div class="adresform">
         <div class="form">
@@ -245,7 +245,6 @@ export default {
             this.user_info.username = res.data.user_info.username;
             this.user_info.phone = res.data.user_info.phone;
             this.user_info.address = res.data.user_info.address;
-            console.log('书：' + this.books);
             for (var i = 0; i < this.books.length; i++) {
               this.items[i] = false;
               this.gift_books[i] = this.books[i].id;
@@ -348,12 +347,11 @@ export default {
       if (this.answer.length > this.course_count) {
         this.$Message.warning("只可选择" + this.course_count + "本图书！");
       } else {
-        this.loading = true;
-        if (this.user_info.username == '' || this.user_info.phone == '' ||
-            this.user_info.address == '' || this.user_info.address == null || this.user_info.phone == null) {
+        if (!this.user_info.username || !this.user_info.phone || !this.user_info.address) {
           this.$Message.warning('请完善收货信息！');
+          this.setAddressFlag = true;
         } else {
-          console.log('gift:' + this.gift_books)
+          this.loading = true;
           service_course.courseService.confirmOrder({
             "access-token": this.$cookies.get("access_token"),
             "course_id": this.id,
