@@ -146,7 +146,7 @@
       </div>
 
       <div class="botFixbtn">
-        <button class="btn" @click="setAddressFlag = !setAddressFlag">保存</button>
+        <button class="btn" @click="setAddressFlag = false">保存</button>
       </div>
 
     </div>
@@ -359,9 +359,10 @@ export default {
             "username": this.user_info.username,
             "phone": this.user_info.phone,
             "address": this.user_info.address,
-            "gift_books": this.gift_books
+            "gift_books": this.gift_books.join(',')
           }).then(res => {
             if (res.status === 200 && res.data.code === 0) {
+              this.payModal = true;
               this.$Message.info('订单已生成，请尽快付款');
               this.order_sn = res.data.order_sn
             } else {
