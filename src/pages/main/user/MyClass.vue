@@ -25,7 +25,7 @@
           <!--选课前 start-->
           <div class="noCourse" v-show="course_count == 0">
             <h5>您暂时还没有课程</h5>
-            <a href="#" class="go">发现课程</a>
+            <router-link to="/ClassQuality"><span class="go">发现课程</span></router-link>
           </div>
           <!--选课前 end-->
 
