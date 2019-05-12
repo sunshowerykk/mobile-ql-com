@@ -136,6 +136,10 @@
   font-size: 0.28rem;
   color: #9d9d9d;
   padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .submitDltList h5:before {
   position: absolute;
