@@ -442,10 +442,10 @@ export default {
       this.getPackageInfo();
     }
     //获取appid
-    // this.getCodeState();
-    // if (!this.payConfig.code) {
-    //   this.getAppid();
-    // }
+    this.getCodeState();
+    if (!this.payConfig.code) {
+      this.getAppid();
+    }
   }
 };
 </script>
