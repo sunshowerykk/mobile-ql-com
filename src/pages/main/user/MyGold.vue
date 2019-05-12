@@ -7,18 +7,17 @@
     <div class="goldCoin">
       <div class="money">
         <strong>{{ goldList.gold_balance }}</strong>
+        <router-link to="/" class="go-to-recharge">去充值</router-link>
       </div>
       <div class="detaillist">
         <h3>明细</h3>
         <ul>
-          <li v-for="info in goldList.gold_info">
-            <a href="#">
-              <h5 class="source">{{ info.operation_detail }}</h5>
-              <span class="time">{{format(info.operation_time)}}</span>
-              <strong :class="info.operation_type == 1 ? 'num positive' : 'num negative'">
-                {{ info.operation_type == 1 ? '+' : '-'}}{{info.point}}
-              </strong>
-            </a>
+          <li v-for="info in goldList.gold_info" :key="info.id">
+            <h5 class="source">{{ info.operation_detail }}</h5>
+            <span class="time">{{format(info.operation_time)}}</span>
+            <strong :class="info.operation_type == 1 ? 'num positive' : 'num negative'">
+              {{ info.operation_type != -1 ? '+' : '-'}}{{info.point}}
+            </strong>
           </li>
         </ul>
       </div>

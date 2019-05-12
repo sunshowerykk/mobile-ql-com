@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import main from '@/pages/main'
 import Login from '@/pages/login/Login' //登录
 import Register from '@/pages/login/Register' //注册
+import RegisterNew from '@/pages/login/RegisterNew' //注册
 import VerificationCode from '@/pages/login/VerificationCode' //忘记密码
 import home from '@/pages/main/home/index' //首页
 import SetMeal from '@/pages/main/package/SetMeal' //套餐
@@ -63,6 +64,11 @@ const router = new Router({
       path: '/Register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/RegisterNew',
+      name: 'RegisterNew',
+      component: RegisterNew
     },
     {
       path: '/VerificationCode',

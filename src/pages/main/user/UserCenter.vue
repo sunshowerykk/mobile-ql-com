@@ -7,7 +7,8 @@
       <div class="pCenter">
         <div class="infoMod clearfix">
           <div class="pic">
-            <img :src="userinfo.picture"  />
+            <img :src="userinfo.picture" ng-if="userinfo.picture" />
+            <img src="../../../assets/img/default-avatar.jpg" ng-if="!userinfo.picture" />
           </div>
           <div class="txt">
             <strong>{{ userinfo.username }}</strong>
