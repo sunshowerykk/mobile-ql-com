@@ -154,7 +154,7 @@
             params: {
               month: this.monthIncome[index].month,
               status: this.monthIncome[index].status,
-              salary: this.monthIncome[index].salary
+              salary: this.monthIncome[index].income
             }
           });
         }

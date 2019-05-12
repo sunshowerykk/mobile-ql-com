@@ -88,14 +88,7 @@
                         <h5>{{ chapter.name + ':  ' + section.name }}</h5>
                         <div class="workName clearfix">
                           <span class="fl">作业</span>
-                          <strong class="fr" v-html="section.homework" @click="homework_detail = true"></strong>
-                          <Modal
-                            v-model="homework_detail"
-                            title="作业详情"
-                            @on-ok=""
-                            @on-cancel="">
-                            <p v-html="section.homework"></p>
-                          </Modal>
+                          <strong class="fr" v-html="section.homework" @click="homeworkContent(section.homework)"></strong>
                         </div>
                         <div class="submitDlt clearfix">
                           <span class="fl">提交</span>
@@ -114,14 +107,7 @@
                             </div>
                             <div v-if="section.userHomework.length != 0 && section.userHomework[0].status != 3">
                               <div class="pic" v-for="(pic, index) in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })" :key="index">
-                                <img :src="pic" alt="上传作业" @click="homework_show = !homework_show" />
-                                <Modal
-                                  v-model="homework_show"
-                                  title="作业展示"
-                                  @on-ok=""
-                                  @on-cancel="">
-                                  <img :src="pic" alt="错误" width="480px" height="250px" />
-                                </Modal>
+                                <img :src="pic" alt="上传作业" @click="showHomework(pic)" />
                               </div>
                             </div>
                             <span class="tip">{{ section.userHomework.length === 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
@@ -219,6 +205,22 @@
         </video>
       </div>
     </div>
+
+    <Modal
+      v-model="homework_detail"
+      title="作业详情"
+      @on-ok=""
+      @on-cancel="">
+      <p v-html="homework_content"></p>
+    </Modal>
+
+    <Modal
+      v-model="homework_show"
+      title="作业展示"
+      @on-ok=""
+      @on-cancel="">
+      <img :src="homework_url" alt="错误" width="100%" height="100%" />
+    </Modal>
   </div>
 </template>
 <script>
@@ -267,7 +269,9 @@
           isAuth: false
         },
         homework_detail: false,
-        homework_show: false
+        homework_show: false,
+        homework_content: '',
+        homework_url: ''
       }
     },
 
@@ -426,6 +430,14 @@
       },
       outSize(res, file) {
         this.$Message.info('最大上传5M的图片呦！');
+      },
+      homeworkContent(content) {
+        this.homework_detail = !this.homework_detail;
+        this.homework_content = content;
+      },
+      showHomework(src) {
+        this.homework_show = !this.homework_show;
+        this.homework_url = src;
       }
     },
   }

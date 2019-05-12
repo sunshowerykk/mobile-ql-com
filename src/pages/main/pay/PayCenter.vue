@@ -146,7 +146,7 @@
       </div>
 
       <div class="botFixbtn">
-        <button class="btn" @click="setAddressFlag = !setAddressFlag">保存</button>
+        <button class="btn" @click="saveAddress">保存</button>
       </div>
 
     </div>
@@ -156,6 +156,7 @@
 
 <script>
 import service_course from "@/http/services/course.js";
+import service from "@/http/services/personal.js";
 export default {
   name: "PayCenter",
   created() {
@@ -252,6 +253,19 @@ export default {
           }
         });
     },
+
+    saveAddress() {
+      service.personalService.updateAddress({"access-token": this.$cookies.get("access_token"), "address": this.user_info.address})
+        .then(res => {
+          if (res.status === 200 && res.data.status == 0)  {
+            this.setAddressFlag = !this.setAddressFlag;
+            this.$Message.success(res.data.message);
+          } else {
+            this.$Message.warning(res.data.message);
+          }
+        })
+    },
+
     getPackageInfo() {
       service_course.courseService
         .packageOrder({

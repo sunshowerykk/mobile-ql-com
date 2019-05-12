@@ -114,6 +114,8 @@
         this.salary = this.$route.params.salary;
         this.statusConfirm = (this.$route.params.status === '已结算') ? true : false;
         this.access_token = this.$cookies.get('access_token');
+        console.log(this.salary);
+        console.log(this.statusConfirm);
       },
       components: {
         Datetime,

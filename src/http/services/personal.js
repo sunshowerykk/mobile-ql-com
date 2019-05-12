@@ -44,6 +44,13 @@ const service = {
       })
     },
 
+    updateAddress: (data) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_GET('/personal/update-address', data, resolve)
+      })
+    },
+
+
   }
 }
 
