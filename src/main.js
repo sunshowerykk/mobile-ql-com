@@ -6,6 +6,7 @@ import router from './router';
 import TopBack from './components/top_back';
 import Share from './components/share';
 import VueCookies from 'vue-cookies';
+import clipper from '../static/clipper';
 
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
@@ -40,6 +41,7 @@ Vue.use(Share); //分享公共组件
 Vue.use(VueCookies);
 Vue.use(iView); //使用iview组件
 Vue.use(wx);
+Vue.use(clipper); // 使用剪裁组件
 
 /* eslint-disable no-new */
 new Vue({

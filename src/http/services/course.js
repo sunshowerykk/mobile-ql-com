@@ -61,7 +61,8 @@ const service_course = {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/course/check', data, resolve)
       })
-    },
+    }
+
   },
 }
 

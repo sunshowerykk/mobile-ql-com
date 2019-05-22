@@ -94,16 +94,17 @@
                           <span class="fl">提交</span>
                           <div class="dlt fr">
                             <div class="pic" v-if="section.userHomework.length === 0 || section.userHomework[0].status == 3">
-                              <Upload
-                                name="homeworkImg"
-                                :format="['jpg','jpeg','png']"
-                                :max-size="5120"
-                                :action="uploadUrl + '&section_id=' + section.id + '&course_id=' + id"
-                                :on-success="uploadSuccess"
-                                :on-error="uploadError"
-                                :on-exceeded-size="outSize">
-                                <i-button type="info" icon="ios-cloud-upload-outline">上传作业</i-button>
-                              </Upload>
+                              <!--<Upload-->
+                                <!--name="homeworkImg"-->
+                                <!--:format="['jpg','jpeg','png']"-->
+                                <!--:max-size="5120"-->
+                                <!--:action="uploadUrl + '&section_id=' + section.id + '&course_id=' + id"-->
+                                <!--:on-success="uploadSuccess"-->
+                                <!--:on-error="uploadError"-->
+                                <!--:on-exceeded-size="outSize">-->
+                                <!--<i-button type="info" icon="ios-cloud-upload-outline">上传作业</i-button>-->
+                              <!--</Upload>-->
+                              <Button @click="uploadImg(section.id, id)">上传作业</Button>
                             </div>
                             <div v-if="section.userHomework.length != 0 && section.userHomework[0].status != 3">
                               <div class="pic" v-for="(pic, index) in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })" :key="index">
@@ -221,6 +222,8 @@
       @on-cancel="">
       <img :src="homework_url" alt="错误" width="100%" height="100%" />
     </Modal>
+
+    <SubmitJob :homeworkInfo="homeworkInfo" v-show="showUpload" :showUpload="showUpload" @changeShowUpload="changeShowUpload($event)"></SubmitJob>
   </div>
 </template>
 <script>
@@ -228,6 +231,7 @@
   import  service_course from '@/http/services/course.js'
   import service_user from '@/http/services/user.js'
   import service from '@/http/services/personal.js'
+  import SubmitJob from '../../../components/SubmitJob'
   export default {
     inject: ['reload'],
     name: "ClassShare",
@@ -271,7 +275,14 @@
         homework_detail: false,
         homework_show: false,
         homework_content: '',
-        homework_url: ''
+        homework_url: '',
+        showUpload: false,
+        showBg: false,
+        showClipImg: false,
+        homeworkInfo: {
+          section_id: 0,
+          course_id: 0
+        }
       }
     },
 
@@ -286,7 +297,8 @@
       TabItem,
       Cell,
       Group,
-      Sticky
+      Sticky,
+      SubmitJob
     },
     mounted() {
       this.getInfo();
@@ -438,6 +450,23 @@
       showHomework(src) {
         this.homework_show = !this.homework_show;
         this.homework_url = src;
+      },
+
+      // 照片上传
+      uploadImg(section_id, course_id){
+        this.homeworkInfo.section_id = section_id;
+        this.homeworkInfo.course_id = course_id;
+        this.showBg = true;
+        this.showUpload = true;
+      },
+      closeModal(){
+        this.showBg = false;
+        this.showUpload = false;
+      },
+      changeShowUpload(val){
+        this.showUpload = val;
+        //console.log(this.showUpload);
+        console.log(val);
       }
     },
   }
