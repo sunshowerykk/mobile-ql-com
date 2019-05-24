@@ -8,7 +8,7 @@
  * */
 
 import Cropper from 'cropperjs'
-import Exif from 'exif-js'
+//import Exif from 'exif-js'
 export default {
   install( Vue ){
     //初始化方法
