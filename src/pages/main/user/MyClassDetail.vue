@@ -49,7 +49,7 @@
                         {{coursePoint.name}}
                         <div slot="content">
                           <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
-                            <span class="already">已学0%</span>
+                            <!-- <span class="already">已学0%</span> -->
                             <span class="time"><i></i>{{ coursePoint.duration }}</span>
                             <span v-if="coursePoint.paid_free === '0'" style="float: right; color: green">免费</span>
                           </div>

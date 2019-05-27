@@ -12,8 +12,8 @@
                   <button id="qr" @click="handleRegiter">最后一步，立即领取</button>
               </div>
               <div class="box2">
-                  <label><input class="inp" v-model="registerForm.phone" type="text" placeholder="输入手机号，免费注册获取精品课" /></label>
-                  <button @click="handleSms">免费领取精品课程</button>
+                  <label><input class="inp" v-model="registerForm.phone" type="text" placeholder="输入手机号，注册下单赠送考本资料" /></label>
+                  <button @click="handleSms">免费领取考本资料</button>
               </div>
               <p>*关注微信公众号“都想学考本帮”进入学习入口</p>
           </div>
@@ -195,8 +195,8 @@
         </div>
         <div class="h110"></div>
         <div class="y_footer clearfix">
-            <div class="left fl">注册即免费领取价值<span>168</span>元的课程</div>
-            <div class="btn fr"><a href="#">免费领取</a></div>
+            <div class="left fl">注册下单赠送考本资料</div>
+            <div class="btn fr"><a href="#">领取资料</a></div>
         </div>
     </div>
 </template>

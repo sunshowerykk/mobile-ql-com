@@ -22,10 +22,10 @@
                   <div class="txt" >
                     <span class="classtype">{{cass.course_name}}</span>
                     <strong class="tip">{{cass.intro}}</strong>
-                    <span class="time">
+                    <!-- <span class="time">
                       <i></i>
                       <label>{{cass.duration}}</label>
-                    </span>
+                    </span> -->
                   </div>
                 </div>
             </li>
