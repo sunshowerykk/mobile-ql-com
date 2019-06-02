@@ -454,7 +454,7 @@
 
       // 视频讲解
       homeworkExplain(url, status) {
-        if (status === 2) {
+        if (status == 2) {
           this.videoData.pic = this.courseInfo.course.home_pic;
           this.videoData.video_url = url;
           this.videoData.isAuth = true;
