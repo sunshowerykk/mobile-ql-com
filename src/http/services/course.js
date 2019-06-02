@@ -56,13 +56,16 @@ const service_course = {
         TEMPLATE_GET('/order/book-order', data, resolve)
       })
     },
-
     check: (data) => {
       return new Promise((resolve, reject) => {
         TEMPLATE_GET('/course/check', data, resolve)
       })
-    }
-
+    },
+    addnetlog: (data, token) => {
+      return new Promise((resolve, reject) => {
+        TEMPLATE_Form_POST('/course/addlog?access-token='+token, data, resolve)
+      })
+    },
   },
 }
 

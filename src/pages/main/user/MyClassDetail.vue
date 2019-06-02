@@ -4,7 +4,8 @@
       <span slot="headerTxt">{{ courseVideo.course.course_name }}</span>
     </TopBack>
     <div class="detailImg">
-      <div class="img-box">
+      <img :src="courseVideo.course.home_pic" class="img"  />
+      <!-- <div class="img-box">
         <div class="classname">
           <h5>{{ courseVideo.course.course_name }}</h5>
           <strong>{{ courseVideo.course.course_name }}</strong>
@@ -13,7 +14,7 @@
             <span>{{ courseVideo.teacher.username}} 等</span>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!--<sticky>
@@ -33,35 +34,29 @@
 
     <transition name="fade" mode="out-in">
       <div v-if="indexActive == 0" key="0" class="video-list">
-        <Collapse v-model="showChapter" accordion simple>
-          <Panel v-for="chapter in courseVideo.course.courseChapters" :key="chapter.id"
-            :name="chapter.id">
-            {{chapter.name}}
-            <div slot="content">
-              <Collapse v-model="showSection" simple>
-                <Panel v-for="section in chapter.courseSections" :key="section.id"
-                  :name="section.id">
-                  {{section.name}}
-                  <div slot="content">
-                    <Collapse v-model="showPoint">
-                      <Panel v-for="coursePoint in section.courseSectionPoints" :key="coursePoint.id"
-                        :name="coursePoint.id">
-                        {{coursePoint.name}}
-                        <div slot="content">
-                          <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
-                            <!-- <span class="already">已学0%</span> -->
-                            <span class="time"><i></i>{{ coursePoint.duration }}</span>
-                            <span v-if="coursePoint.paid_free === '0'" style="float: right; color: green">免费</span>
-                          </div>
-                        </div>
-                      </Panel>
-                    </Collapse>
-                  </div>
-                </Panel>
-              </Collapse>
-            </div>
-          </Panel>
-        </Collapse>
+        <div v-for="chapter in courseVideo.course.courseChapters" :key="chapter.id">
+          <Collapse v-model="showSection" simple>
+            <Panel v-for="section in chapter.courseSections" :key="section.id"
+              :name="section.id">
+              {{section.name}}
+              <div slot="content">
+                <Collapse v-model="showPoint">
+                  <Panel v-for="coursePoint in section.courseSectionPoints" :key="coursePoint.id"
+                    name="1">
+                    {{coursePoint.name}}
+                    <div slot="content">
+                      <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
+                        <span class="already">已学{{studyLog[chapter.id][section.id][coursePoint.id]}}</span>
+                        <span class="time"><i></i>{{ coursePoint.duration }}</span>
+                        <span v-if="coursePoint.paid_free === '0'" style="float: right; color: green">免费</span>
+                      </div>
+                    </div>
+                  </Panel>
+                </Collapse>
+              </div>
+            </Panel>
+          </Collapse>
+        </div>
       </div>
 
       <div v-else-if="indexActive == 1" key="1">
@@ -75,7 +70,7 @@
                 <div v-for="section in chapter.courseSections">
                   <li v-if="section.homework != '' && section.homework != null">
                     <div class="item">
-                      <h5>{{ chapter.name + ':  ' + section.name }}</h5>
+                      <h5>{{ section.name }}</h5>
                       <div class="workName clearfix">
                         <span class="fl">作业</span>
                         <strong class="fr" v-html="section.homework" @click="homeworkContent(section.homework)"></strong>
@@ -176,6 +171,7 @@
   import service from "@/http/services/personal";
   import service_course from "@/http/services/course";
   import SubmitJob from '../../../components/SubmitJob'
+  import $ from 'jquery'
   export default {
     inject: ['reload'],
     name: "MyClassDetail",
@@ -189,7 +185,8 @@
         showContent003: false,
         courseVideo: {
           course: '',
-          teacher: ''
+          teacher: '',
+          studyLog: ''
         },
         courseHomework: {
           course: '',
@@ -204,14 +201,16 @@
         flagArray: [],
         flag: false,
         uploadUrl: 'https://api.kaoben.top/personal/homework-upload?access-token=',
-        showPoint: '',
+        showPoint: '1',
         showChapter: '',
         showSection: '',
         videoData: {
           pic: '',
           video_url: '',
-          isAuth: false
+          isAuth: false,
+          currentTime: 0
         },
+        count_down_int: 0,
         loading: false,
         homework_detail: false,
         homework_show: false,
@@ -239,9 +238,21 @@
       SubmitJob
     },
     methods:{
+      addPlayLog() {
+        service_course.courseService.addnetlog({
+          courseId: this.id,
+          pointId: this.point_id,
+          currentTime: this.videoData.currentTime,
+        }, this.$cookies.get('access_token')).then(res => {
+          if (res.status === 200) {
+            
+          }
+        })
+      },
       hideModal() {
         this.videoData.isAuth = false;
         this.videoData.video_url = '';
+        clearInterval(this.count_down_int);
       },
       onItemClick(index) {
         if (this.indexActive === index) {
@@ -273,6 +284,7 @@
           if (res.status === 200) {
             this.courseVideo.course = res.data.course;
             this.courseVideo.teacher = res.data.course.teacher;
+            this.studyLog = res.data.studyLog;
             for (var i = 0; i < this.courseVideo.course.courseChapters.length; i++) {
               for (var j = 0; j < this.courseVideo.course.courseChapters[i].courseSections.length; j++) {
                 this.flagArray['show' + i + j] = false;
@@ -303,6 +315,8 @@
             this.videoData.pic = res.data.pic;
             this.videoData.video_url = res.data.url;
             this.videoData.isAuth = true;
+            this.point_id = point_id;
+            $('#video').get(0).currentTime = res.data.current_time;
           }
           this.loading = false;
         })
@@ -310,7 +324,7 @@
 
       // 视频讲解
       homeworkExplain(url, status) {
-        if (status === 2) {
+        if (status == 2) {
           this.videoData.video_url = url;
           this.videoData.isAuth = true;
         } else {
@@ -361,6 +375,21 @@
     },
     mounted: function () {
       this.getCourseVideo();
+      let self = this;
+      /* 免费试听 */
+      $('#video').on("play", function() {
+        if (self.indexActive == 0) {
+          /* 获取当前播放位置 */
+          $('#video').on('timeupdate', function() {
+            self.videoData.currentTime = this.currentTime;
+          });
+          /*启动定时器*/
+          self.count_down_int = setInterval(self.addPlayLog, 1000);
+        }
+      });
+      $('#video').on("pause", function() {
+        clearInterval(self.count_down_int);
+      });
     }
   }
 </script>

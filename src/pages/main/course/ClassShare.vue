@@ -43,35 +43,31 @@
         </div>
 
         <div v-if="indexActive == 1" key="1">
-          <Collapse v-model="showChapter" accordion simple>
-            <Panel v-for="chapter in courseVideo.courseChapters" :key="chapter.id"
-              :name="chapter.id">
-              {{chapter.name}}
-              <div slot="content">
-                <Collapse v-model="showSection" simple>
-                  <Panel v-for="section in chapter.courseSections" :key="section.id"
-                    :name="section.id">
-                    {{section.name}}
-                    <div slot="content">
-                      <Collapse v-model="showPoint">
-                        <Panel v-for="coursePoint in section.courseSectionPoints" :key="coursePoint.id"
-                          :name="coursePoint.id">
-                          {{coursePoint.name}}
-                          <div slot="content">
-                            <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
-                              <span class="already">已学0%</span>
-                              <span class="time"><i></i>{{ coursePoint.duration }}</span>
-                              <span v-if="coursePoint.paid_free === '0'" style="float: right; color: green">免费</span>
-                            </div>
+          <div v-for="chapter in courseVideo.courseChapters" :key="chapter.id">
+            <div slot="content">
+              <Collapse v-model="showSection" simple>
+                <Panel v-for="section in chapter.courseSections" :key="section.id"
+                  :name="section.id">
+                  {{section.name}}
+                  <div slot="content">
+                    <Collapse v-model="showPoint">
+                      <Panel v-for="coursePoint in section.courseSectionPoints" :key="coursePoint.id"
+                        name="1">
+                        {{coursePoint.name}}
+                        <div slot="content">
+                          <div class="class-item clearfix" @click="openCheck(section.id, coursePoint.id, coursePoint.name)">
+                            <span class="already">已学{{studyLog[chapter.id][section.id][coursePoint.id]}}</span>
+                            <span class="time"><i></i>{{ coursePoint.duration }}</span>
+                            <span v-if="coursePoint.paid_free === '0'" style="float: right; color: green">免费</span>
                           </div>
-                        </Panel>
-                      </Collapse>
-                    </div>
-                  </Panel>
-                </Collapse>
-              </div>
-            </Panel>
-          </Collapse>
+                        </div>
+                      </Panel>
+                    </Collapse>
+                  </div>
+                </Panel>
+              </Collapse>
+            </div>
+          </div>
         </div>
 
         <div v-else-if="indexActive == 2" key="2">
@@ -85,7 +81,7 @@
                   <div v-for="section in chapter.courseSections" :key="section.id">
                     <li v-if="section.homework != '' && section.homework != null">
                       <div class="item">
-                        <h5>{{ chapter.name + ':  ' + section.name }}</h5>
+                        <h5>{{ section.name }}</h5>
                         <div class="workName clearfix">
                           <span class="fl">作业</span>
                           <strong class="fr" v-html="section.homework" @click="homeworkContent(section.homework)"></strong>
@@ -232,6 +228,7 @@
   import service_user from '@/http/services/user.js'
   import service from '@/http/services/personal.js'
   import SubmitJob from '../../../components/SubmitJob'
+  import $ from 'jquery'
   export default {
     inject: ['reload'],
     name: "ClassShare",
@@ -247,6 +244,7 @@
           teacher: [{}]
         },
         courseVideo: '',
+        studyLog: [],
         courseHomework: {
           course: '',
           homeworks: '',
@@ -264,14 +262,16 @@
         uploadUrl: 'https://api.kaoben.top/personal/homework-upload?access-token=',
         videoShow: false,
         loading: true,
-        showPoint: '',
+        showPoint: '1',
         showChapter: '',
         showSection: '',
         videoData: {
           pic: '',
           video_url: '',
-          isAuth: false
+          isAuth: false,
+          currentTime: 0
         },
+        count_down_int: 0,
         homework_detail: false,
         homework_show: false,
         homework_content: '',
@@ -302,11 +302,38 @@
     },
     mounted() {
       this.getInfo();
+      let self = this;
+      /* 免费试听 */
+        $('#video').on("play", function() {
+          if (self.indexActive == 0) {
+            /* 获取当前播放位置 */
+            $('#video').on('timeupdate', function() {
+              self.videoData.currentTime = this.currentTime;
+            });
+            /*启动定时器*/
+            self.count_down_int = setInterval(self.addPlayLog, 1000);
+          }
+      });
+      $('#video').on("pause", function() {
+          clearInterval(self.count_down_int);
+      });
     },
     methods:{
+      addPlayLog() {
+        service_course.courseService.addnetlog({
+          courseId: this.courseid,
+          pointId: this.point_id,
+          currentTime: this.videoData.currentTime,
+        }, this.$cookies.get('access_token')).then(res => {
+          if (res.status === 200) {
+            
+          }
+        })
+      },
       hideModal() {
         this.videoData.isAuth = false;
         this.videoData.video_url = '';
+        clearInterval(this.count_down_int);
       },
       shareFn(){
         this.share = 1;
@@ -342,6 +369,7 @@
         service_course.courseService.courseVideo({'course_id': this.courseid, 'access-token': this.$cookies.get('access_token')}).then(res => {
           if (res.status === 200 && res.data.status === 0) {
             this.courseVideo = res.data.course;
+            this.studyLog = res.data.studyLog;
             for (var i = 0; i < this.courseVideo.courseChapters.length; i++) {
               for (var j = 0; j < this.courseVideo.courseChapters[i].courseSections.length; j++) {
                 this.flagArray['show' + i + j] = false;
@@ -354,6 +382,10 @@
         })
       },
       onItemClick(index){
+        if (this.indexActive === index) {
+          return false;
+        }
+        this.indexActive = index;
         if (index == 1) {
           this.getCourseVideo();
         }else if (index == 2) {
@@ -413,6 +445,8 @@
               this.videoData.pic = res.data.pic;
               this.videoData.video_url = res.data.url;
               this.videoData.isAuth = true;
+              this.point_id = point_id;
+              $('#video').get(0).currentTime = res.data.current_time;
             }
             this.loading = false;
         })
