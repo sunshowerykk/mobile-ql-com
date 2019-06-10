@@ -138,7 +138,7 @@
                     <h5>第{{ index+1 }}单元<span>{{ test.chapterName }}</span></h5>
                     <div class="test">
                       <strong>{{ test.examName }}</strong>
-                      <a href="https://exam.kaoben.top" class="look">查看答卷</a>
+                      <a :href="test.link + '&token=' + token" class="look">查看答卷</a>
                       <span class="tip">已通关</span>
                     </div>
                   </div>
@@ -290,6 +290,7 @@
       this.id = this.$route.params.id;
       this.courseid = this.$route.params.id;
       this.uploadUrl = this.uploadUrl + this.$cookies.get('access_token');
+      this.token = this.$cookies.get('access_token');
     },
 
     components: {
