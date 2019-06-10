@@ -98,7 +98,7 @@
                             </div>
                           </div>
                           <span class="tip">{{ section.userHomework.length === 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
-                          <span class="viedo" @click="homeworkExplain(section.explain_video_url, section.userHomework[0].status)">
+                          <span class="viedo" @click="homeworkExplain(section.explain_video_url, section.userHomework.length === 0 ? 0 : section.userHomework[0].status)">
                             视频讲解
                           </span>
                         </div>
@@ -121,7 +121,7 @@
             <ul>
               <li v-for="(test, index) in courseTest.list" :key="test.id">
                 <div class="item">
-                  <h5>第{{ index+1 }}单元<span>{{ test.chapterName }}</span></h5>
+                  <h5>{{ test.chapterName }}</h5>
                   <div class="test">
                     <strong>{{ test.examName }}</strong>
                     <a :href="test.link + '&token=' + token" class="look">查看答卷</a>
@@ -325,7 +325,9 @@
 
       // 视频讲解
       homeworkExplain(url, status) {
-        if (status == 2) {
+        if (status == 0) {
+          this.$Message.info('作业提交审核通过后才可观看讲解~');
+        } else if (status == 2) {
           this.videoData.video_url = url;
           this.videoData.isAuth = true;
         } else {

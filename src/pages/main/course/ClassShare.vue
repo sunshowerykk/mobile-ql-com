@@ -114,7 +114,7 @@
                               <!--class="viedo">-->
                               <!--视频讲解-->
                             <!--</router-link>-->
-                            <span class="viedo" @click="homeworkExplain(section.explain_video_url, section.userHomework[0].status)">视频讲解</span>
+                            <span class="viedo" @click="homeworkExplain(section.explain_video_url, section.userHomework.length === 0 ? 0 : section.userHomework[0].status)">视频讲解</span>
                           </div>
                         </div>
                       </div>
@@ -455,7 +455,9 @@
 
       // 视频讲解
       homeworkExplain(url, status) {
-        if (status == 2) {
+        if (status == 0) {
+          this.$Message.info('作业提交审核通过后才可观看讲解~');
+        } else if (status == 2) {
           this.videoData.pic = this.courseInfo.course.home_pic;
           this.videoData.video_url = url;
           this.videoData.isAuth = true;

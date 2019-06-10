@@ -8,18 +8,18 @@
       <div class="orderList" v-for = "collection in collections">
         <ul>
           <li>
-            <a href="#">
+            <router-link :to="{'name': 'ClassShare', params:{id: collection.id}}">
               <div class="item clearfix">
                 <div class="pic">
                   <img :src="collection.home_pic" />
                 </div>
                 <div class="txt">
                   <h5>{{ collection.course_name }}</h5>
-                  <span class="red"><b>{{ collection.price - collection.discount }}</b></span>
+                  <span class="red"><b>{{ collection.discount }}</b></span>
                   <strike>{{ collection.price }}</strike>
                 </div>
               </div>
-            </a>
+            </router-link>
           </li>
         </ul>
       </div>
