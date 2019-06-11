@@ -66,8 +66,8 @@
           </div>
           <div class="submitDltList">
             <ul>
-              <div v-for="chapter in courseHomework.course.courseChapters">
-                <div v-for="section in chapter.courseSections">
+              <div v-for="chapter in courseHomework.course.courseChapters" :key="chapter.id">
+                <div v-for="section in chapter.courseSections" :key="section.id">
                   <li v-if="section.homework != '' && section.homework != null">
                     <div class="item">
                       <h5>{{ section.name }}</h5>
@@ -93,8 +93,8 @@
                             <Button @click="uploadImg(section.id, id)">上传作业</Button>
                           </div>
                           <div v-if="section.userHomework.length != 0 && section.userHomework[0].status != 3">
-                            <div class="pic" v-for="pic in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })">
-                              <img :src="pic" alt="上传作业" @click="showHomework(pic)" />
+                            <div class="pic" :key="index" v-for="(pic, index) in section.userHomework[0].pic_url.split(';').filter(function (pics) { return !(pics === ''); })">
+                              <img :src="pic" @click="showHomework(pic)" />
                             </div>
                           </div>
                           <span class="tip">{{ section.userHomework.length === 0 ? '未提交' : section.userHomework[0].status == 1 ? '已提交' : section.userHomework[0].status == 2 ? '审核通过' : '审核未通过' }}</span>
@@ -119,7 +119,7 @@
           </div>
           <div class="submitDltList">
             <ul>
-              <li v-for="(test, index) in courseTest.list" :key="test.id">
+              <li v-for="test in courseTest.list" :key="test.id">
                 <div class="item">
                   <h5>{{ test.chapterName }}</h5>
                   <div class="test">
@@ -147,17 +147,13 @@
 
     <Modal
       v-model="homework_detail"
-      title="作业详情"
-      @on-ok=""
-      @on-cancel="">
+      title="作业详情">
       <p v-html="homework_content"></p>
     </Modal>
 
     <Modal
       v-model="homework_show"
-      title="作业展示"
-      @on-ok=""
-      @on-cancel="">
+      title="作业展示">
       <img :src="homework_url" alt="错误" width="100%" height="100%" />
     </Modal>
 
@@ -372,8 +368,6 @@
       },
       changeShowUpload(val){
         this.showUpload = val;
-        //console.log(this.showUpload);
-        console.log(val);
       }
     },
     mounted: function () {

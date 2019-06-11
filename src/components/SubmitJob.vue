@@ -5,10 +5,9 @@
       <div class="clip-img">
         <img :src="imageUrl" alt="" id="img">
         <div class="btn-1">
-          <button @click="confirmChange">确认更换</button>
+          <button @click="confirmChange()">确认更换</button>
         </div>
       </div>
-
     </div>
     <div class="seltPho" v-show="showUploadBtn">
       <div class="cont">
@@ -16,7 +15,7 @@
         <ul>
           <li>
             <img src="../assets/img/icon26.png"  />从相册
-            <input type="file"class="upload_btn" id="file" accept="image/png,image/jpg,image/jpeg" name="homeworkImg" @change="change($event)"  />
+            <input type="file" class="upload_btn" id="file" accept="image/png,image/jpg,image/jpeg" name="homeworkImg" @change="change($event)"  />
           </li>
           <li>
             <img src="../assets/img/icon27.png" />从相机
@@ -30,7 +29,7 @@
 <script>
   import service_course from '@/http/services/course.js'
   import axios from 'axios';
-  export default{
+  export default {
     name: 'SubmitJob',
     inject: ['reload'],
     data(){
@@ -44,7 +43,7 @@
     },
     props:['showUpload', 'homeworkInfo'],
     methods:{
-      change( event ) {
+      change(event) {
         let file = event.target.files;
         let url = window.URL.createObjectURL(file.item(0));
         this.imageUrl = url;
@@ -57,8 +56,8 @@
           this.showUploadBtn = false;
           let image = document.getElementById('img'); //预览对象
           this.clip(event , {
-            resultObj : image,
-            aspectRatio : 1
+            resultObj: image,
+            aspectRatio: 1
           })
         }
       },

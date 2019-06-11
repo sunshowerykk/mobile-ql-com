@@ -35,7 +35,6 @@ export default {
         center : false ,
         toggleDragModeOnDblclick : false ,
         ready : function () {
-          // console.log(self.cropper.rotate(90))
           if( opt.aspectRatio == 'Free' ){
             let cropBox = self.cropper.cropBox;
             cropBox.querySelector('span.cropper-view-box').style.outline = 'none';
@@ -86,8 +85,7 @@ export default {
 
     //外部接口，用于input['file']对象change时的调用
     Vue.prototype.clip = function ( e , opt ) {
-      let self = this;
-
+      
       this.fileObj = e.srcElement;
 
       let files = e.target.files || e.dataTransfer.files;
@@ -108,7 +106,7 @@ export default {
 
 
       //调用方法转成url格式
-      this.originUrl = this.getObjectURL( this.picValue );
+      this.originUrl = this.getObjectURL(this.picValue);
 
       //每次替换图片要重新得到新的url
       if(this.cropper){
