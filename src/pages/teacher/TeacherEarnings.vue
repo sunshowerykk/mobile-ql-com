@@ -76,7 +76,7 @@
                 sortable: true
               },
               {
-                title: '业绩',
+                title: '课程销售额',
                 key: 'income',
                 sortable: true
               },

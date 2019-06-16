@@ -219,7 +219,7 @@
       <img :src="homework_url" alt="错误" width="100%" height="100%" />
     </Modal>
 
-    <SubmitJob :homeworkInfo="homeworkInfo" v-show="showUpload" :showUpload="showUpload" @changeShowUpload="changeShowUpload($event)"></SubmitJob>
+    <SubmitJob :homeworkInfo="homeworkInfo" v-show="showUpload" :showUpload="showUpload" @changeShowUpload="changeShowUpload"></SubmitJob>
   </div>
 </template>
 <script>
@@ -500,10 +500,21 @@
         this.showBg = false;
         this.showUpload = false;
       },
-      changeShowUpload(val){
-        this.showUpload = val;
-        //console.log(this.showUpload);
-        console.log(val);
+      changeShowUpload(homeworkInfo) {
+        if (homeworkInfo.section_id) {
+          this.showUpload = homeworkInfo.val;
+          this.courseHomework.course.courseChapters.forEach(chapter => {
+            chapter.courseSections.forEach(section => {
+              if (section.id == homeworkInfo.section_id) {
+                section.userHomework = [{status: '', pic_url: ''}];
+                section.userHomework[0].status = 1;
+                section.userHomework[0].pic_url = homeworkInfo.pic_url;
+              }
+            })
+          });
+        } else {
+          this.showUpload = homeworkInfo;
+        }
       }
     },
   }

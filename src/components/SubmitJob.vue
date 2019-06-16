@@ -48,9 +48,9 @@
         let url = window.URL.createObjectURL(file.item(0));
         this.imageUrl = url;
         this.file = file;
-        if (this.file[0].size > 3 * 1024 * 1024) {
-          this.$Message.warning('只能上传3M以内的图片哟');
-        } else {
+        // if (this.file[0].size > 3 * 1024 * 1024) {
+        //   this.$Message.warning('只能上传3M以内的图片哟');
+        // } else {
           this.showClipImg = true;
           this.showBg = false;
           this.showUploadBtn = false;
@@ -59,7 +59,7 @@
             resultObj: image,
             aspectRatio: 1
           })
-        }
+        //}
       },
       closeModal(){
         this.showClipImg = false;
@@ -73,22 +73,32 @@
         this.showUploadBtn = true;
         this.$emit("changeShowUpload", false);
         let formdata = new FormData();
+        let file = this.dataURLtoFile(this.cropImageData,this.file.item(0).name)
         formdata.append('access-token', this.$cookies.get('access_token'));
-        formdata.append('file', this.file.item(0));
+        formdata.append('file', file);
         formdata.append('section_id', this.homeworkInfo.section_id);
         formdata.append('course_id', this.homeworkInfo.course_id);
         axios.post("/course/homeworks-upload", formdata, {headers:{'Content-Type':'multipart/form-data'}}).then(res => {
           if (res.status === 200 && res.data.status === 0) {
             this.$Message.success('上传成功');
-            this.reload();
             this.showClipImg = false;
             this.showBg = true;
             this.showUploadBtn = true;
-            this.$emit("changeShowUpload", false);
+            this.homeworkInfo.pic_url = res.data.msg;
+            this.homeworkInfo.val = false;
+            this.$emit("changeShowUpload", this.homeworkInfo);
           }  else {
             this.$Message.warning('上传失败！');
           }
         })
+      },
+      dataURLtoFile(dataurl, filename) {//将base64转换为文件
+          var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+          while(n--){
+              u8arr[n] = bstr.charCodeAt(n);
+          }
+          return new File([u8arr], filename, {type:mime});
       }
     }
   }
