@@ -198,6 +198,7 @@ export default {
     //图片上传
     Vue.prototype.postImg = function( imageData ) {
       //这边写图片的上传
+      Vue.prototype.cropImageData = imageData;
       let self = this;
       self.destoried();
 
