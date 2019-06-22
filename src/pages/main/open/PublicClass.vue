@@ -99,7 +99,6 @@ export default {
             if (res.data.status == 4 || res.data.status == 2) {
               this.course_url = res.data.url;
               this.pic = list_pic;
-              alert(res.message);
               this.show();
             }
           }
